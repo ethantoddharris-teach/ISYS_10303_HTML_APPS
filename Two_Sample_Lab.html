@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Python + pandas Guided Notebook v4</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/theme/material-darker.css">
+<script src="https://cdn.jsdelivr.net/pyodide/v314.0.7/full/pyodide.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/python/python.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/addon/runmode/runmode.js"></script>
+<style>
+:root{
+  --navy:#17324d;--blue:#28679b;--teal:#168482;--ink:#172433;--muted:#65798a;
+  --line:#d8e3ec;--bg:#f3f7fa;--card:#fff;--good:#237a57;--amber:#b17a13;--bad:#a84242;
+  --code:#102b40;--code-ink:#edf6fb;--shadow:0 14px 34px rgba(23,50,77,.10);--gutter:64px
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Segoe UI,Arial,sans-serif}button,input,textarea{font:inherit}
+header{background:linear-gradient(135deg,var(--navy),#245b8a);color:#fff;padding:27px 20px}.wrap{max-width:1220px;margin:auto}.eyebrow{font-size:11px;font-weight:900;letter-spacing:.9px;opacity:.82;text-transform:uppercase}h1{font-size:clamp(28px,4vw,42px);margin:6px 0 8px}header p{max-width:900px;margin:0;color:#eaf4fb;line-height:1.58}.pills{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}.pill{padding:6px 9px;border:1px solid #ffffff3d;background:#ffffff18;border-radius:999px;font-size:12px;font-weight:800}
+main{max-width:1220px;margin:auto;padding:20px 18px 70px}.statusbar{display:flex;align-items:center;gap:10px;background:white;border:1px solid var(--line);border-radius:13px;padding:10px 13px;margin-bottom:14px;box-shadow:0 4px 12px #17324d0b}.dot{width:11px;height:11px;border-radius:50%;background:#c6d2da;box-shadow:0 0 0 4px #eef3f6}.dot.ready{background:var(--good);box-shadow:0 0 0 4px #e5f5ec}.dot.busy{background:#d79b22;box-shadow:0 0 0 4px #fff5dc}.statusText{font-size:13px;font-weight:800;color:#425a6c}.statusNote{margin-left:auto;font-size:11px;color:var(--muted)}
+.layout{display:grid;grid-template-columns:355px minmax(0,1fr);gap:16px;align-items:start}.panel{background:white;border:1px solid var(--line);border-radius:17px;box-shadow:var(--shadow);overflow:hidden}.guidepanel{position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto}.panelhead{padding:15px 16px;background:#edf6fa;border-bottom:1px solid var(--line)}.panelhead b{display:block;color:var(--navy);font-size:17px}.panelhead span{font-size:12px;color:var(--muted);line-height:1.4}.leftbody{padding:14px}
+.setup{border:1px solid #cbdbe5;border-radius:12px;background:#f8fbfd;padding:12px;margin-bottom:12px}.setupLabel{font-size:10px;font-weight:900;letter-spacing:.7px;text-transform:uppercase;color:var(--teal);margin-bottom:5px}.setup h3{margin:0 0 6px;color:var(--navy);font-size:15px}.setup p{margin:0 0 9px;font-size:12px;line-height:1.5;color:#506879}.foldertip{background:#fff7df;border-left:4px solid var(--amber);border-radius:8px;padding:9px 10px;font-size:11.5px;line-height:1.45;color:#665019;margin:8px 0}.setupActions{display:flex;gap:7px;flex-wrap:wrap}.smallbtn{border:1px solid #bfd0dc;background:#fff;color:var(--navy);border-radius:8px;padding:7px 9px;font-size:11px;font-weight:850;cursor:pointer}.smallbtn.primary{background:var(--blue);border-color:var(--blue);color:#fff}.smallbtn:hover{filter:brightness(.98)}.fileStatus{margin-top:7px;font-size:10.5px;color:var(--muted)}
+.steps{display:grid;gap:7px}.step{border:1px solid #d7e2e9;border-radius:11px;padding:10px;background:white;cursor:pointer;transition:.15s}.step:hover{background:#f6fafc}.step.active{border:2px solid var(--blue);background:#eef6fb}.step.done{border-color:#a9d3ba;background:#f1faf5}.stepTop{display:flex;gap:8px;align-items:center}.num{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:#fff;font-size:11px;font-weight:900}.step.done .num{background:var(--good)}.stepTitle{font-weight:900;color:var(--navy);font-size:13.5px}.stepText{margin:6px 0 0 34px;font-size:11.5px;line-height:1.4;color:#526b7d}
+.lesson{margin-top:12px;border:1px solid #cfdde6;border-radius:12px;overflow:hidden}.lessonhead{background:#eef6fb;padding:11px 12px;border-bottom:1px solid #d8e3ec}.lessonKicker{font-size:9.5px;font-weight:900;letter-spacing:.7px;color:var(--teal);text-transform:uppercase}.lessonTitle{font-size:16px;font-weight:900;color:var(--navy);margin-top:3px}.lessonbody{padding:11px 12px}.lessonGoal{font-size:12px;line-height:1.48;color:#41596a}.lessonTarget{background:#fff7df;border-left:4px solid var(--amber);border-radius:8px;padding:8px 9px;margin:9px 0;font-size:11.5px;color:#69531b;line-height:1.4}.lineGuideTitle{font-size:10px;font-weight:900;color:#5e7484;text-transform:uppercase;letter-spacing:.6px;margin:10px 0 6px}.lineNote{display:grid;grid-template-columns:24px 1fr;gap:8px;align-items:start;background:#f8fbfd;border:1px solid #dfe8ee;border-radius:8px;padding:8px;margin:6px 0}.lineNum{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:white;font:900 10px/1 Segoe UI,Arial}.lineCode{font:700 11px/1.4 Consolas,monospace;color:#28679b;overflow-wrap:anywhere}.lineExplain{font-size:11px;line-height:1.4;color:#526879;margin-top:3px}.concept{background:#eef8f7;border:1px solid #c9e3df;border-radius:8px;padding:8px 9px;margin-top:9px;font-size:11px;line-height:1.45;color:#275d5b}.dataset{margin-top:12px;border:1px solid #d9e5ec;border-radius:12px;overflow:hidden}.dataset summary{cursor:pointer;padding:10px 11px;background:#f7fafc;font-size:12px;font-weight:900;color:var(--navy)}.tablewrap{overflow:auto;max-height:220px}.dataset table{width:100%;border-collapse:collapse;font-size:10.5px;white-space:nowrap}.dataset th{position:sticky;top:0;background:#eaf2f7;color:#29485f;text-align:left}.dataset th,.dataset td{padding:6px 7px;border-bottom:1px solid #e2e9ee}
+.workspacepanel{transition:.2s}.workspacehead{padding:13px 14px;background:#edf6fa;border-bottom:1px solid var(--line);display:flex;gap:8px;align-items:center;flex-wrap:wrap}.workspaceTitle{font-weight:900;color:var(--navy);font-size:17px}.workspaceSub{font-size:11px;color:var(--muted)}.workspacehead .spacer{flex:1}.toolbtn{border:1px solid #bfd0dc;background:#fff;color:var(--navy);border-radius:8px;padding:7px 9px;font-size:11px;font-weight:850;cursor:pointer}.toolbtn.primary{background:var(--teal);border-color:var(--teal);color:#fff}.toolbtn:hover{filter:brightness(.98)}
+.notebook{padding:14px 14px 24px;background:#fff;transition:.2s}.notebooknote{margin:0 0 14px var(--gutter);border:1px solid #d5e3eb;border-left:5px solid var(--teal);border-radius:11px;background:#f8fcfd;padding:10px 12px;font-size:12px;line-height:1.5;color:#50697b}.notebooknote b{color:var(--navy)}
+.cell{display:grid;grid-template-columns:var(--gutter) minmax(0,1fr);margin:0 0 17px;scroll-margin-top:16px}.prompt{font:12px Consolas,monospace;text-align:right;padding:10px 8px 0 0;white-space:nowrap}.prompt .in{color:#2c6496;font-weight:900}.cellbody{min-width:0}.codebox,.markdownbox{border:1px solid #9fb7c8;border-left:4px solid #4e89b5;border-radius:9px;overflow:hidden;background:#fff}.codebox:focus-within,.markdownbox:focus-within{box-shadow:0 0 0 2px #4e89b530;border-color:#4e89b5}.missionCell.selectedMission .codebox{box-shadow:0 0 0 2px #28679b35;border-color:#28679b}.cellbar{display:flex;align-items:center;gap:8px;background:#e6edf2;border-bottom:1px solid #c8d6e0;padding:7px 9px;font-size:11px;color:#4b6072}.celltype{background:#2d6d9c;color:white;border-radius:6px;padding:3px 6px;font-weight:900}.celltype.md{background:#7658a8}.cellmeta{font-family:Consolas,monospace}.cellbar .spacer{flex:1}.iconbtn{border:1px solid #bacbd7;background:white;color:var(--navy);border-radius:6px;padding:5px 7px;font-size:10.5px;font-weight:850;cursor:pointer}.iconbtn.danger{color:#8d3d3d;background:#fff7f7;border-color:#dfc0c0}
+textarea.code{display:block;width:100%;min-height:105px;border:0;outline:0;resize:vertical;background:var(--code);color:var(--code-ink);padding:13px 14px;font:13.5px/1.65 Consolas,"Courier New",monospace;tab-size:4}.cellactions{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:7px 0}.run{border:0;border-radius:8px;background:var(--blue);color:white;padding:8px 12px;font-size:12px;font-weight:900;cursor:pointer}.run:disabled{opacity:.45;cursor:not-allowed}.check{border:1px solid #9dcbbb;background:#eef8f2;color:#1f6648;border-radius:8px;padding:7px 10px;font-size:12px;font-weight:900;cursor:pointer}.secondary{border:1px solid #c7d5df;background:white;color:var(--navy);border-radius:8px;padding:7px 10px;font-size:11px;font-weight:850;cursor:pointer}.feedback{min-height:36px;margin-top:5px;border-radius:9px;padding:8px 10px;background:#eef5fa;color:#3d5668;font-size:11.5px;line-height:1.45}.feedback.good{background:#edf8f2;color:#1d6948;border:1px solid #c9e4d5}.feedback.warn{background:#fff8e8;color:#795917;border:1px solid #ead49c}
+.outputrow{display:grid;grid-template-columns:var(--gutter) minmax(0,1fr);margin:-9px 0 13px}.outprompt{font:900 12px Consolas,monospace;text-align:right;padding:9px 8px 0 0;color:#9c3f3f;white-space:nowrap}.output{min-height:35px;max-height:340px;overflow:auto;padding:9px 12px;background:#fff;color:#21384a;white-space:pre-wrap;font:12.5px/1.55 Consolas,"Courier New",monospace;border-radius:6px}.output.empty{color:#8293a0;font-style:italic}.output.error{color:#9b3939;background:#fff8f8;border-left:3px solid #cf6767}.output table{border-collapse:collapse;font-family:Segoe UI,Arial,sans-serif;font-size:12px;min-width:500px;background:#fff}.output th,.output td{padding:7px 9px;border-bottom:1px solid #e0e8ee;text-align:right;white-space:nowrap}.output th{background:#eef4f7;color:#29485f;font-weight:900;position:sticky;top:0}.output th:first-child,.output td:first-child{text-align:left}.output tbody tr:nth-child(even){background:#f9fbfd}
+.markdownEditor{display:block;width:100%;min-height:110px;border:0;outline:0;resize:vertical;padding:13px 14px;background:#fff;color:#172433;font:13.5px/1.6 Consolas,monospace}.markdownPreview{padding:14px;background:#fff;color:#26394a;line-height:1.6;min-height:60px}.markdownPreview h1,.markdownPreview h2,.markdownPreview h3{color:var(--navy);margin:6px 0}.markdownPreview p{margin:7px 0}.markdownPreview code{background:#eef3f7;border-radius:5px;padding:2px 4px;font-family:Consolas,monospace}.markdownPreview ul{margin:6px 0 6px 20px}.addbar{margin:3px 0 12px var(--gutter);display:flex;gap:7px;align-items:center}.addbar:before,.addbar:after{content:"";height:1px;background:#d6e1e8;flex:1}.addbar button{border:1px solid #b9ccd8;background:#fff;color:var(--navy);border-radius:999px;padding:6px 10px;font-size:11px;font-weight:900;cursor:pointer}
+/* Full right-panel dark mode. Code editors are dark in either mode; the toggle makes the whole notebook VS Code-like. */
+.workspacepanel.dark{background:#111820;border-color:#283744}.workspacepanel.dark .workspacehead{background:#17212b;border-color:#2d3d4a}.workspacepanel.dark .workspaceTitle{color:#e8f1f7}.workspacepanel.dark .workspaceSub{color:#9fb1be}.workspacepanel.dark .toolbtn{background:#202d38;border-color:#425564;color:#e8f1f7}.workspacepanel.dark .toolbtn.primary{background:#168482;border-color:#168482}.workspacepanel.dark .notebook{background:#111820}.workspacepanel.dark .notebooknote{background:#18242d;border-color:#314552;color:#b8c7d1}.workspacepanel.dark .notebooknote b{color:#eef6fb}.workspacepanel.dark .codebox,.workspacepanel.dark .markdownbox{background:#111820;border-color:#415869}.workspacepanel.dark .cellbar{background:#1c2933;border-color:#344754;color:#aebec9}.workspacepanel.dark .iconbtn{background:#24333f;border-color:#425766;color:#e8f1f7}.workspacepanel.dark .iconbtn.danger{color:#ffcaca}.workspacepanel.dark .output{background:#111820;color:#e4edf3}.workspacepanel.dark .output table{background:#111820;color:#e4edf3}.workspacepanel.dark .output th{background:#1d2a34;color:#dbe9f2;border-color:#34434e}.workspacepanel.dark .output td{border-color:#283843}.workspacepanel.dark .output tbody tr:nth-child(even){background:#16212a}.workspacepanel.dark .secondary{background:#202d38;border-color:#425564;color:#e8f1f7}.workspacepanel.dark .feedback{background:#182631;color:#b8cad6}.workspacepanel.dark .feedback.good{background:#163027;color:#bfe7d2;border-color:#2f6851}.workspacepanel.dark .feedback.warn{background:#332b18;color:#ecd89a;border-color:#665728}.workspacepanel.dark .markdownEditor,.workspacepanel.dark .markdownPreview{background:#111820;color:#e5edf2}.workspacepanel.dark .markdownPreview h1,.workspacepanel.dark .markdownPreview h2,.workspacepanel.dark .markdownPreview h3{color:#eaf4fb}.workspacepanel.dark .markdownPreview code{background:#24323d}.workspacepanel.dark .addbar:before,.workspacepanel.dark .addbar:after{background:#33434f}.workspacepanel.dark .addbar button{background:#202d38;border-color:#425564;color:#e8f1f7}.workspacepanel.dark .prompt .in{color:#6daee0}.workspacepanel.dark .outprompt{color:#ee8e8e}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.guidepanel{position:static;max-height:none}.statusNote{display:none}}@media(max-width:650px){:root{--gutter:48px}.workspacehead{align-items:flex-start}.workspacehead .spacer{display:none;width:100%}.cellbar{flex-wrap:wrap}.notebook{padding-left:8px;padding-right:8px}}
+
+
+/* v4 — compact guide + progressive notebook + real Python syntax coloring */
+.layout{grid-template-columns:365px minmax(0,1fr)}
+.guidepanel{top:10px}
+.leftbody{padding:12px}
+.lesson{margin:0 0 10px;border-radius:13px}
+.lessonhead{padding:10px 12px}
+.lessonTitle{font-size:17px;line-height:1.25}
+.lessonbody{padding:10px 12px}
+.lessonGoal{font-size:12px}
+.lessonTarget{margin:8px 0}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:8px 0 10px}
+.step{padding:7px 7px;border-radius:9px;min-height:46px;display:flex;align-items:center;gap:6px}
+.stepTop{gap:6px;min-width:0}.num{width:22px;height:22px;min-width:22px;font-size:10px}.stepTitle{font-size:10.5px;line-height:1.15;overflow:hidden;text-overflow:ellipsis}.stepText{display:none}
+.step.active{border-width:2px}.step.setupstep .num{background:#7658a8}.step.done .num{background:var(--good)}
+.pathlabel{font-size:9.5px;font-weight:900;text-transform:uppercase;letter-spacing:.7px;color:#6c7f8d;margin:10px 1px 4px}
+.copyblock{border:1px solid #c6d6e1;border-radius:10px;overflow:hidden;margin:9px 0}.copyhead{display:flex;align-items:center;gap:8px;background:#e8eef3;border-bottom:1px solid #c6d6e1;padding:6px 8px;font-size:10.5px;font-weight:850;color:#4a6172}.copyhead .spacer{flex:1}.copybtn{border:1px solid #b8cad7;background:white;color:var(--navy);border-radius:7px;padding:5px 8px;font-size:10px;font-weight:900;cursor:pointer}.copybtn.copied{background:#eaf7ef;color:#1d6948;border-color:#add7bf}.pyExample{margin:0;background:#102b40;color:#edf6fb;padding:11px 12px;overflow:auto;font:12px/1.62 Consolas,"Courier New",monospace;white-space:pre-wrap}.pyExample .cm-keyword{color:#c586c0}.pyExample .cm-def{color:#dcdcaa}.pyExample .cm-variable{color:#9cdcfe}.pyExample .cm-variable-2{color:#4ec9b0}.pyExample .cm-string{color:#ce9178}.pyExample .cm-number{color:#b5cea8}.pyExample .cm-operator{color:#d4d4d4}.pyExample .cm-property{color:#9cdcfe}.pyExample .cm-comment{color:#6a9955}.pyExample .cm-builtin{color:#4ec9b0}
+.lineGuideTitle{margin-top:9px}.lineNote{padding:7px;margin:5px 0}.lineCode{font-size:10.5px}.lineExplain{font-size:10.8px}.concept{font-size:10.8px;padding:7px 8px}
+.guideactions{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}.guidebtn{border:1px solid #bfd0dc;background:#fff;color:var(--navy);border-radius:8px;padding:7px 9px;font-size:11px;font-weight:900;cursor:pointer}.guidebtn.primary{background:var(--teal);border-color:var(--teal);color:#fff}.guidebtn.blue{background:var(--blue);border-color:var(--blue);color:#fff}
+.setupVisual{border:1px solid #d8e3ec;border-radius:10px;background:#f8fbfd;padding:9px 10px;margin:8px 0;font-size:11px;line-height:1.45;color:#4f6677}.setupVisual code{font-family:Consolas,monospace;background:#fff;border:1px solid #d7e2e9;border-radius:5px;padding:2px 4px;color:#245b8a}.setupFileStatus{font-size:10.5px;color:#637989;margin-top:7px;line-height:1.4}
+.dataset{margin-top:8px}.dataset summary{padding:8px 9px;font-size:11px}.tablewrap{max-height:170px}
+.workspacehead{padding:10px 12px}.workspaceTitle{font-size:16px}.workspaceSub{font-size:10.5px}
+.notebook{padding-top:12px}.notebooknote{display:none}.emptyNotebook{margin:4px 10px 18px var(--gutter);border:1px dashed #b8cbd8;border-radius:12px;background:#f8fbfd;padding:18px;text-align:center;color:#6a7e8d;font-size:12px;line-height:1.5}.emptyNotebook b{display:block;color:var(--navy);font-size:14px;margin-bottom:4px}
+.cell{margin-bottom:10px}.cellbar{padding:6px 8px}.cellmeta{font-size:10.5px}.codebox{border-left-width:3px}.cellactions{margin:6px 0 2px}.feedback{display:none;min-height:0;margin-top:6px}.feedback.show{display:block}.outputrow[hidden]{display:none}.outputrow{margin:-2px 0 10px}.output{padding:8px 11px}
+.addbar{margin-top:8px}
+.CodeMirror{height:auto;min-height:92px;font:13.5px/1.6 Consolas,"Courier New",monospace;background:#fbfdff;color:#172433}.CodeMirror-scroll{min-height:92px;max-height:360px}.CodeMirror-lines{padding:10px 0}.CodeMirror pre.CodeMirror-line,.CodeMirror pre.CodeMirror-line-like{padding:0 12px}.cm-s-default .cm-keyword{color:#af00db}.cm-s-default .cm-def{color:#795e26}.cm-s-default .cm-variable{color:#001080}.cm-s-default .cm-variable-2{color:#267f99}.cm-s-default .cm-string{color:#a31515}.cm-s-default .cm-number{color:#098658}.cm-s-default .cm-comment{color:#008000}.cm-s-default .cm-builtin{color:#267f99}.cm-s-default .cm-property{color:#001080}
+.workspacepanel.dark .CodeMirror{background:#102b40;color:#edf6fb}.workspacepanel.dark .CodeMirror-gutters{background:#102b40;border-color:#29465b}.workspacepanel.dark .cm-s-material-darker.CodeMirror{background:#102b40}.workspacepanel.dark .emptyNotebook{background:#18242d;border-color:#334b5b;color:#aebfcb}.workspacepanel.dark .emptyNotebook b{color:#edf6fb}
+.workspacepanel.dark .cellbar{background:#1c2933}.workspacepanel.dark .codebox{border-color:#466579}
+.missionCell.selectedMission .codebox{box-shadow:0 0 0 2px #28679b35}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.guidepanel{position:static}.steps{grid-template-columns:repeat(6,minmax(90px,1fr));overflow-x:auto}.step{min-width:90px}.dataset{display:none}}
+@media(max-width:650px){.steps{grid-template-columns:repeat(3,1fr);overflow:visible}.step{min-width:0}.workspacehead{gap:6px}.toolbtn{padding:6px 7px}.CodeMirror{font-size:12.5px}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="eyebrow">Python Practice Lab • Guided Notebook</div><h1>Learn pandas by actually running Python</h1><p>Build a real notebook one cell at a time. The current mission stays readable on the left; your Python code and output accumulate on the right just like a Jupyter workflow.</p><div class="pills"><span class="pill">Real Python</span><span class="pill">pandas</span><span class="pill">Jupyter-style cells</span><span class="pill">Syntax highlighting</span><span class="pill">Code + Markdown</span></div></div></header>
+<main>
+<div class="statusbar"><span class="dot busy" id="runtimeDot"></span><span class="statusText" id="runtimeStatus">Starting Python runtime…</span><span class="statusNote">First load needs internet access for Pyodide + pandas.</span></div>
+<div class="layout">
+<section class="panel guidepanel">
+  <div class="panelhead"><b>Guided tour</b><span>The thing you should be doing right now stays at the top. Copy the example code yourself, then paste it into the notebook.</span></div>
+  <div class="leftbody">
+    <div class="lesson" id="lesson"></div>
+    <div class="pathlabel">Notebook path</div>
+    <div class="steps" id="steps"></div>
+    <details class="dataset"><summary>Preview the practice dataset</summary><div class="tablewrap"><table><thead><tr><th>Order_ID</th><th>Channel</th><th>Items</th><th>Wait_Min</th><th>Spend</th></tr></thead><tbody id="previewBody"></tbody></table></div></details>
+    <input id="fileInput" type="file" accept=".csv,text/csv" hidden>
+  </div>
+</section>
+<section class="panel workspacepanel" id="workspacePanel">
+  <div class="workspacehead"><div><div class="workspaceTitle">Python workspace</div><div class="workspaceSub">Cells appear as you start missions. Earlier work stays visible.</div></div><span class="spacer"></span><button class="toolbtn" id="addCodeTop" type="button">+ Code</button><button class="toolbtn" id="addMdTop" type="button">+ Markdown</button><button class="toolbtn" id="runAllBtn" type="button" disabled>▶ Run all</button><button class="toolbtn" id="themeBtn" type="button">☾ VS Code dark</button><button class="toolbtn" id="restartBtn" type="button">↻ Restart Python</button></div>
+  <div class="notebook" id="notebook"><div class="emptyNotebook" id="emptyNotebook"><b>Your notebook is ready.</b>Finish the short setup on the left, then start Mission 1. Your first empty Python cell will appear here.</div><div id="cells"></div><div class="addbar"><button id="addCodeBottom" type="button">+ Code</button><button id="addMdBottom" type="button">+ Markdown</button></div></div>
+</section>
+</div>
+</main>
+
+<script>
+const rows=[
+["A-101","App",3,8.4,24.50],["A-102","Counter",2,5.1,18.75],["A-103","App",5,11.7,41.20],["A-104","Kiosk",1,4.6,12.40],
+["A-105","Counter",4,9.8,33.10],["A-106","App",2,6.2,21.85],["A-107","Kiosk",3,7.4,27.60],["A-108","App",6,13.3,48.95],
+["A-109","Counter",2,5.9,19.30],["A-110","Kiosk",4,8.7,35.25],["A-111","App",3,7.9,28.40],["A-112","Counter",5,10.6,39.80]
+];
+const csvText="Order_ID,Channel,Items,Wait_Min,Spend\n"+rows.map(r=>r.join(",")).join("\n");
+document.getElementById("previewBody").innerHTML=rows.map(r=>`<tr>${r.map(x=>`<td>${x}</td>`).join("")}</tr>`).join("");
+
+const missions=[
+ {nav:"Import",title:"Import pandas",goal:"Make the pandas library available under the conventional name pd.",starter:`import pandas as pd`,lines:[
+   ["import pandas as pd","import tells Python to load the pandas library. as pd gives pandas the short nickname used in most Python data-analysis code."]],concept:"This cell does not analyze the data yet. It simply makes pandas available for every cell that runs afterward."},
+ {nav:"Load CSV",title:"Load the CSV into a DataFrame",goal:"Read data.csv and store the resulting 12 × 5 table in a DataFrame named orders.",starter:`orders = pd.read_csv("data.csv")\norders`,lines:[
+   [`orders = pd.read_csv("data.csv")`,`pd.read_csv(...) asks pandas to read a comma-separated file. The = stores the returned DataFrame in a variable named orders. Because the notebook and CSV are in the same folder, the filename alone is enough.`],
+   ["orders","In a notebook, the final expression in a cell is displayed automatically. Writing the variable name lets you immediately inspect the object you just created."]],concept:"A meaningful DataFrame name makes every later line easier to read. In another project, you could choose a name that fits that dataset."},
+ {nav:"Inspect",title:"Inspect the first rows",goal:"Display the first five rows so you can verify the columns, values, and overall structure before calculating anything.",starter:`orders.head()`,lines:[
+   ["orders","This is the DataFrame you created in the previous mission."],
+   [".head()","The dot accesses a pandas method attached to the DataFrame. head() returns the first five rows by default; the parentheses mean to run that method now."]],concept:"Inspection comes before analysis. A quick look can catch a wrong file, unexpected columns, or values that do not make sense."},
+ {nav:"Describe",title:"Get a numeric summary",goal:"Produce count, mean, standard deviation, quartiles, minimum, and maximum for the numeric columns.",starter:`orders.describe().round(2)`,lines:[
+   ["orders.describe()","describe() recognizes this mixed DataFrame and summarizes its numeric columns: Items, Wait_Min, and Spend. No numeric_only argument is needed."],
+   [".round(2)","The next dot chains another method onto the summary. round(2) makes the displayed results easier to read without changing the underlying values stored in orders."]],concept:"Method chaining lets you read Python from left to right: take orders → describe it → round the result."},
+ {nav:"Spend",title:"Summarize one business variable",goal:"Return count, mean, median, sample standard deviation, minimum, and maximum for Spend.",starter:`orders["Spend"].agg(["count", "mean", "median", "std", "min", "max"]).round(2)`,lines:[
+   [`orders["Spend"]`,`Square brackets select the Spend column. Selecting one column returns a pandas Series.`],
+   [`.agg(["count", "mean", "median", "std", "min", "max"])`,`agg means aggregate. It applies each function in the list to the selected Series. pandas uses the sample standard deviation for std by default.`],
+   [`.round(2)`,`Round the returned statistics to two decimal places so the summary is presentation-ready.`]],concept:"Use this pattern when the business question is focused on one variable and you want a custom set of statistics rather than everything returned by describe()."}
+];
+
+let pyodide=null,executionCounter=0,activeGuide=-1,customCounter=0,uploadedFileName="";
+const completed=new Set(),lastRun=Array(missions.length).fill(""),editors={};
+const $=id=>document.getElementById(id);
+function esc(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function codeValue(key){return editors[key]?editors[key].getValue():($("code-"+key)?.value||"");}
+function setCodeValue(key,value){if(editors[key])editors[key].setValue(value);else if($("code-"+key))$("code-"+key).value=value;}
+function currentTheme(){return $("workspacePanel").classList.contains("dark")?"material-darker":"default";}
+
+function renderSteps(){
+ const setup=`<div class="step setupstep ${activeGuide===-1?'active':''}" data-guide="-1"><div class="stepTop"><span class="num">0</span><span class="stepTitle">Setup</span></div></div>`;
+ const rest=missions.map((m,i)=>`<div class="step ${activeGuide===i?'active':''} ${completed.has(i)?'done':''}" data-guide="${i}"><div class="stepTop"><span class="num">${completed.has(i)?'✓':i+1}</span><span class="stepTitle">${m.nav}</span></div></div>`).join("");
+ $("steps").innerHTML=setup+rest;
+ document.querySelectorAll('[data-guide]').forEach(el=>el.onclick=()=>selectGuide(Number(el.dataset.guide),true));
+}
+function setupGuideHtml(){
+ const status=uploadedFileName?`Loaded <b>${esc(uploadedFileName)}</b> into the browser lab and also made it available as <b>data.csv</b>.`:`The practice copy is already available inside this browser as <b>data.csv</b>.`;
+ return `<div class="lessonhead"><div class="lessonKicker">Setup • Before you code</div><div class="lessonTitle">Two things to check before you start</div></div><div class="lessonbody"><div class="lessonGoal">A smooth Python workflow depends on both <b>where your files are saved</b> and <b>which Python kernel is running your notebook</b>.</div><div class="setupVisual"><b>1 • Keep the notebook and data together</b><br>📁 pandas_lab/<br>&nbsp;&nbsp;↳ 📓 analysis.ipynb<br>&nbsp;&nbsp;↳ 📄 data.csv<br><br>With both files in the same folder, Python can simply use <code>pd.read_csv("data.csv")</code>.</div><div class="setupVisual"><b>2 • Your kernel needs the packages your analysis uses</b><br>The <b>kernel</b> is the Python environment that actually runs your notebook. Packages such as <code>pandas</code>, <code>matplotlib</code>, or <code>scipy</code> must be installed and available in that kernel before you can import them.<br><br>If you see <code>ModuleNotFoundError</code>, the package is not available in the current kernel. <b>This browser lab already has the packages needed for these missions loaded for you.</b></div><div class="guideactions"><button class="guidebtn" id="downloadDataBtn" type="button">↓ Download data.csv</button><button class="guidebtn blue" id="uploadBtn" type="button">↑ Load a CSV</button><button class="guidebtn primary" id="startMissionBtn" type="button">Start Mission 1 →</button></div><div class="setupFileStatus" id="fileStatus">${status}</div></div>`;
+}
+function missionGuideHtml(i){
+ const m=missions[i];
+ return `<div class="lessonhead"><div class="lessonKicker">Mission ${i+1} of ${missions.length}</div><div class="lessonTitle">${m.title}</div></div><div class="lessonbody"><div class="lessonGoal">${m.goal}</div><div class="copyblock"><div class="copyhead"><span>Python to type or paste</span><span class="spacer"></span><button class="copybtn" id="copyMissionBtn" type="button">Copy code</button></div><pre class="pyExample" id="missionCode"></pre></div><div class="lineGuideTitle">What each line is doing</div>${m.lines.map((x,j)=>`<div class="lineNote"><span class="lineNum">${j+1}</span><div><div class="lineCode">${esc(x[0])}</div><div class="lineExplain">${x[1]}</div></div></div>`).join("")}<div class="concept"><b>Why this matters:</b> ${m.concept}</div><div class="guideactions"><button class="guidebtn" id="scrollCellBtn" type="button">↓ Go to my cell</button>${i<missions.length-1?`<button class="guidebtn primary" id="nextMissionBtn" type="button">Next mission →</button>`:""}</div></div>`;
+}
+function renderGuide(){
+ $("lesson").innerHTML=activeGuide===-1?setupGuideHtml():missionGuideHtml(activeGuide);
+ if(activeGuide===-1){
+   $("downloadDataBtn").onclick=downloadData;
+   $("uploadBtn").onclick=()=>$("fileInput").click();
+   $("startMissionBtn").onclick=()=>selectGuide(0,true);
+ } else {
+   const m=missions[activeGuide],target=$("missionCode");
+   target.textContent="";
+   if(window.CodeMirror?.runMode) CodeMirror.runMode(m.starter,"python",target); else target.textContent=m.starter;
+   $("copyMissionBtn").onclick=()=>copyMissionCode(activeGuide);
+   $("scrollCellBtn").onclick=()=>$("mcell-"+activeGuide)?.scrollIntoView({behavior:"smooth",block:"center"});
+   if($("nextMissionBtn")) $("nextMissionBtn").onclick=()=>selectGuide(activeGuide+1,true);
+ }
+}
+function selectGuide(i,scroll=false){
+ activeGuide=i;renderGuide();renderSteps();
+ document.querySelectorAll('.missionCell').forEach(c=>c.classList.toggle('selectedMission',Number(c.dataset.mission)===i));
+ if(i>=0){ensureMissionCell(i);if(scroll)$("mcell-"+i)?.scrollIntoView({behavior:"smooth",block:"center"});}
+}
+async function copyMissionCode(i){
+ const text=missions[i].starter,btn=$("copyMissionBtn");
+ try{await navigator.clipboard.writeText(text);}catch(e){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}
+ btn.textContent="Copied ✓";btn.classList.add("copied");setTimeout(()=>{if(btn){btn.textContent="Copy code";btn.classList.remove("copied");}},1200);
+}
+
+function missionCellHtml(i){
+ return `<div class="cell missionCell" id="mcell-${i}" data-mission="${i}" data-key="m${i}"><div class="prompt"><span class="in" id="in-m${i}">In [ ]:</span></div><div class="cellbody"><div class="codebox"><div class="cellbar"><span class="celltype">Python</span><span class="cellmeta">Mission ${i+1}</span><span class="spacer"></span></div><textarea class="code" id="code-m${i}" spellcheck="false"></textarea></div><div class="cellactions"><button class="run" data-run-mission="${i}" type="button" ${pyodide?'':'disabled'}>▶ Run</button><button class="check" data-check="${i}" type="button">✓ Check mission</button><button class="secondary" data-clear-mission="${i}" type="button">Clear output</button></div><div class="feedback" id="fb-m${i}"></div></div></div><div class="outputrow" id="outputrow-m${i}" hidden><div class="outprompt" id="outlabel-m${i}">Out[ ]:</div><div class="output" id="out-m${i}"></div></div>`;
+}
+function ensureMissionCell(i){
+ if($("mcell-"+i))return;
+ $("emptyNotebook").hidden=true;
+ const holder=document.createElement('div');holder.innerHTML=missionCellHtml(i);[...holder.children].forEach(n=>$("cells").appendChild(n));
+ wireMissionCell(i);createEditor(`m${i}`,i);
+}
+function wireMissionCell(i){
+ const c=$("mcell-"+i);c.addEventListener('click',e=>{if(!e.target.closest('button')){activeGuide=i;renderGuide();renderSteps();document.querySelectorAll('.missionCell').forEach(x=>x.classList.toggle('selectedMission',x===c));}});
+ const runBtn=c.querySelector('[data-run-mission]');
+ runBtn.disabled=!pyodide;
+ runBtn.onclick=()=>runCodeCell(`m${i}`,i);
+ c.querySelector('[data-check]').onclick=()=>checkMission(i);
+ c.querySelector('[data-clear-mission]').onclick=()=>clearOutput(`m${i}`);
+}
+function createEditor(key,missionIndex=null){
+ const ta=$("code-"+key);if(!ta||editors[key]||!window.CodeMirror)return;
+ editors[key]=CodeMirror.fromTextArea(ta,{mode:"python",theme:currentTheme(),lineNumbers:false,indentUnit:4,tabSize:4,indentWithTabs:false,lineWrapping:true,viewportMargin:Infinity,extraKeys:{"Ctrl-Enter":()=>runCodeCell(key,missionIndex),"Cmd-Enter":()=>runCodeCell(key,missionIndex)}});
+ setTimeout(()=>editors[key].refresh(),0);
+}
+
+async function initPython(){
+ try{
+   $("runtimeDot").className="dot busy";$("runtimeStatus").textContent="Loading Python and pandas…";
+   pyodide=await loadPyodide();await pyodide.loadPackage("pandas");pyodide.FS.writeFile("data.csv",new TextEncoder().encode(csvText));
+   await pyodide.runPythonAsync(`
+import ast, io, contextlib, traceback
+USER_NS = {"__builtins__": __builtins__}
+
+def _run_student_code(source):
+    stdout=io.StringIO(); stderr=io.StringIO(); value=None; html_output=None
+    try:
+        tree=ast.parse(source,mode="exec")
+        with contextlib.redirect_stdout(stdout),contextlib.redirect_stderr(stderr):
+            if tree.body and isinstance(tree.body[-1],ast.Expr):
+                last=tree.body.pop()
+                if tree.body:
+                    exec(compile(tree,"<student>","exec"),USER_NS,USER_NS)
+                value=eval(compile(ast.Expression(last.value),"<student>","eval"),USER_NS,USER_NS)
+            else:
+                exec(compile(tree,"<student>","exec"),USER_NS,USER_NS)
+        try:
+            import pandas as _pd
+            if isinstance(value,_pd.DataFrame): html_output=value.to_html(classes="pandas-output",border=0)
+            elif isinstance(value,_pd.Series): html_output=value.to_frame().to_html(classes="pandas-output",border=0)
+        except Exception:
+            pass
+        text=stdout.getvalue()
+        if value is not None and html_output is None: text+=repr(value)
+        return {"ok":True,"text":text,"html":html_output}
+    except Exception:
+        traceback.print_exc(file=stderr)
+        return {"ok":False,"text":stdout.getvalue()+stderr.getvalue(),"html":None}
+`);
+   $("runtimeDot").className="dot ready";$("runtimeStatus").textContent="Python ready • pandas loaded • data.csv mounted";$("runAllBtn").disabled=false;document.querySelectorAll('.run').forEach(b=>b.disabled=false);
+ }catch(err){$("runtimeDot").className="dot";$("runtimeStatus").textContent="Python failed to load";alert(String(err));}
+}
+async function runCodeCell(key,missionIndex=null){
+ if(!pyodide)return;const source=codeValue(key);if(!source.trim())return;
+ const out=$("out-"+key),row=$("outputrow-"+key),btn=document.querySelector(`[data-run-key="${key}"]`)||document.querySelector(`[data-run-mission="${missionIndex}"]`);
+ if(missionIndex!==null)lastRun[missionIndex]=source;if(btn)btn.disabled=true;row.hidden=false;out.className="output";out.textContent="Running…";$("runtimeDot").className="dot busy";$("runtimeStatus").textContent="Running code…";
+ try{
+   pyodide.globals.set("__student_code",source);const proxy=await pyodide.runPythonAsync(`_run_student_code(__student_code)`);const result=proxy.toJs?proxy.toJs({dict_converter:Object.fromEntries,create_proxies:false}):proxy;if(proxy.destroy)proxy.destroy();
+   executionCounter++;$("in-"+key).textContent=`In [${executionCounter}]:`;$("outlabel-"+key).textContent=`Out[${executionCounter}]:`;
+   if(result.html){out.innerHTML=result.html;}else{out.textContent=String(result.text||"(Code ran successfully; there was no displayed output.)");if(!result.ok)out.className="output error";}
+ }catch(err){executionCounter++;out.className="output error";out.textContent=String(err);}finally{if(btn)btn.disabled=false;$("runtimeDot").className="dot ready";$("runtimeStatus").textContent="Python ready • pandas loaded • data.csv mounted";}
+}
+function clearOutput(key){const row=$("outputrow-"+key);if(row)row.hidden=true;const out=$("out-"+key);if(out){out.textContent="";out.className="output";}const lab=$("outlabel-"+key);if(lab)lab.textContent="Out[ ]:";}
+function setFeedback(i,ok,msg){const fb=$("fb-m"+i);fb.className=`feedback show ${ok?'good':'warn'}`;fb.innerHTML=msg;}
+async function checkMission(i){
+ if(!pyodide){setFeedback(i,false,"Python is still loading.");return;}let ok=false,msg="";
+ try{
+   if(i===0){ok=Boolean(await pyodide.runPythonAsync(`'pd' in USER_NS`));msg=ok?"<b>Good.</b> pandas is now available as <code>pd</code> for the cells below.":"I cannot find <code>pd</code> yet. Copy the import line from the guide, paste it into this cell, and run it.";}
+   if(i===1){const r=await pyodide.runPythonAsync(`import pandas as _pd\n_obj=USER_NS.get('orders',None)\n(isinstance(_obj,_pd.DataFrame),getattr(_obj,'shape',None))`);const js=r.toJs?r.toJs({create_proxies:false}):r;if(r.destroy)r.destroy();ok=Boolean(js[0])&&js[1]&&Number(js[1][0])===12&&Number(js[1][1])===5;msg=ok?"<b>Nice.</b> <code>orders</code> is a 12 × 5 pandas DataFrame loaded from <code>data.csv</code>.":"I cannot find a 12 × 5 DataFrame named <code>orders</code>. Check the assignment and filename, then run the cell again.";}
+   if(i===2){ok=/\borders\s*\.\s*head\s*\(/.test(lastRun[i]);msg=ok?"<b>Exactly.</b> You inspected the data before calculating summaries.":"Run <code>orders.head()</code> in this mission cell.";}
+   if(i===3){ok=/\borders\s*\.\s*describe\s*\(\s*\)\s*\.\s*round\s*\(\s*2\s*\)/.test(lastRun[i])&&!/numeric_only/.test(lastRun[i]);msg=ok?"<b>Correct.</b> <code>orders.describe().round(2)</code> gives the numeric summary cleanly. No <code>numeric_only</code> argument is needed.":"Use <code>orders.describe().round(2)</code>. This mixed DataFrame already gives the numeric summary you want.";}
+   if(i===4){const c=lastRun[i];ok=/\[\s*["']Spend["']\s*\]/.test(c)&&/\.agg\s*\(/.test(c)&&/count/.test(c)&&/mean/.test(c)&&/median/.test(c)&&/std/.test(c)&&/min/.test(c)&&/max/.test(c);msg=ok?"<b>Mission complete.</b> You selected one business variable and requested a custom summary.":"Select <code>Spend</code> and use <code>.agg([...])</code> with count, mean, median, std, min, and max.";}
+   if(ok){completed.add(i);renderSteps();}setFeedback(i,ok,msg);
+ }catch(err){setFeedback(i,false,"Checker error: "+String(err));}
+}
+
+function addCodeCell(){
+ customCounter++;const key=`c${customCounter}`;$("emptyNotebook").hidden=true;const wrap=document.createElement('div');wrap.innerHTML=`<div class="cell" id="cell-${key}" data-key="${key}"><div class="prompt"><span class="in" id="in-${key}">In [ ]:</span></div><div class="cellbody"><div class="codebox"><div class="cellbar"><span class="celltype">Python</span><span class="cellmeta">student cell</span><span class="spacer"></span><button class="iconbtn danger" data-delete="${key}" type="button">Delete</button></div><textarea class="code" id="code-${key}" spellcheck="false"></textarea></div><div class="cellactions"><button class="run" data-run-key="${key}" type="button" ${pyodide?'':'disabled'}>▶ Run</button><button class="secondary" data-clear-key="${key}" type="button">Clear output</button></div></div></div><div class="outputrow" id="outputrow-${key}" hidden><div class="outprompt" id="outlabel-${key}">Out[ ]:</div><div class="output" id="out-${key}"></div></div>`;[...wrap.children].forEach(n=>$("cells").appendChild(n));createEditor(key,null);document.querySelector(`[data-run-key="${key}"]`).onclick=()=>runCodeCell(key,null);document.querySelector(`[data-clear-key="${key}"]`).onclick=()=>clearOutput(key);document.querySelector(`[data-delete="${key}"]`).onclick=()=>{editors[key]?.toTextArea();delete editors[key];$("cell-"+key)?.remove();$("outputrow-"+key)?.remove();};$("cell-"+key).scrollIntoView({behavior:'smooth',block:'center'});
+}
+function mdToHtml(src){let lines=src.split(/\r?\n/),html=[],inList=false;const inline=s=>esc(s).replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/\*([^*]+)\*/g,'<em>$1</em>');for(const line of lines){if(/^\s*[-*]\s+/.test(line)){if(!inList){html.push('<ul>');inList=true;}html.push('<li>'+inline(line.replace(/^\s*[-*]\s+/,''))+'</li>');continue;}if(inList){html.push('</ul>');inList=false;}if(/^###\s+/.test(line))html.push('<h3>'+inline(line.replace(/^###\s+/,''))+'</h3>');else if(/^##\s+/.test(line))html.push('<h2>'+inline(line.replace(/^##\s+/,''))+'</h2>');else if(/^#\s+/.test(line))html.push('<h1>'+inline(line.replace(/^#\s+/,''))+'</h1>');else if(line.trim()==='')html.push('');else html.push('<p>'+inline(line)+'</p>');}if(inList)html.push('</ul>');return html.join('');}
+function addMarkdownCell(){customCounter++;const key=`md${customCounter}`;$("emptyNotebook").hidden=true;const cell=document.createElement('div');cell.className='cell';cell.id=`cell-${key}`;cell.innerHTML=`<div class="prompt"></div><div class="cellbody"><div class="markdownbox"><div class="cellbar"><span class="celltype md">Markdown</span><span class="cellmeta">notes</span><span class="spacer"></span><button class="iconbtn" data-render-md="${key}" type="button">Render</button><button class="iconbtn danger" data-delete-md="${key}" type="button">Delete</button></div><textarea class="markdownEditor" id="code-${key}" spellcheck="false">## My interpretation\nWrite what the output means in context.</textarea><div class="markdownPreview" id="preview-${key}" hidden></div></div></div>`;$("cells").appendChild(cell);document.querySelector(`[data-render-md="${key}"]`).onclick=()=>{const ta=$("code-"+key),pv=$("preview-"+key),btn=document.querySelector(`[data-render-md="${key}"]`);if(pv.hidden){pv.innerHTML=mdToHtml(ta.value);pv.hidden=false;ta.hidden=true;btn.textContent='Edit';}else{pv.hidden=true;ta.hidden=false;btn.textContent='Render';}};document.querySelector(`[data-delete-md="${key}"]`).onclick=()=>cell.remove();cell.scrollIntoView({behavior:'smooth',block:'center'});}
+
+function downloadData(){const blob=new Blob([csvText],{type:'text/csv'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='data.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);}
+$("fileInput").onchange=async e=>{const f=e.target.files?.[0];if(!f)return;if(!pyodide){alert("Python is still loading. Try again in a moment.");return;}const bytes=new Uint8Array(await f.arrayBuffer());pyodide.FS.writeFile(f.name,bytes);pyodide.FS.writeFile('data.csv',bytes);uploadedFileName=f.name;renderGuide();};
+
+$("runAllBtn").onclick=async()=>{if(!pyodide)return;$("runAllBtn").disabled=true;const cells=[...document.querySelectorAll('.cell[data-key]')];for(const c of cells){const key=c.dataset.key,mission=c.dataset.mission!==undefined?Number(c.dataset.mission):null;if(codeValue(key).trim())await runCodeCell(key,mission);}$("runAllBtn").disabled=false;};
+$("themeBtn").onclick=()=>{const dark=$("workspacePanel").classList.toggle('dark');$("themeBtn").textContent=dark?'☀ Light workspace':'☾ VS Code dark';Object.values(editors).forEach(ed=>{ed.setOption('theme',dark?'material-darker':'default');setTimeout(()=>ed.refresh(),0);});};
+$("restartBtn").onclick=async()=>{if(!pyodide)return;$("restartBtn").disabled=true;$("runtimeDot").className='dot busy';$("runtimeStatus").textContent='Restarting Python state…';try{await pyodide.runPythonAsync(`USER_NS.clear()\nUSER_NS["__builtins__"] = __builtins__`);executionCounter=0;completed.clear();lastRun.fill("");document.querySelectorAll('[id^="in-"]').forEach(x=>x.textContent='In [ ]:');document.querySelectorAll('[id^="outlabel-"]').forEach(x=>x.textContent='Out[ ]:');document.querySelectorAll('.outputrow').forEach(x=>x.hidden=true);document.querySelectorAll('.feedback').forEach(x=>{x.className='feedback';x.innerHTML='';});renderSteps();$("runtimeDot").className='dot ready';$("runtimeStatus").textContent='Python restarted • code cells preserved • data.csv still mounted';}catch(e){alert(String(e));}finally{$("restartBtn").disabled=false;}};
+$("addCodeTop").onclick=addCodeCell;$("addCodeBottom").onclick=addCodeCell;$("addMdTop").onclick=addMarkdownCell;$("addMdBottom").onclick=addMarkdownCell;
+
+renderGuide();renderSteps();initPython();
+</script>
+</body>
+</html>
