@@ -1,61 +1,456 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ISYS 10303 HTML Apps</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ISYS 10303 · Seoul Midnight Passport · V6</title>
+<style>
+:root{
+  --desk:#07121f;--desk2:#15283d;--cover:#06111d;--cover2:#02080e;--paper:#dfe8ee;--paper2:#f8fbfd;
+  --ink:#101923;--muted:#546675;--rule:#aebbc5;--red:#e45d60;--blue:#3589a8;--green:#4b986e;--purple:#8060a1;
+  --gold:#f2c64b;--mast:#eaf7ff;--mastmuted:#9db1c1;--shadow:0 28px 85px #000a;--pocket:#c1ced6;--pocket-border:#667a88;
+  --page-glow:#8ed8ff16;--texture:#4f687a18;--stamp:#ff5b62;--head:Arial Black,Arial,sans-serif;
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font:16px/1.45 Inter,Segoe UI,Arial,sans-serif;background:radial-gradient(circle at 18% 8%,var(--desk2),transparent 28%),linear-gradient(135deg,var(--desk),var(--desk2) 55%,var(--desk));min-height:100vh}
+button,a{font:inherit;color:inherit}button{cursor:pointer}.desk{max-width:1440px;margin:auto;padding:25px 22px 58px}
+.mast{display:flex;justify-content:space-between;gap:22px;align-items:end;margin-bottom:14px;color:var(--mast)}.mast .eyebrow{font:950 10px monospace;letter-spacing:.16em;text-transform:uppercase}.mast h1{margin:6px 0 0;font:950 clamp(34px,5vw,58px)/.92 var(--head);letter-spacing:-.045em;text-transform:uppercase}.mast p{max-width:560px;margin:0;color:var(--mastmuted);font-size:13px}.edition{display:inline-block;margin-top:8px;border:2px solid var(--stamp);color:var(--stamp);padding:4px 7px;font:950 8px monospace;letter-spacing:.12em;transform:rotate(-2deg)}
+.book{position:relative;display:grid;grid-template-columns:minmax(365px,.76fr) minmax(650px,1.48fr);min-height:790px;background:var(--cover);border:5px solid var(--cover2);border-radius:25px 17px 17px 25px;box-shadow:var(--shadow);overflow:hidden}
+.book:after{content:"";position:absolute;left:33.7%;top:0;bottom:0;width:18px;transform:translateX(-50%);background:linear-gradient(90deg,var(--cover2),color-mix(in srgb,var(--cover),white 25%) 48%,var(--cover2));box-shadow:0 0 18px #0007;z-index:8;pointer-events:none}
+.left-page,.right-page{position:relative;min-width:0;background:var(--paper)}.left-page{padding:27px 28px 30px 33px;background:linear-gradient(90deg,color-mix(in srgb,var(--paper),var(--cover) 6%),var(--paper) 9%,var(--paper));border-right:1px solid var(--rule)}.right-page{padding:30px 34px 35px 43px;background:linear-gradient(90deg,color-mix(in srgb,var(--paper2),var(--cover) 5%),var(--paper2) 7%,var(--paper2));box-shadow:inset 0 0 90px var(--page-glow)}
+.left-page:before,.right-page:before{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(var(--texture) .7px,transparent .7px);background-size:7px 7px;mix-blend-mode:multiply}.bookmark{position:absolute;right:24px;top:0;width:38px;height:114px;background:var(--gold);border:2px solid var(--cover2);border-top:0;clip-path:polygon(0 0,100% 0,100% 100%,50% 84%,0 100%);z-index:5}
+.covermark{display:flex;align-items:center;gap:12px;border-bottom:3px solid var(--ink);padding-bottom:14px;margin-bottom:16px;position:relative;z-index:2}.seal{width:55px;height:55px;border:3px double var(--ink);border-radius:50%;display:grid;place-items:center;font:950 10px monospace;transform:rotate(-4deg)}.covermark b{display:block;font:950 18px var(--head)}.covermark small{display:block;margin-top:2px;font:900 8px monospace;color:var(--muted);letter-spacing:.08em}
+.journey-head{display:flex;justify-content:space-between;gap:10px;align-items:end;margin:13px 0 11px;position:relative;z-index:2}.journey-head h2{margin:0;font:950 22px/1 var(--head)}.journey-head span{font:900 8px monospace;color:var(--muted)}
+.index-wrap{position:relative;z-index:2;padding-left:9px}.journey-marker{position:absolute;left:-23px;top:0;width:25px;height:45px;border:3px solid var(--marker,#e45d60);border-right:0;border-radius:18px 0 0 18px;transition:transform .38s cubic-bezier(.2,.8,.2,1),height .25s,border-color .22s,filter .22s;z-index:9;pointer-events:none;filter:0 0 16px currentColor}.journey-marker:after{content:"";position:absolute;right:-8px;top:50%;width:13px;height:13px;border-top:3px solid var(--marker,#e45d60);border-right:3px solid var(--marker,#e45d60);transform:translateY(-50%) rotate(45deg);background:var(--paper)}.journey-marker span{position:absolute;left:-2px;top:50%;transform:translate(-100%,-50%) rotate(-90deg);transform-origin:right center;white-space:nowrap;font:950 7px monospace;letter-spacing:.12em;color:var(--marker,#e45d60)}
+.line-group{margin:0 0 16px;position:relative}.line-label{display:flex;align-items:center;gap:8px;font:950 8px monospace;letter-spacing:.11em;text-transform:uppercase;margin-bottom:6px}.line-label i{width:34px;height:6px;background:var(--accent);border-radius:99px}.journey{display:grid;gap:6px;border-left:5px solid var(--accent);padding-left:12px;margin-left:10px}
+.stop-btn{position:relative;width:100%;display:grid;grid-template-columns:34px 1fr auto;gap:8px;align-items:center;text-align:left;border:1px solid var(--rule);background:var(--paper2);padding:8px 9px;box-shadow:2px 2px 0 color-mix(in srgb,var(--rule),transparent 15%);transition:transform .12s,background .12s}.stop-btn:hover{transform:translateX(2px);background:#fff}.stop-btn:before{content:"";position:absolute;left:-20px;top:50%;width:12px;height:12px;border-radius:50%;transform:translateY(-50%);background:var(--paper2);border:4px solid var(--accent)}.stop-btn strong{font:950 12px monospace}.stop-btn b{font-size:11px;line-height:1.15}.stop-btn small{font:900 7px monospace;color:var(--muted)}.stop-btn.active{background:#fff}.stop-btn.complete small{opacity:0}.stop-btn.complete:after{content:"✓";position:absolute;right:8px;top:50%;transform:translateY(-50%);width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--gold);font:950 10px monospace}.transfer-btn{--accent:var(--purple);background:color-mix(in srgb,var(--purple),white 90%);border-color:color-mix(in srgb,var(--purple),white 55%)}.transfer-btn:before{border-radius:0;transform:translateY(-50%) rotate(45deg);background:var(--purple);border-color:#fff;box-shadow:0 0 0 3px var(--purple)}.transfer-btn strong{color:var(--purple)}
+.legend-note{border-top:2px dashed var(--rule);margin-top:17px;padding-top:11px;font:800 8px/1.45 monospace;color:var(--muted)}
+.page-top{position:relative;z-index:2;display:grid;grid-template-columns:1fr auto;gap:18px;align-items:start;border-bottom:3px solid var(--ink);padding-bottom:13px}.page-kicker{font:950 9px monospace;letter-spacing:.15em;text-transform:uppercase;color:var(--accent)}.page-title{margin:5px 0 0;font:950 clamp(29px,4vw,47px)/.95 var(--head);letter-spacing:-.045em;text-transform:uppercase;max-width:760px}.passport-stamp{width:90px;height:90px;border:4px double var(--accent);color:var(--accent);border-radius:50%;display:grid;place-items:center;text-align:center;font:950 9px/1.05 monospace;transform:rotate(7deg);background:color-mix(in srgb,var(--paper2),transparent 12%)}
+.briefing{position:relative;z-index:2;display:grid;grid-template-columns:1.1fr .9fr;gap:16px;margin-top:17px}.brief-card{border:2px solid var(--ink);background:var(--paper2);padding:15px 16px;box-shadow:5px 5px 0 color-mix(in srgb,var(--rule),transparent 5%)}.brief-card h3{margin:0 0 7px;font:950 9px monospace;letter-spacing:.13em}.brief-card p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}.brief-meta{border:2px solid var(--accent);background:color-mix(in srgb,var(--accent),white 92%);padding:15px}.brief-meta .huge{font:950 64px/.82 var(--head);color:var(--accent);letter-spacing:-.08em}.meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}.meta-grid div{border-top:1px solid color-mix(in srgb,var(--accent),black 10%);padding-top:6px}.meta-grid small{display:block;font:900 7px monospace;color:var(--muted)}.meta-grid b{font-size:10px}
+.ticket-pocket{position:relative;z-index:2;margin-top:20px;padding:22px 17px 14px;background:var(--pocket);border:2px solid var(--pocket-border);border-radius:5px 5px 15px 15px;box-shadow:inset 0 8px 15px #00000014}.ticket-pocket:before{content:"TICKET POCKET · BOARD FROM HERE";position:absolute;left:15px;top:5px;font:950 7px monospace;letter-spacing:.14em;color:color-mix(in srgb,var(--pocket-border),black 15%)}
+/* Trolley-style ticket */
+.ticket{--accent:var(--red);background:#fffaf0;color:#17191f;border:3px solid #17191f;box-shadow:9px 9px 0 var(--accent);position:relative;display:grid;grid-template-columns:112px 1fr 58px;min-height:335px;overflow:visible}.ticket:before,.ticket:after{content:"";position:absolute;top:50%;width:25px;height:25px;border-radius:50%;background:var(--pocket);transform:translateY(-50%);z-index:5}.ticket:before{left:-14px}.ticket:after{right:-14px}.ticket-stub{border-right:3px dashed #988f80;padding:16px 12px;background:color-mix(in srgb,var(--accent),white 84%);display:flex;flex-direction:column;align-items:center;text-align:center}.stub-line{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#fff;font:950 17px monospace;margin-bottom:10px}.ticket-stub small{font:900 8px monospace;letter-spacing:.08em;color:#665f56}.ticket-stub strong{font:950 11px monospace;margin:4px 0}.stub-dots{margin-top:auto;display:grid;grid-template-columns:repeat(2,18px);gap:8px}.punch-dot{width:18px;height:18px;border-radius:50%;border:2px solid #9f9586;background:#f6f0e5;padding:0;position:relative}.punch-dot.done{background:#17191f;border-color:#17191f;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent),transparent 55%)}.punch-dot.done:after{content:"✓";color:#f6d553;font:950 10px monospace;position:absolute;inset:0;display:grid;place-items:center}.ticket-main{padding:16px 18px 17px;min-width:0}.ticket-topline{display:flex;justify-content:space-between;gap:10px;border-bottom:2px solid #17191f;padding-bottom:10px}.ticket-topline small{font:900 9px monospace;letter-spacing:.12em;color:#6d675e}.ticket-topline .route-id{color:var(--accent)}.ticket-main h3{font:900 27px/1 Arial Black,Arial,sans-serif;margin:7px 0 0}.ticket-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:16px;padding-top:14px}.field-guide{background:#f4edde;border-left:5px solid var(--accent);padding:12px 13px}.field-guide h4,.learning h4{font:950 9px monospace;letter-spacing:.12em;margin:0 0 8px}.field-guide ul{padding-left:18px;margin:0}.field-guide li{margin:5px 0;font-size:12px}.learning{display:grid;gap:7px;align-content:start}.learn{position:relative;text-decoration:none;border:2px solid #242424;background:#fff;padding:8px 38px 8px 9px;display:grid;grid-template-columns:31px 1fr auto;align-items:center;gap:8px}.learn-no{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#fff;font:950 8px monospace}.learn b{display:block;font-size:11px}.learn small{display:block;font:800 8px monospace;color:#777067;margin-top:2px}.learn em{font-style:normal;font-weight:950}.learn.soon{opacity:.43;pointer-events:none}.learn.live{box-shadow:3px 3px 0 color-mix(in srgb,var(--accent),transparent 55%)}.route-punch{position:absolute;right:7px;top:50%;transform:translateY(-50%);width:23px;height:23px;border-radius:50%;border:2px solid #9c9387;background:#fffaf0;z-index:3}.route-punch.done{background:#17191f;border-color:#17191f}.route-punch.done:after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;color:#f6d553;font:950 9px monospace}.ticket-tail{border-left:2px dashed #b0a797;display:flex;align-items:center;justify-content:center;padding:10px 7px;background:#f7f1e7}.barcode{writing-mode:vertical-rl;transform:rotate(180deg);font:950 8px monospace;letter-spacing:.12em;color:#5d5952}.barcode:before{content:"||||| || |||| ||| ||||||";display:block;font-size:12px;color:#17191f;margin-bottom:9px}
+.exam-ticket{--accent:var(--purple);background:#fbf4ff;color:#221c27;border:3px solid #392d3f;box-shadow:9px 9px 0 #ad94b9;position:relative;display:grid;grid-template-columns:112px 1fr 58px;min-height:315px}.exam-ticket:before,.exam-ticket:after{content:"";position:absolute;top:50%;width:25px;height:25px;border-radius:50%;background:var(--pocket);transform:translateY(-50%);z-index:5}.exam-ticket:before{left:-14px}.exam-ticket:after{right:-14px}.exam-stub{border-right:3px dashed #9f8ca8;padding:17px 12px;background:#e8dcef;display:flex;flex-direction:column;align-items:center;text-align:center}.diamond{width:53px;height:53px;background:var(--purple);color:#fff;transform:rotate(45deg);display:grid;place-items:center;margin:8px}.diamond b{transform:rotate(-45deg);font:950 13px monospace}.exam-stub small{font:900 8px monospace;color:#65566d}.exam-stub strong{font:950 12px monospace;margin-top:7px}.exam-main{padding:18px 20px}.exam-main .top{border-bottom:2px solid #392d3f;padding-bottom:10px}.exam-main .top small{font:900 9px monospace;color:#72577d;letter-spacing:.12em}.exam-main h3{font:950 28px/1 Arial Black,Arial,sans-serif;margin:6px 0 0;text-transform:uppercase}.exam-main p{font-size:12px;color:#5f5364}.exam-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.exam-meta div{border:1px solid #cdbfd3;background:#fff;padding:9px}.exam-meta small{display:block;font:900 7px monospace;color:#7c6b81}.exam-meta b{display:block;margin-top:2px;font-size:11px}.exam-links{display:grid;grid-template-columns:1fr 1fr;gap:8px}.exam-links a{text-decoration:none;border:2px solid var(--purple);background:#fff;padding:11px 12px;font-weight:900;display:flex;justify-content:space-between;gap:8px}.exam-links a.off{opacity:.42;pointer-events:none}.exam-tail{border-left:2px dashed #ad9ab6;background:#f0e7f4;display:flex;align-items:center;justify-content:center}
+footer{max-width:1440px;margin:0 auto;padding:0 22px 35px;color:var(--mastmuted);font:800 9px monospace;letter-spacing:.08em}
+@media(max-width:1080px){.book{grid-template-columns:1fr;min-height:0}.book:after{display:none}.left-page{border-right:0;border-bottom:5px solid var(--cover2)}.index-wrap{padding-left:20px}.line-groups{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.journey{margin-left:7px}.journey-marker{display:none}}
+@media(max-width:800px){.desk{padding:12px 8px 38px}.mast{align-items:start;flex-direction:column}.left-page,.right-page{padding:22px 16px}.line-groups{grid-template-columns:1fr}.briefing{grid-template-columns:1fr}.ticket,.exam-ticket{grid-template-columns:88px 1fr}.ticket-tail,.exam-tail{display:none}.ticket-grid{grid-template-columns:1fr}.exam-meta,.exam-links{grid-template-columns:1fr}.page-title{font-size:30px}.passport-stamp{width:74px;height:74px}}
+@media(max-width:530px){.ticket,.exam-ticket{grid-template-columns:1fr}.ticket-stub,.exam-stub{border-right:0;border-bottom:3px dashed #988f80;display:grid;grid-template-columns:54px 1fr auto;gap:9px;align-items:center;text-align:left}.stub-line,.diamond{margin:0}.stub-dots{margin:0;grid-template-columns:repeat(4,16px)}.page-top{grid-template-columns:1fr}.passport-stamp{position:absolute;right:0;top:-3px;opacity:.16}}
+
+/* ===== Seoul Midnight v4 · quieter station page + support shelf ===== */
+.mast{align-items:start}.mast h1{font-size:clamp(32px,4.6vw,52px)}
+.compact-cover{padding-bottom:11px;margin-bottom:13px}.compact-cover b{font-size:16px}.compact-cover small{font-size:7px}.seal{display:none}
+.legend-note{font-size:7.5px;margin-top:13px;padding-top:9px}
+.compact-page-top{grid-template-columns:1fr auto;padding-bottom:10px}.page-title{font-size:clamp(27px,3.6vw,41px);margin-top:3px}.page-kicker{font-size:8px}
+.status-chip{align-self:start;border:2px solid var(--accent);color:var(--accent);background:color-mix(in srgb,var(--accent),white 93%);padding:7px 9px;font:950 8px monospace;letter-spacing:.08em;white-space:nowrap}.status-chip.validated{background:var(--ink);border-color:var(--ink);color:var(--gold)}.transfer-status{--accent:var(--purple)}
+.station-strip{position:relative;z-index:2;margin-top:13px;display:grid;grid-template-columns:minmax(0,1.45fr) minmax(230px,.55fr);gap:14px;align-items:start;border-bottom:1px solid var(--rule);padding-bottom:13px}.station-strip>p{margin:0;font-size:13px;line-height:1.5;color:var(--muted);max-width:760px}.station-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px}.station-meta span{border-left:3px solid var(--accent);padding:5px 0 5px 8px}.station-meta small{display:block;font:900 7px monospace;color:var(--muted);letter-spacing:.06em}.station-meta b{display:block;font-size:10px;margin-top:2px;line-height:1.25}.transfer-strip{--accent:var(--purple)}
+.ticket-pocket{margin-top:15px}.ticket{min-height:0}.ticket-main{padding-bottom:14px}.ticket-grid{padding-top:12px}.field-guide li{margin:4px 0}.learn{padding-top:7px;padding-bottom:7px}
+.ticket-support{margin-top:12px;padding-top:10px;border-top:2px dashed #b9b09f}.support-head{display:flex;justify-content:space-between;gap:12px;align-items:end;margin-bottom:7px}.support-head h4{font:950 9px monospace;letter-spacing:.12em;margin:0}.support-head small{font:800 7.5px monospace;color:#756f66}.support-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.support-btn{border:1px solid #aaa294;background:#fff;padding:7px 8px;text-align:left;cursor:pointer;min-width:0;color:#17191f}.support-btn:hover,.support-btn.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent),white 93%)}.support-btn b{display:block;font:950 9px monospace;letter-spacing:.04em}.support-btn small{display:block;margin-top:2px;font:750 7.5px/1.25 monospace;color:#756e65}.support-panel{display:none;margin-top:7px;background:#f4edde;border-left:4px solid var(--accent);padding:9px 11px;font-size:11px;line-height:1.45}.support-panel.show{display:block}.support-panel b{font-size:11px}.support-panel p{margin:5px 0 0}.support-panel ul{margin:5px 0 0;padding-left:17px}.support-panel li{margin:3px 0}.support-panel code{font-size:10px;background:#fff;padding:1px 3px}.support-link{font-weight:900;color:var(--accent)}
+.exam-support{--accent:var(--purple);margin-top:13px}.exam-main{padding-bottom:16px}.exam-links{margin-top:13px}
+@media(max-width:900px){.station-strip{grid-template-columns:1fr}.station-meta{max-width:520px}.support-row{grid-template-columns:1fr 1fr}}
+@media(max-width:530px){.status-chip{margin-top:6px}.station-meta{grid-template-columns:1fr 1fr}.support-row{grid-template-columns:1fr 1fr}.support-head{align-items:start;flex-direction:column;gap:3px}}
+
+
+/* ===== Seoul Midnight v5 · route cleanup + solid location pointer ===== */
+.bookmark{display:none!important}
+
+/* quieter rail hierarchy */
+.line-group{margin:0 0 15px}
+.line-label{gap:7px;margin:0 0 7px 7px;color:#40515e;font-size:7.5px;letter-spacing:.10em}
+.line-label i{width:27px;height:3px;border-radius:0;background:var(--accent);position:relative}
+.line-label i:after{content:"";position:absolute;right:-3px;top:50%;width:7px;height:7px;border-radius:50%;background:var(--accent);transform:translateY(-50%)}
+.journey{gap:5px;border-left:3px solid color-mix(in srgb,var(--accent),white 12%);padding-left:11px;margin-left:10px}
+.stop-btn{grid-template-columns:30px 1fr auto;gap:7px;padding:7px 9px;border-color:#bcc7ce;box-shadow:1px 1px 0 #9daab344}
+.stop-btn:hover{transform:translateX(1px)}
+.stop-btn:before{left:-17px;width:9px;height:9px;border:3px solid var(--accent);background:var(--paper2);box-shadow:0 0 0 2px var(--paper)}
+.stop-btn strong{font-size:11px}
+.stop-btn b{font-size:10.5px}
+.stop-btn small{font-size:6.7px}
+.transfer-btn{background:color-mix(in srgb,var(--purple),white 93%);border-color:color-mix(in srgb,var(--purple),white 70%)}
+.transfer-btn:before{left:-18px;width:10px;height:10px;border:0;background:var(--purple);box-shadow:0 0 0 2px var(--paper),0 0 0 3px var(--purple);border-radius:1px;transform:translateY(-50%) rotate(45deg)}
+
+/* solid wraparound location pointer */
+.index-wrap{padding-left:12px}
+.journey-marker{
+  --marker:#f2c64b!important;
+  left:-31px;
+  width:30px;
+  min-height:34px;
+  background:var(--gold);
+  border:2px solid #111a22;
+  border-right:0;
+  border-radius:8px 0 0 8px;
+  box-shadow:0 4px 12px #00000035;
+  filter:none;
+  transition:transform .38s cubic-bezier(.2,.8,.2,1),height .25s;
+}
+.journey-marker:before{content:"";position:absolute;inset:4px 4px 4px 5px;border-left:2px solid #111a22;border-top:2px solid #111a22;border-bottom:2px solid #111a22;border-radius:5px 0 0 5px;opacity:.28}
+.journey-marker:after{
+  content:"";
+  position:absolute;
+  right:-14px;top:50%;
+  width:0;height:0;
+  border-top:10px solid transparent;
+  border-bottom:10px solid transparent;
+  border-left:14px solid var(--gold);
+  transform:translateY(-50%);
+  background:transparent;
+}
+.journey-marker span{left:50%;top:50%;transform:translate(-50%,-50%) rotate(-90deg);transform-origin:center;letter-spacing:.08em;color:#111a22;font-size:6.8px}
+
+/* simplify the page labels a touch */
+.covermark{border-bottom-width:2px;padding-bottom:11px;margin-bottom:13px}
+.covermark b{font-size:16px}
+.covermark small{font-size:7.5px}
+.legend-note{border-top:1px dashed var(--rule);font-size:7.5px}
+
+/* ===== Seoul Midnight v6 · clip marker, checkpoints, readable type, final exam ===== */
+/* Left index type is intentionally larger and cleaner. */
+.journey-head span{font-size:9px}
+.line-label{font-size:9px;letter-spacing:.09em;color:#354956;margin-left:8px}
+.stop-btn{grid-template-columns:31px 1fr auto;gap:8px;padding:8px 10px;min-height:43px}
+.stop-btn strong{font-size:12.5px;line-height:1}
+.stop-btn b{font-size:12px;line-height:1.18}
+.stop-btn small{font-size:8.5px;line-height:1.1}
+.legend-note{font-size:9px;line-height:1.5}
+.covermark small{font-size:8.5px}
+.page-kicker{font-size:9.5px}
+.status-chip{font-size:9.5px;padding:8px 10px}
+.station-strip>p{font-size:14px;line-height:1.55}
+.station-meta small{font-size:8.5px}.station-meta b{font-size:11.5px}
+.ticket-stub small,.exam-stub small{font-size:9px}.ticket-stub strong,.exam-stub strong{font-size:12px}
+.field-guide h4,.learning h4,.support-head h4{font-size:10px}
+.field-guide li{font-size:12.5px;line-height:1.4}
+.learn b{font-size:12px}.learn small{font-size:9px}
+.support-head small{font-size:8.5px}.support-btn b{font-size:10px}.support-btn small{font-size:8.5px}.support-panel{font-size:12px}.support-panel b{font-size:12px}
+
+/* Put every station node dead-center on its line. */
+.journey{position:relative;border-left:0;padding-left:14px;margin-left:10px}
+.journey:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
+.stop-btn:before{left:-20px;width:10px;height:10px;border:3px solid var(--accent);box-shadow:0 0 0 2px var(--paper);z-index:2}
+.transfer-btn:before{left:-19px;width:10px;height:10px;box-shadow:0 0 0 2px var(--paper),0 0 0 3px var(--purple)}
+
+/* Solid clip arrow: hangs over the actual book edge; no text label. */
+.index-wrap{padding-left:12px}
+.journey-marker{
+  --marker:#f2c64b!important;
+  left:-50px;
+  width:43px;
+  min-height:36px;
+  background:var(--gold);
+  border:2px solid #111a22;
+  border-right:0;
+  border-radius:7px 0 0 7px;
+  box-shadow:0 5px 12px #0005;
+  filter:none;
+  overflow:visible;
+}
+.journey-marker:before{
+  content:"";position:absolute;right:-19px;top:50%;transform:translateY(-50%);
+  width:0;height:0;border-top:13px solid transparent;border-bottom:13px solid transparent;border-left:19px solid #111a22;
+  border-radius:0;opacity:1;
+}
+.journey-marker:after{
+  content:"";position:absolute;right:-16px;top:50%;transform:translateY(-50%);
+  width:0;height:0;border-top:11px solid transparent;border-bottom:11px solid transparent;border-left:17px solid var(--gold);
+  background:transparent;
+}
+.journey-marker span{display:none!important}
+
+/* Exam checkpoint language + stronger checkpoint row. */
+.transfer-btn{background:color-mix(in srgb,var(--purple),white 91%)}
+.transfer-btn b{font-weight:900}.transfer-btn small{letter-spacing:.04em}
+
+/* Station 05 can legitimately carry five punches. */
+.stub-dots{grid-template-columns:repeat(2,18px);align-content:end}
+
+/* Big cumulative destination in the index. */
+.final-index{position:relative;margin:18px 0 2px;padding-top:13px;border-top:2px solid #1a2630}
+.final-btn{--accent:var(--gold);min-height:61px;background:#111a22;color:#fff;border:2px solid #111a22;box-shadow:4px 4px 0 var(--gold);grid-template-columns:42px 1fr auto;padding:10px 12px}
+.final-btn:hover,.final-btn.active{background:#172431;color:#fff}
+.final-btn:before{left:-20px;width:15px;height:15px;border:3px solid #111a22;background:var(--gold);box-shadow:0 0 0 2px var(--paper)}
+.final-btn strong{width:33px;height:33px;border-radius:50%;display:grid;place-items:center;background:var(--gold);color:#111a22;font-size:14px}
+.final-btn b{font:950 18px/1 var(--head);letter-spacing:-.02em}.final-btn small{font-size:8.5px;color:#f4de94}
+
+/* Final exam destination ticket. */
+.final-page-top{border-bottom-color:#111a22}.final-status{--accent:var(--gold);background:#111a22;color:var(--gold);border-color:#111a22}
+.final-strip{--accent:var(--gold)}.final-pocket{background:#aebbc5}
+.final-ticket{--accent:var(--gold);background:#fff9e8;border-color:#111a22;box-shadow:10px 10px 0 var(--gold)}
+.final-stub{background:#172431;color:#fff;border-right-color:#a9985d}.final-stub small{color:#d9e4ec}.final-stub strong{color:var(--gold)}
+.final-emblem{width:68px;height:68px;border-radius:50%;display:grid;place-items:center;background:var(--gold);color:#111a22;border:3px solid #111a22;font:950 10px var(--head);margin:5px 0 12px}
+.final-main .top{border-bottom-color:#111a22}.final-main .top small{color:#79651c}.final-main h3{font-size:36px;color:#111a22}
+.final-callout{margin:13px 0;background:#111a22;color:#fff;border-left:7px solid var(--gold);padding:13px 15px;display:grid;gap:3px}.final-callout b{font-size:15px}.final-callout span{font-size:12px;color:#d8e3ea}
+.final-tail{background:#f3e8bf;border-left-color:#b9a668}.final-support{--accent:#b18b16}
+
+@media(max-width:1080px){.journey-marker{display:none}.final-btn:before{left:-17px}}
+@media(max-width:800px){.stop-btn b{font-size:12.5px}.stop-btn small{font-size:9px}.final-btn b{font-size:16px}}
+
+</style>
 </head>
-
 <body>
+<div class="desk">
+<header class="mast"><div><div class="eyebrow">ISYS 10303 · Business Statistics</div><h1>Seoul Midnight Passport</h1><span class="edition">FIELD PASSPORT · MIDNIGHT EDITION</span></div></header>
+<main class="book">
+<aside class="left-page"><div class="covermark compact-cover"><div><b>STATISTICS FIELD PASSPORT</b><small>QUESTION → EVIDENCE → INTERPRETATION → DECISION</small></div></div><div class="journey-head"><h2>Journey index</h2><span id="overallProgress">0 / 9 stations validated</span></div><div class="index-wrap"><div class="journey-marker" id="journeyMarker" aria-hidden="true"></div><div class="line-groups" id="journeyIndex"></div></div><div class="legend-note">Red, blue, and green mark the three course lines. Purple diamonds are exam checkpoints. Complete every punch on a station ticket to validate it.</div></aside>
+<section class="right-page" id="activePage"></section>
+</main></div><footer>ISYS 10303 · FIELD PASSPORT · KEEP THE QUESTION IN CONTEXT</footer>
+<script>
+/*
+=======================================================================
+  EDIT YOUR HTML LINKS HERE — THIS IS THE ONLY SECTION YOU NEED TO EDIT
+  1. Upload the new HTML file to the same GitHub folder as index.html.
+  2. Replace # with its exact filename (case-sensitive).
+  3. Change false to true to make the link clickable.
+  For a subfolder use e.g. "labs/My_New_Lab.html".
+  Keep the quotation marks. No other edits are needed.
+=======================================================================
+*/
+const FILE_LINKS = {
+  // STATION 01 — Sampling & Data
+  s01_1: { file: "#", live: false }, // Pre-lecture investigation
+  s01_2: { file: "#", live: false }, // Interactive lecture
+  s01_3: { file: "#", live: false }, // Lab walkthrough
+  s01_4: { file: "#", live: false }, // Exam-style quiz
+  // STATION 02 — Data Summarization
+  s02_1: { file: "#", live: false }, // Pre-lecture investigation
+  s02_2: { file: "#", live: false }, // Interactive lecture
+  s02_3: { file: "#", live: false }, // Lab walkthrough
+  s02_4: { file: "#", live: false }, // Exam-style quiz
+  // STATION 03 — Probability & Normality
+  s03_1: { file: "#", live: false }, // Pre-lecture investigation
+  s03_2: { file: "#", live: false }, // Interactive lecture
+  s03_3: { file: "#", live: false }, // Lab walkthrough
+  s03_4: { file: "#", live: false }, // Exam-style quiz
+  // STATION 04 — CLT & Confidence Intervals
+  s04_1: { file: "#", live: false }, // Pre-lecture investigation
+  s04_2: { file: "#", live: false }, // Interactive lecture
+  s04_3: { file: "#", live: false }, // Lab walkthrough
+  s04_4: { file: "#", live: false }, // Exam-style quiz
+  // STATION 05 — 1-Sample Means & Matched Pairs
+  s05_1: { file: "#", live: false }, // Pre-lecture investigation
+  s05_2: { file: "#", live: false }, // Interactive lecture
+  s05_3: { file: "#", live: false }, // 1-Sample Means Walkthrough
+  s05_4: { file: "Matched_Pairs_Lab.html", live: true }, // Matched Pairs Walkthrough
+  s05_5: { file: "#", live: false }, // Exam-style quiz
+  // STATION 06 — 2-Sample Means
+  s06_1: { file: "#", live: false }, // Pre-lecture investigation
+  s06_2: { file: "Two_Sample_Meteorite.html", live: true }, // Meteorite Mission
+  s06_3: { file: "#", live: false }, // Lab walkthrough
+  s06_4: { file: "#", live: false }, // Exam-style quiz
+  // STATION 07 — ANOVA
+  s07_1: { file: "#", live: false }, // Pre-lecture investigation
+  s07_2: { file: "#", live: false }, // SignalPeak Interactive Lecture
+  s07_3: { file: "#", live: false }, // Lab walkthrough
+  s07_4: { file: "#", live: false }, // Exam-style quiz
+  // STATION 08 — Regression
+  s08_1: { file: "#", live: false }, // Pre-lecture investigation
+  s08_2: { file: "#", live: false }, // Interactive lecture
+  s08_3: { file: "#", live: false }, // Lab walkthrough
+  s08_4: { file: "#", live: false }, // Exam-style quiz
+  // STATION 09 — Chi-Square & Proportions
+  s09_1: { file: "#", live: false }, // Pre-lecture investigation
+  s09_2: { file: "#", live: false }, // Interactive lecture
+  s09_3: { file: "#", live: false }, // Lab walkthrough
+  s09_4: { file: "#", live: false }, // Exam-style quiz
+  // EXAM 1
+  exam1_1: { file: "Exam_1_Practice.html", live: true }, // Practice A
+  exam1_2: { file: "Exam_1_Practice_02.html", live: true }, // Practice B
+  // EXAM 2
+  exam2_1: { file: "#", live: false }, // Practice A
+  exam2_2: { file: "#", live: false }, // Practice B
+  // EXAM 3
+  exam3_1: { file: "#", live: false }, // Practice A
+  exam3_2: { file: "#", live: false }, // Practice B
+  // FINAL EXAM
+  final_review: { file: "#", live: false },
+  final_practice: { file: "#", live: false },
+};
 
-    <h1>ISYS 10303 Interactive Apps</h1>
-
-    <p>Select an activity below to begin.</p>
-
-    <ul>
-        <li>
-            <a href="Matched_Pairs_Lab.html">
-                Matched Pairs Lab
-            </a>
-        </li>
-    </ul>
-     <ul>
-        <li>
-            <a href="Exam_1_Practice.html">
-                Exam 1 Review
-            </a>
-        </li>
-    </ul>
-     <ul>
-        <li>
-            <a href="Exam_1_Practice_02.html">
-                Exam 1 Review_02
-            </a>
-        </li>
-    </ul>
-     <ul>
-        <li>
-            <a href="Two_Sample_Meteorite.html">
-               2 Sample Means
-            </a>
-        </li>
-    </ul>
-     <ul>
-        <li>
-            <a href="Two_Sample_Lab.html">
-               2 Sample Means Lab
-            </a>
-        </li>
-    </ul>
-  <ul>
-        <li>
-            <a href="07_02_Regression_Interactive_Lecture_v21_Slopes_and_Executive_Decisions.html">
-               Regression Lecture
-            </a>
-        </li>
-    </ul>
-
-    
-
-</body>
-</html>
+const DATA=[{"num":"01","title":"Sampling & Data","unit":"Unit 1","line":"FOUNDATIONS","lineCode":"A","ideas":["Population, sample, parameter, and statistic","Observational units and variables","Categorical vs. quantitative data","Random sampling vs. random assignment","Bias, confounding, and limits of generalization"],"links":[["Pre-lecture investigation","__LINK_s01_1__",false,"EXPLORE"],["Interactive lecture","__LINK_s01_2__",false,"BUILD"],["Lab walkthrough","__LINK_s01_3__",false,"PRACTICE"],["Exam-style quiz","__LINK_s01_4__",false,"CHECK"]]},{"num":"02","title":"Data Summarization","unit":"Unit 1","line":"FOUNDATIONS","lineCode":"A","ideas":["Mean, median, standard deviation, and IQR","Histograms, boxplots, and bar charts","Center, spread, shape, and unusual observations","Skewness and resistant summaries","Choose summaries that fit the variable type"],"links":[["Pre-lecture investigation","__LINK_s02_1__",false,"EXPLORE"],["Interactive lecture","__LINK_s02_2__",false,"BUILD"],["Lab walkthrough","__LINK_s02_3__",false,"PRACTICE"],["Exam-style quiz","__LINK_s02_4__",false,"CHECK"]]},{"num":"03","title":"Probability & Normality","unit":"Unit 1","line":"FOUNDATIONS","lineCode":"A","ideas":["Probability rules and complements","Conditional probability and independence","Normal distributions","z-scores and areas under the curve","Write probability statements in context"],"links":[["Pre-lecture investigation","__LINK_s03_1__",false,"EXPLORE"],["Interactive lecture","__LINK_s03_2__",false,"BUILD"],["Lab walkthrough","__LINK_s03_3__",false,"PRACTICE"],["Exam-style quiz","__LINK_s03_4__",false,"CHECK"]]},{"num":"04","title":"CLT & Confidence Intervals","unit":"Unit 2","line":"INFERENCE","lineCode":"B","ideas":["Sampling distributions","Standard error","Central Limit Theorem","Confidence level and margin of error","Interpret confidence intervals in context"],"links":[["Pre-lecture investigation","__LINK_s04_1__",false,"EXPLORE"],["Interactive lecture","__LINK_s04_2__",false,"BUILD"],["Lab walkthrough","__LINK_s04_3__",false,"PRACTICE"],["Exam-style quiz","__LINK_s04_4__",false,"CHECK"]]},{"num":"05","title":"1-Sample Means & Matched Pairs","unit":"Unit 2","line":"INFERENCE","lineCode":"B","ideas":["One-sample t procedures","Matched-pairs design and difference scores","Null and alternative hypotheses","α, p-values, Type I and Type II errors","Statistical vs. practical significance"],"links":[["Pre-lecture investigation","__LINK_s05_1__",false,"EXPLORE"],["Interactive lecture","__LINK_s05_2__",false,"BUILD"],["1-Sample Means Walkthrough","__LINK_s05_3__",false,"PRACTICE"],["Matched Pairs Walkthrough","__LINK_s05_4__",false,"PRACTICE"],["Exam-style quiz","__LINK_s05_5__",false,"CHECK"]]},{"num":"06","title":"2-Sample Means","unit":"Unit 2","line":"INFERENCE","lineCode":"B","ideas":["Two independent groups + one quantitative response","Difference in population means","Welch vs. equal-variance t procedures","Hypotheses, α, p-values, and error consequences","Confidence intervals and practical significance"],"links":[["Pre-lecture investigation","__LINK_s06_1__",false,"EXPLORE"],["Meteorite Mission","__LINK_s06_2__",false,"BUILD"],["Lab walkthrough","__LINK_s06_3__",false,"PRACTICE"],["Exam-style quiz","__LINK_s06_4__",false,"CHECK"]]},{"num":"07","title":"ANOVA","unit":"Unit 3","line":"MODELS","lineCode":"C","ideas":["One quantitative response + one multi-level group","Omnibus hypotheses: all means equal vs. not all equal","Between-group vs. within-group variation","ANOVA assumptions and Welch ANOVA","Pairwise confidence intervals and practical meaning"],"links":[["Pre-lecture investigation","__LINK_s07_1__",false,"EXPLORE"],["SignalPeak Interactive Lecture","__LINK_s07_2__",false,"BUILD"],["Lab walkthrough","__LINK_s07_3__",false,"PRACTICE"],["Exam-style quiz","__LINK_s07_4__",false,"CHECK"]]},{"num":"08","title":"Regression","unit":"Unit 3","line":"MODELS","lineCode":"C","ideas":["Simple and multiple regression business questions","Quantitative responses with numeric and categorical predictors","Slope, intercept, and dummy-variable coefficients in context","R², adjusted R², residuals, and model assumptions","Inference, prediction, and business decisions from the fitted model"],"links":[["Pre-lecture investigation","__LINK_s08_1__",false,"EXPLORE"],["Interactive lecture","__LINK_s08_2__",false,"BUILD"],["Lab walkthrough","__LINK_s08_3__",false,"PRACTICE"],["Exam-style quiz","__LINK_s08_4__",false,"CHECK"]]},{"num":"09","title":"Chi-Square & Proportions","unit":"Unit 3","line":"MODELS","lineCode":"C","ideas":["Population and sample proportions","One- and two-proportion inference","Observed vs. expected counts","Chi-square tests of independence","Association vs. causation"],"links":[["Pre-lecture investigation","__LINK_s09_1__",false,"EXPLORE"],["Interactive lecture","__LINK_s09_2__",false,"BUILD"],["Lab walkthrough","__LINK_s09_3__",false,"PRACTICE"],["Exam-style quiz","__LINK_s09_4__",false,"CHECK"]]}];
+const EXAMS=[{"code":"X1","title":"Exam 1 Checkpoint","coverage":"Stations 01–03","links":[["Practice A","__LINK_exam1_1__",false],["Practice B","__LINK_exam1_2__",false]]},{"code":"X2","title":"Exam 2 Checkpoint","coverage":"Stations 04–06","links":[["Practice A","__LINK_exam2_1__",false],["Practice B","__LINK_exam2_2__",false]]},{"code":"X3","title":"Exam 3 Checkpoint","coverage":"Stations 07–09","links":[["Practice A","__LINK_exam3_1__",false],["Practice B","__LINK_exam3_2__",false]]}];
+// Apply the easy-to-edit links above to the existing page data.
+DATA[0].links[0][1] = FILE_LINKS.s01_1.file; DATA[0].links[0][2] = FILE_LINKS.s01_1.live;
+DATA[0].links[1][1] = FILE_LINKS.s01_2.file; DATA[0].links[1][2] = FILE_LINKS.s01_2.live;
+DATA[0].links[2][1] = FILE_LINKS.s01_3.file; DATA[0].links[2][2] = FILE_LINKS.s01_3.live;
+DATA[0].links[3][1] = FILE_LINKS.s01_4.file; DATA[0].links[3][2] = FILE_LINKS.s01_4.live;
+DATA[1].links[0][1] = FILE_LINKS.s02_1.file; DATA[1].links[0][2] = FILE_LINKS.s02_1.live;
+DATA[1].links[1][1] = FILE_LINKS.s02_2.file; DATA[1].links[1][2] = FILE_LINKS.s02_2.live;
+DATA[1].links[2][1] = FILE_LINKS.s02_3.file; DATA[1].links[2][2] = FILE_LINKS.s02_3.live;
+DATA[1].links[3][1] = FILE_LINKS.s02_4.file; DATA[1].links[3][2] = FILE_LINKS.s02_4.live;
+DATA[2].links[0][1] = FILE_LINKS.s03_1.file; DATA[2].links[0][2] = FILE_LINKS.s03_1.live;
+DATA[2].links[1][1] = FILE_LINKS.s03_2.file; DATA[2].links[1][2] = FILE_LINKS.s03_2.live;
+DATA[2].links[2][1] = FILE_LINKS.s03_3.file; DATA[2].links[2][2] = FILE_LINKS.s03_3.live;
+DATA[2].links[3][1] = FILE_LINKS.s03_4.file; DATA[2].links[3][2] = FILE_LINKS.s03_4.live;
+DATA[3].links[0][1] = FILE_LINKS.s04_1.file; DATA[3].links[0][2] = FILE_LINKS.s04_1.live;
+DATA[3].links[1][1] = FILE_LINKS.s04_2.file; DATA[3].links[1][2] = FILE_LINKS.s04_2.live;
+DATA[3].links[2][1] = FILE_LINKS.s04_3.file; DATA[3].links[2][2] = FILE_LINKS.s04_3.live;
+DATA[3].links[3][1] = FILE_LINKS.s04_4.file; DATA[3].links[3][2] = FILE_LINKS.s04_4.live;
+DATA[4].links[0][1] = FILE_LINKS.s05_1.file; DATA[4].links[0][2] = FILE_LINKS.s05_1.live;
+DATA[4].links[1][1] = FILE_LINKS.s05_2.file; DATA[4].links[1][2] = FILE_LINKS.s05_2.live;
+DATA[4].links[2][1] = FILE_LINKS.s05_3.file; DATA[4].links[2][2] = FILE_LINKS.s05_3.live;
+DATA[4].links[3][1] = FILE_LINKS.s05_4.file; DATA[4].links[3][2] = FILE_LINKS.s05_4.live;
+DATA[4].links[4][1] = FILE_LINKS.s05_5.file; DATA[4].links[4][2] = FILE_LINKS.s05_5.live;
+DATA[5].links[0][1] = FILE_LINKS.s06_1.file; DATA[5].links[0][2] = FILE_LINKS.s06_1.live;
+DATA[5].links[1][1] = FILE_LINKS.s06_2.file; DATA[5].links[1][2] = FILE_LINKS.s06_2.live;
+DATA[5].links[2][1] = FILE_LINKS.s06_3.file; DATA[5].links[2][2] = FILE_LINKS.s06_3.live;
+DATA[5].links[3][1] = FILE_LINKS.s06_4.file; DATA[5].links[3][2] = FILE_LINKS.s06_4.live;
+DATA[6].links[0][1] = FILE_LINKS.s07_1.file; DATA[6].links[0][2] = FILE_LINKS.s07_1.live;
+DATA[6].links[1][1] = FILE_LINKS.s07_2.file; DATA[6].links[1][2] = FILE_LINKS.s07_2.live;
+DATA[6].links[2][1] = FILE_LINKS.s07_3.file; DATA[6].links[2][2] = FILE_LINKS.s07_3.live;
+DATA[6].links[3][1] = FILE_LINKS.s07_4.file; DATA[6].links[3][2] = FILE_LINKS.s07_4.live;
+DATA[7].links[0][1] = FILE_LINKS.s08_1.file; DATA[7].links[0][2] = FILE_LINKS.s08_1.live;
+DATA[7].links[1][1] = FILE_LINKS.s08_2.file; DATA[7].links[1][2] = FILE_LINKS.s08_2.live;
+DATA[7].links[2][1] = FILE_LINKS.s08_3.file; DATA[7].links[2][2] = FILE_LINKS.s08_3.live;
+DATA[7].links[3][1] = FILE_LINKS.s08_4.file; DATA[7].links[3][2] = FILE_LINKS.s08_4.live;
+DATA[8].links[0][1] = FILE_LINKS.s09_1.file; DATA[8].links[0][2] = FILE_LINKS.s09_1.live;
+DATA[8].links[1][1] = FILE_LINKS.s09_2.file; DATA[8].links[1][2] = FILE_LINKS.s09_2.live;
+DATA[8].links[2][1] = FILE_LINKS.s09_3.file; DATA[8].links[2][2] = FILE_LINKS.s09_3.live;
+DATA[8].links[3][1] = FILE_LINKS.s09_4.file; DATA[8].links[3][2] = FILE_LINKS.s09_4.live;
+EXAMS[0].links[0][1] = FILE_LINKS.exam1_1.file; EXAMS[0].links[0][2] = FILE_LINKS.exam1_1.live;
+EXAMS[0].links[1][1] = FILE_LINKS.exam1_2.file; EXAMS[0].links[1][2] = FILE_LINKS.exam1_2.live;
+EXAMS[1].links[0][1] = FILE_LINKS.exam2_1.file; EXAMS[1].links[0][2] = FILE_LINKS.exam2_1.live;
+EXAMS[1].links[1][1] = FILE_LINKS.exam2_2.file; EXAMS[1].links[1][2] = FILE_LINKS.exam2_2.live;
+EXAMS[2].links[0][1] = FILE_LINKS.exam3_1.file; EXAMS[2].links[0][2] = FILE_LINKS.exam3_1.live;
+EXAMS[2].links[1][1] = FILE_LINKS.exam3_2.file; EXAMS[2].links[1][2] = FILE_LINKS.exam3_2.live;
+const COLORS={A:'#e45d60',B:'#3589a8',C:'#4b986e'};
+const META=[
+['Start here','30–40 min','Learn how a sample becomes evidence about a larger population.'],
+['Sampling & Data','30–40 min','Turn raw observations into useful summaries and displays before making claims.'],
+['Data Summarization','30–40 min','Use probability and Normal models to describe uncertainty and unusual outcomes.'],
+['Probability + Normality','35–45 min','Understand why sample statistics vary and how intervals quantify plausible values.'],
+['CLT + CI','35–45 min','Test one population mean or a mean change when observations are paired.'],
+['1-sample / matched pairs','40–50 min','Compare two independent population means and decide whether the difference matters.'],
+['Two-sample means','40–50 min','Compare three or more population means using signal relative to noise.'],
+['ANOVA','40–50 min','Model and predict a quantitative response using simple, multiple, and categorical predictors.'],
+['Probability + HT logic','35–45 min','Analyze categorical outcomes using proportions, expected counts, and evidence of association.']
+];
+const SUPPORT=[
+  {video:'',pdf:'',help:'',hints:['Separate the population from the sample before interpreting any statistic.','Random sampling supports generalization; random assignment supports causal claims.']},
+  {video:'',pdf:'',help:'',hints:['Match the display and summary to the variable type before calculating anything.','For strong skew or outliers, compare resistant summaries such as the median and IQR.']},
+  {video:'',pdf:'',help:'',hints:['Translate the context into an event before using a probability rule.','For Normal models, check the z-score sign and which tail or middle area the question asks for.']},
+  {video:'',pdf:'',help:'',hints:['Keep a population distribution, a sample, and a sampling distribution conceptually separate.','A confidence interval estimates a population parameter—not where a fixed percentage of individual observations fall.']},
+  {video:'',pdf:'',help:'',hints:['Ask first whether the observations are paired or independent.','For matched pairs, define the difference direction before writing hypotheses or interpreting the sign.']},
+  {video:'',pdf:'',help:'',hints:['Define Group 1 minus Group 2 before interpreting the sign of a difference or confidence interval.','Use the test output that matches the variance assumption; do not choose a row only because its p-value is smaller.']},
+  {video:'',pdf:'',help:'',hints:['Start with the global ANOVA question: is there evidence that at least one mean differs?','A significant omnibus test does not tell you which groups differ; use the planned pairwise evidence next.']},
+  {video:'',pdf:'',help:'',hints:['Identify the response first, then separate numeric predictors from categorical predictors.','Interpret dummy-variable coefficients relative to the reference category and check residual behavior before trusting predictions.']},
+  {video:'',pdf:'',help:'',hints:['Chi-square procedures use counts in categories; proportions are derived from those counts.','Evidence of association does not by itself establish causation.']}
+];
+const SUPPORT_LABELS={video:'VIDEO',hints:'HINTS',pdf:'PDF GUIDE',help:'EXTRA HELP'};
+function supportPanelMarkup(kind,i,isExam=false){
+  if(isExam){
+    if(kind==='hints') return '<b>Exam-checkpoint hints</b><ul><li>Identify the design before choosing an output.</li><li>Use the evidence that answers the stakeholder question, not the statistic that merely looks familiar.</li><li>Finish with a contextual decision, not just “reject” or “fail to reject.”</li></ul>';
+    if(kind==='video') return '<b>Video review slot</b><p>Reserved for a short mixed-review video for this exam block.</p>';
+    if(kind==='pdf') return '<b>PDF review slot</b><p>Reserved for a printable exam review sheet, formula guide, or worked-example packet.</p>';
+    return '<b>Extra help</b><p>Reserved for office hours, tutoring, LMS help, or another support destination.</p>';
+  }
+  const r=SUPPORT[i];
+  if(kind==='hints') return '<b>Quick hints</b><ul>'+r.hints.map(x=>'<li>'+x+'</li>').join('')+'</ul>';
+  const url=r[kind];
+  if(kind==='video') return url?'<b>Video recap</b><p><a class="support-link" href="'+url+'">Open station video →</a></p>':'<b>Video recap slot</b><p>Add the station video URL in the <code>SUPPORT</code> object. This space is ready for a short recap or worked example.</p>';
+  if(kind==='pdf') return url?'<b>PDF / quick guide</b><p><a class="support-link" href="'+url+'">Open PDF guide →</a></p>':'<b>PDF / quick guide slot</b><p>Add a PDF URL in the <code>SUPPORT</code> object for a formula sheet, quick reference, or worked example.</p>';
+  return url?'<b>Extra help</b><p><a class="support-link" href="'+url+'">Open help resource →</a></p>':'<b>Extra help slot</b><p>Add an office-hours, tutoring, LMS, or support link in the <code>SUPPORT</code> object.</p>';
+}
+const storeKey='isys-field-passport-v3';
+let progress=loadProgress(), current={type:'station',index:0};
+const indexEl=document.getElementById('journeyIndex'), page=document.getElementById('activePage'), marker=document.getElementById('journeyMarker');
+function loadProgress(){try{return JSON.parse(localStorage.getItem(storeKey)||'{}')}catch(e){return {}}}
+function saveProgress(){localStorage.setItem(storeKey,JSON.stringify(progress))}
+function arr(i){
+  const n=DATA[i].links.length;
+  const stored=Array.isArray(progress[i])?progress[i].slice(0,n):[];
+  while(stored.length<n) stored.push(false);
+  return stored;
+}
+function done(i){return arr(i).filter(Boolean).length}
+function totalPunches(i){return DATA[i].links.length}
+function validated(i){return done(i)===totalPunches(i)}
+function groupMarkup(line,label,start,end,exam){
+  let h=`<section class="line-group" style="--accent:${COLORS[line]}"><div class="line-label"><i></i>LINE ${line} · ${label}</div><div class="journey">`;
+  for(let i=start;i<=end;i++){
+    h+=`<button class="stop-btn ${current.type==='station'&&current.index===i?'active':''} ${validated(i)?'complete':''}" data-kind="station" data-i="${i}" style="--accent:${COLORS[line]}"><strong>${DATA[i].num}</strong><b>${DATA[i].title}</b><small>${done(i)}/${totalPunches(i)}</small></button>`;
+  }
+  h+=`<button class="stop-btn transfer-btn ${current.type==='exam'&&current.index===exam?'active':''}" data-kind="exam" data-i="${exam}"><strong>${EXAMS[exam].code}</strong><b>${EXAMS[exam].title}</b><small>CHECKPOINT</small></button></div></section>`;
+  return h;
+}
+function finalMarkup(){
+  return `<section class="final-index"><button class="stop-btn final-btn ${current.type==='final'?'active':''}" data-kind="final" data-i="0"><strong>F</strong><b>FINAL EXAM</b><small>ALL 09 STATIONS</small></button></section>`;
+}
+function buildIndex(){
+  indexEl.innerHTML=groupMarkup('A','FOUNDATIONS',0,2,0)+groupMarkup('B','INFERENCE',3,5,1)+groupMarkup('C','MODELS',6,8,2)+finalMarkup();
+  indexEl.querySelectorAll('button').forEach(b=>b.onclick=()=>show(b.dataset.kind,+b.dataset.i));
+  document.getElementById('overallProgress').textContent=DATA.filter((_,i)=>validated(i)).length+' / 9 stations validated';
+  requestAnimationFrame(updateMarker);
+}
+function updateMarker(){
+  const active=indexEl.querySelector('.stop-btn.active');if(!active)return;
+  const wrap=document.querySelector('.index-wrap').getBoundingClientRect(),r=active.getBoundingClientRect();
+  marker.style.height=(r.height+6)+'px';
+  marker.style.transform=`translateY(${r.top-wrap.top-3}px)`;
+}
+function show(kind,i){
+  current={type:kind,index:i};buildIndex();
+  if(kind==='station')renderStation(i);else if(kind==='exam')renderExam(i);else renderFinal();
+}
+function renderStation(i){
+  const d=DATA[i],accent=COLORS[d.lineCode],p=arr(i),m=META[i];
+  page.style.setProperty('--accent',accent);
+  page.innerHTML=`
+    <div class="page-top compact-page-top">
+      <div><div class="page-kicker">${d.unit} · LINE ${d.lineCode} · ${d.line}</div><h2 class="page-title">${d.num} · ${d.title}</h2></div>
+      <div class="status-chip ${validated(i)?'validated':''}">${validated(i)?'VALIDATED':done(i)+' / '+totalPunches(i)+' PUNCHED'}</div>
+    </div>
+    <div class="station-strip">
+      <p>${m[2]}</p>
+      <div class="station-meta"><span><small>KNOW FIRST</small><b>${m[0]}</b></span><span><small>SUGGESTED TRIP</small><b>${m[1]}</b></span></div>
+    </div>
+    <div class="ticket-pocket">
+      <article class="ticket" style="--accent:${accent}">
+        <aside class="ticket-stub"><div class="stub-line">${d.lineCode}</div><small>LEARNING TICKET</small><strong>STN ${d.num}</strong><small>CLICK PUNCHES TO VALIDATE</small><div class="stub-dots">${p.map((v,j)=>`<button class="punch-dot ${v?'done':''}" data-punch="${j}" aria-label="Mark ${d.links[j][3]} complete"></button>`).join('')}</div></aside>
+        <div class="ticket-main">
+          <div class="ticket-topline"><div><small>${d.unit.toUpperCase()} · LINE ${d.lineCode}</small><h3>${d.title}</h3></div><small class="route-id">ROUTE ${d.lineCode}-${d.num}</small></div>
+          <div class="ticket-grid">
+            <section class="field-guide"><h4>FIELD GUIDE · MAIN IDEAS</h4><ul>${d.ideas.map(x=>'<li>'+x+'</li>').join('')}</ul></section>
+            <section class="learning"><h4>TICKET PUNCHES · LEARNING ROUTE</h4>${d.links.map((x,j)=>`<div class="learn ${x[2]?'live':'soon'}"><span class="learn-no">0${j+1}</span><span><b>${x[0]}</b><small>${x[3]} · ${x[2]?'BOARD NOW':'COMING SOON'}</small></span><em>${x[2]?'→':'—'}</em><button class="route-punch ${p[j]?'done':''}" data-punch="${j}" aria-label="Toggle completion"></button>${x[2]?`<a href="${x[1]}" data-route="${j}" aria-label="Open ${x[0]}" style="position:absolute;inset:0 34px 0 0"></a>`:''}</div>`).join('')}</section>
+          </div>
+          <section class="ticket-support">
+            <div class="support-head"><h4>HELP + SUPPORT</h4><small>optional resources when you need another route in</small></div>
+            <div class="support-row">${['video','hints','pdf','help'].map(k=>`<button type="button" class="support-btn" data-support="${k}"><b>${SUPPORT_LABELS[k]}</b><small>${k==='video'?'short recap':k==='hints'?'quick nudges':k==='pdf'?'print / reference':'office hours / tutoring'}</small></button>`).join('')}</div>
+            <div class="support-panel" id="supportPanel"></div>
+          </section>
+        </div>
+        <aside class="ticket-tail"><div class="barcode">ISYS10303 · ${d.num}</div></aside>
+      </article>
+    </div>`;
+  page.querySelectorAll('[data-punch]').forEach(b=>b.onclick=(e)=>{e.preventDefault();e.stopPropagation();let a=arr(i).slice(),j=+b.dataset.punch;a[j]=!a[j];progress[i]=a;saveProgress();show('station',i)});
+  page.querySelectorAll('[data-route]').forEach(a=>a.addEventListener('click',()=>{let p=arr(i).slice();p[+a.dataset.route]=true;progress[i]=p;saveProgress();}));
+  page.querySelectorAll('[data-support]').forEach(b=>b.onclick=()=>{const panel=document.getElementById('supportPanel'),same=panel.dataset.open===b.dataset.support;page.querySelectorAll('.support-btn').forEach(x=>x.classList.remove('active'));if(same){panel.classList.remove('show');panel.dataset.open='';return;}b.classList.add('active');panel.innerHTML=supportPanelMarkup(b.dataset.support,i,false);panel.dataset.open=b.dataset.support;panel.classList.add('show');});
+}
+function renderExam(i){
+  const e=EXAMS[i];page.style.setProperty('--accent','#8060a1');
+  page.innerHTML=`
+    <div class="page-top compact-page-top"><div><div class="page-kicker">EXAM CHECKPOINT · MIXED PRACTICE</div><h2 class="page-title">${e.code} · ${e.title}</h2></div><div class="status-chip transfer-status">${e.links.some(x=>x[2])?'BOARDING OPEN':'COMING SOON'}</div></div>
+    <div class="station-strip transfer-strip"><p>Pause here for mixed practice across the three stations in this exam block. Identify the design, choose the relevant evidence, and make the business decision.</p><div class="station-meta"><span><small>COVERAGE</small><b>${e.coverage}</b></span><span><small>PURPOSE</small><b>Integrated exam practice</b></span></div></div>
+    <div class="ticket-pocket"><article class="exam-ticket"><aside class="exam-stub"><div class="diamond"><b>${e.code}</b></div><small>EXAM CHECKPOINT</small><strong>${e.coverage}</strong><small>MIXED PRACTICE</small></aside><div class="exam-main"><div class="top"><small>CHECKPOINT · PRACTICE EXAM TICKET</small><h3>${e.title}</h3></div><div class="exam-links">${e.links.map(x=>`<a class="${x[2]?'':'off'}" href="${x[1]}"><span>${x[0]}</span><span>${x[2]?'BOARD →':'SOON'}</span></a>`).join('')}</div><section class="ticket-support exam-support"><div class="support-head"><h4>REVIEW + SUPPORT</h4><small>optional resources for the checkpoint</small></div><div class="support-row">${['video','hints','pdf','help'].map(k=>`<button type="button" class="support-btn" data-exam-support="${k}"><b>${SUPPORT_LABELS[k]}</b><small>${k==='video'?'mixed review':k==='hints'?'exam nudges':k==='pdf'?'review packet':'office hours / tutoring'}</small></button>`).join('')}</div><div class="support-panel" id="examSupportPanel"></div></section></div><aside class="exam-tail"><div class="barcode">CHECKPOINT · ${e.code}</div></aside></article></div>`;
+  page.querySelectorAll('[data-exam-support]').forEach(b=>b.onclick=()=>{const panel=document.getElementById('examSupportPanel'),same=panel.dataset.open===b.dataset.examSupport;page.querySelectorAll('[data-exam-support]').forEach(x=>x.classList.remove('active'));if(same){panel.classList.remove('show');panel.dataset.open='';return;}b.classList.add('active');panel.innerHTML=supportPanelMarkup(b.dataset.examSupport,i,true);panel.dataset.open=b.dataset.examSupport;panel.classList.add('show');});
+}
+function renderFinal(){
+  page.style.setProperty('--accent','#f2c64b');
+  page.innerHTML=`
+    <div class="page-top compact-page-top final-page-top"><div><div class="page-kicker">CUMULATIVE DESTINATION · ALL COURSE LINES</div><h2 class="page-title">FINAL EXAM</h2></div><div class="status-chip final-status">ALL 09 STATIONS</div></div>
+    <div class="station-strip final-strip"><p>Everything connects here: data, probability, uncertainty, inference, comparisons, modeling, and categorical analysis. Use this checkpoint to practice choosing the right method and defending the decision in context.</p><div class="station-meta"><span><small>COVERAGE</small><b>Stations 01–09</b></span><span><small>PURPOSE</small><b>Cumulative synthesis</b></span></div></div>
+    <div class="ticket-pocket final-pocket"><article class="exam-ticket final-ticket"><aside class="exam-stub final-stub"><div class="final-emblem">FINAL</div><small>CUMULATIVE EXAM</small><strong>01 → 09</strong><small>ALL COURSE LINES</small></aside><div class="exam-main final-main"><div class="top"><small>FINAL EXAM · CUMULATIVE PRACTICE TICKET</small><h3>Final Exam</h3></div><div class="final-callout"><b>One connected set of decisions.</b><span>Recognize the design → choose the evidence → interpret the result → make the business call.</span></div><div class="exam-links"><a class="${FILE_LINKS.final_review.live?'':'off'}" href="${FILE_LINKS.final_review.file}"><span>Final Review</span><span>${FILE_LINKS.final_review.live?'BOARD →':'SOON'}</span></a><a class="${FILE_LINKS.final_practice.live?'':'off'}" href="${FILE_LINKS.final_practice.file}"><span>Practice Final</span><span>${FILE_LINKS.final_practice.live?'BOARD →':'SOON'}</span></a></div><section class="ticket-support exam-support final-support"><div class="support-head"><h4>FINAL REVIEW + SUPPORT</h4><small>resources for cumulative review</small></div><div class="support-row">${['video','hints','pdf','help'].map(k=>`<button type="button" class="support-btn" data-final-support="${k}"><b>${SUPPORT_LABELS[k]}</b><small>${k==='video'?'cumulative review':k==='hints'?'exam strategy':k==='pdf'?'final review packet':'office hours / tutoring'}</small></button>`).join('')}</div><div class="support-panel" id="finalSupportPanel"></div></section></div><aside class="exam-tail final-tail"><div class="barcode">FINAL · ISYS10303</div></aside></article></div>`;
+  page.querySelectorAll('[data-final-support]').forEach(b=>b.onclick=()=>{
+    const panel=document.getElementById('finalSupportPanel'),same=panel.dataset.open===b.dataset.finalSupport;
+    page.querySelectorAll('[data-final-support]').forEach(x=>x.classList.remove('active'));
+    if(same){panel.classList.remove('show');panel.dataset.open='';return;}
+    b.classList.add('active');
+    const k=b.dataset.finalSupport;
+    if(k==='hints') panel.innerHTML='<b>Final-exam strategy</b><ul><li>Start by identifying the variable types and study design.</li><li>Decide whether the question is description, estimation, testing, comparison, association, or prediction.</li><li>Use the output that answers the business question, then interpret it in context.</li></ul>';
+    else if(k==='video') panel.innerHTML='<b>Cumulative review video</b><p>Reserved for a final-exam review video or playlist.</p>';
+    else if(k==='pdf') panel.innerHTML='<b>Final review PDF</b><p>Reserved for the cumulative quick-reference or review packet.</p>';
+    else panel.innerHTML='<b>Extra help</b><p>Reserved for office hours, tutoring, LMS review materials, or another final-exam support resource.</p>';
+    panel.dataset.open=k;panel.classList.add('show');
+  });
+}
+window.addEventListener('resize',()=>requestAnimationFrame(updateMarker));
+buildIndex();show('station',0);
+</script>
+</body></html>
