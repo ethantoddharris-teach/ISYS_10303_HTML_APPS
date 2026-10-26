@@ -1,0 +1,1124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lumen Children’s MRI Prep • ANOVA Lab v8 v7</title>
+<style>
+:root{
+  --guide:#17324d;--blue:#3f73aa;--jamblue:#3c73aa;--purple:#7356a1;
+  --ink:#202a33;--muted:#657782;--line:#d5dde3;--soft:#eef2f5;
+  --panel:#ececec;--resultbg:#eeeeee;--good:#216d50;--bad:#a84545;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:#edf1f4;color:var(--ink);font-family:Segoe UI,Arial,sans-serif}
+button,input{font:inherit}
+.hidden{display:none!important}
+.tophero{background:radial-gradient(circle at 87% 15%,#2e7d85 0,transparent 30%),linear-gradient(135deg,#102b42,#17324d 55%,#245b8a);color:#fff;padding:22px 20px 26px}
+.tophero>div{max-width:1540px;margin:auto}
+.eyebrow{font-size:10px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase;color:#8de1db}
+.tophero h1{margin:5px 0 7px;font-size:33px}
+.tophero p{margin:0;color:#eaf3fa;font-size:14px;line-height:1.5;max-width:1000px}
+.pills{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}.pill{background:#ffffff18;border:1px solid #ffffff30;border-radius:999px;padding:6px 9px;font-size:11px;font-weight:800}
+.casebar{max-width:1540px;margin:12px auto 0;padding:0 12px}.casecard{background:#fff;border:1px solid #d5e0e8;border-left:5px solid var(--purple);border-radius:13px;padding:13px 15px;box-shadow:0 4px 14px #17324d0b}.casehead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.casehead b{font-size:16px;color:var(--guide)}.casehead button{border:1px solid #cbd8e2;background:#f7fafc;border-radius:8px;padding:6px 9px;color:var(--guide);font-weight:850;cursor:pointer}.casebody{font-size:13px;line-height:1.55;color:#455c6d;margin-top:7px}.casebody.collapsed{display:none}.casefacts{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:10px}.casefacts div{background:#f7fafc;border:1px solid #dce5eb;border-radius:9px;padding:8px}.casefacts small{display:block;color:#778b98;font-size:8px;font-weight:900;text-transform:uppercase}.casefacts b{display:block;color:var(--guide);font-size:11px;margin-top:2px}.downloadbtn{margin-top:10px;border:0;border-radius:9px;background:#245b8a;color:white;padding:9px 12px;font-size:11.5px;font-weight:900;cursor:pointer}
+.shell{max-width:1540px;margin:12px auto;padding:0 12px 40px;display:grid;grid-template-columns:345px minmax(0,1fr);gap:12px;align-items:start}
+@media(max-width:1030px){.shell{grid-template-columns:1fr}.coach{position:static!important}}
+.coach{position:sticky;top:8px;background:#fff;border:1px solid #d7e0e6;border-radius:14px;padding:15px;box-shadow:0 6px 18px rgba(22,48,72,.08);z-index:300}
+.kicker{font-size:10px;font-weight:900;letter-spacing:.7px;text-transform:uppercase;color:#72539e}
+.coach h2{font-size:19px;margin:5px 0 6px;color:#17324d}
+.coach p{font-size:12.5px;line-height:1.5;color:#455c6d;margin:4px 0}
+.progress{height:7px;background:#e9edf0;border-radius:99px;margin:11px 0;overflow:hidden}
+.progress div{height:100%;background:#7356a1;transition:.2s}
+.missionbox{border:1px solid #dfd8e9;border-left:5px solid #7356a1;background:#fbfafd;border-radius:9px;padding:10px}
+.missionnum{font-size:10px;font-weight:900;text-transform:uppercase;color:#7356a1}
+.missionbox h3{font-size:15px;margin:4px 0;color:#17324d}
+.target{font-size:11.5px;background:#eee8f6;color:#553f75;font-weight:800;padding:7px 8px;border-radius:7px;margin-top:7px;line-height:1.4}
+.tip{font-size:11.5px;line-height:1.42;background:#fff8e7;color:#66501e;border-left:4px solid #d1a231;padding:8px 9px;border-radius:7px;margin-top:8px}
+.actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.btn{border:0;border-radius:8px;padding:8px 10px;font-size:11.5px;font-weight:850;cursor:pointer}
+.btn.primary{background:#245b8a;color:#fff}.btn.soft{background:#eaf0f4;color:#17324d}.btn.shadow{background:#efe9f7;color:#5c4384;border:1px solid #cdbfe0}
+.btn:disabled{opacity:.42;cursor:not-allowed}
+.feedback{margin-top:9px;font-size:11.5px;line-height:1.42;background:#eef5f8;color:#3b5669;border-radius:8px;padding:8px 9px;min-height:36px}
+.feedback.good{background:#edf7f2;color:#216648}.feedback.bad{background:#fff0f0;color:#953d3d}
+.answerbox{display:none;margin-top:9px}.answerbox.show{display:block}
+.answerbox label{display:block;border:1px solid #d6e0e7;background:#fff;border-radius:7px;padding:7px 8px;font-size:11.5px;line-height:1.35;margin:5px 0;cursor:pointer}
+.answerbox label:has(input:checked){background:#f0ebf7;border-color:#a890c6}
+
+.workspace{min-width:0;background:#dcebea;border:2px solid #a9cfcb;border-radius:18px;padding:7px;box-shadow:0 9px 24px #153c3c12}.briefing{background:#fff;border:1px solid #9fc9c5;border-radius:13px;overflow:hidden;box-shadow:0 5px 15px #153c3c15}.briefhead{position:relative;padding:17px 20px 18px;background:linear-gradient(110deg,#0f7376,#168487 58%,#2b9a95);border-bottom:3px solid #0c6668;color:#fff}.briefhead:after{content:'EVIDENCE → REASON → ANSWER';position:absolute;right:18px;top:16px;font-size:8px;font-weight:950;letter-spacing:.8px;color:#d9ffff;background:#0c606350;border:1px solid #ffffff42;border-radius:999px;padding:5px 8px}.briefhead small{display:inline-block;font-size:9px;font-weight:950;letter-spacing:1px;color:#0c5658;text-transform:uppercase;background:#d7f4f1;border-radius:999px;padding:5px 8px}.briefhead h2{font-size:23px;color:#fff;margin:8px 0 4px}.briefhead p{font-size:13px;color:#e6fbfa;margin:0;line-height:1.5;max-width:820px}.briefbody{padding:18px;background:linear-gradient(180deg,#f5fbfa,#ffffff 180px)}.visualcard{border:1px solid #bfd9d6;border-radius:14px;background:#fff;padding:15px;box-shadow:0 3px 10px #174d4d0b}.visualcard h3{margin:0 0 8px;color:var(--guide)}.visualcard p{font-size:13px;color:#536b7c;line-height:1.55}.briefgrid{display:grid;grid-template-columns:1.1fr .9fr;gap:12px}.evidence{border:1px solid #c8dddd;border-top:4px solid #67aaa6;border-radius:12px;background:#fbfefe;padding:12px 13px 13px}.evidence h4{margin:0 0 9px;color:var(--guide);font-size:13px}.quote{font-size:13px;line-height:1.6;color:#3f5667;border-left:4px solid #7f67ab;background:#f7f4fb;border-radius:8px;padding:11px 12px}.hl{background:#fff2a8;padding:1px 3px;border-radius:4px;font-weight:800;color:#243745}.scanlist{display:grid;gap:7px}.scancue{border:1px solid #dde5ea;border-radius:9px;padding:9px 10px;background:#f9fbfc}.scancue small{display:block;font-size:8.5px;font-weight:900;letter-spacing:.65px;color:#728793;text-transform:uppercase}.scancue b{display:block;font-size:12px;color:#25465d;margin-top:2px}.promptcard{background:#e2f4f2;border:1px solid #b6dbd7;border-left:5px solid #168487;border-radius:9px;padding:10px 11px;font-size:12px;line-height:1.5;color:#24595a;margin-top:11px;font-weight:700}.brieftag{display:inline-block;border:1px solid #d7e1e8;background:#f5f8fa;border-radius:999px;padding:5px 8px;font-size:10px;font-weight:850;color:#4d6575;margin:3px 4px 3px 0}.summarygrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.sum{border:1px solid #d7e2e9;border-radius:12px;background:#fff;padding:12px}.sum .name{font-weight:900;color:var(--guide)}.sum .mean{font-size:27px;font-weight:900;color:#168487;margin:4px 0}.sum small{color:#6b8291}.mini-table{width:100%;border-collapse:collapse;font-size:12px;background:white;border:1px solid #d7e2e9}.mini-table th{background:#edf4f8;color:#405b6d;padding:8px;text-align:left}.mini-table td{padding:8px;border-top:1px solid #e3e9ed}.questionwrap{margin-bottom:8px}.questionlabel{display:inline-block;font-size:8.5px;font-weight:950;letter-spacing:.9px;text-transform:uppercase;color:#fff;background:#7659a4;border-radius:999px;padding:4px 7px;margin-bottom:7px}.questiontext{font-size:13.5px;line-height:1.48;font-weight:900;color:#17324d}.choice{display:flex!important;gap:8px;align-items:flex-start}.choice input{margin-top:2px;accent-color:var(--purple)}.hypPair{display:grid;gap:3px;font-family:'Cambria Math','Times New Roman',serif;font-size:13px}.code-guide{margin:10px 14px 14px;background:#fff;border:1px solid #c5c5c5;border-radius:4px;padding:10px}.code-guide-head{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:800;color:#444}.copy-code{margin-left:auto;border:1px solid #9eabc0;background:#f5f7fa;color:#345;padding:5px 8px;border-radius:4px;font-size:10px;font-weight:800;cursor:pointer}.code-snippet{white-space:pre-wrap;background:#f5f6f7;border:1px solid #e1e3e5;border-radius:3px;padding:8px;margin:8px 0;font:10px/1.55 Consolas,monospace;color:#333}.code-lines{display:grid;gap:5px}.code-line{display:grid;grid-template-columns:22px 1fr;gap:7px;font-size:9.5px;line-height:1.35;color:#555}.code-line b{display:grid;place-items:center;background:#e9eef3;color:#456;border-radius:50%;width:20px;height:20px}.copy-note{font-size:9.5px;color:#28745b;min-height:13px;margin-top:5px}
+
+.jamovi{background:#fff;border:1px solid #bfc9d0;border-radius:5px;overflow:hidden;box-shadow:0 7px 22px rgba(0,0,0,.10);position:relative;min-width:0}
+.winbar{height:54px;background:#3d73aa;color:#fff;display:flex;align-items:flex-end;padding:0 11px}
+.hamb{width:34px;align-self:center;font-size:18px;text-align:center}
+.tabs{display:flex;height:36px;align-items:stretch}
+.tab{border:0;background:transparent;color:#fff;padding:0 18px;font-size:12px;cursor:pointer}
+.tab.active{background:#f7f7f7;color:#52708b}
+.winspace{flex:1}
+.wintitle{position:absolute;top:10px;left:50%;transform:translateX(-50%);font-size:11px;color:#fff}
+.windowicons{align-self:center;font-size:12px;opacity:.9;letter-spacing:13px}
+.ribbon{
+  height:100px;background:#f4f4f4;border-bottom:1px solid #c5cbd0;
+  display:flex;align-items:stretch;padding:6px 6px 3px;gap:0;position:relative;z-index:40;
+  overflow:visible
+}
+.ribitem{
+  width:77px;min-width:77px;border:0;background:transparent;color:#5d5d5d;cursor:pointer;
+  padding:3px 2px 2px;font-size:10.7px;display:grid;
+  grid-template-rows:43px 20px 14px;place-items:center;align-content:start;position:relative;
+  border-radius:3px
+}
+.ribitem.wide{width:94px;min-width:94px}
+.ribitem:hover,.ribitem.on{background:#e7e7e7}
+.ricon{height:43px;width:51px;display:grid;place-items:center}
+.ricon svg{width:50px;height:41px;display:block;overflow:visible}
+.riblabel{height:20px;display:flex;align-items:center;justify-content:center;white-space:nowrap;line-height:1}
+.ribchev{height:14px;color:#8b8b8b;font-size:15px;line-height:11px;margin-top:-1px}
+.jblue{stroke:#5b96da}.jyellow{stroke:#eca928}.jgray{stroke:#a5a5a5}
+.jfillblue{fill:#76a9e5}.jfillyellow{fill:#f2b33f}.jfillgray{fill:#b0b0b0}
+.modules{margin-left:auto;width:92px;min-width:92px;background:#e7e7e7;border-radius:7px}
+.modules:hover{background:#dedede}
+.anovamenu{display:none;position:absolute;top:98px;left:0;width:175px;background:#f8f8f8;border:1px solid #c6c6c6;box-shadow:0 4px 9px rgba(0,0,0,.18);z-index:120;padding:0}
+.anovamenu.open{display:block}
+.menurow{padding:8px 10px;font-size:11px;color:#555;cursor:pointer;background:#fafafa}
+.menurow:hover,.menurow.highlight{background:#dbe7f3}
+.menusep{font-size:9px;background:#dedede;color:#8a8a8a;padding:3px 7px}
+.main{height:685px;display:grid;grid-template-columns:41% 59%;background:#eee}
+@media(max-width:1080px){.main{grid-template-columns:48% 52%}}
+.leftwork{border-right:1px solid #c7c7c7;background:#fff;min-width:0;overflow:hidden;position:relative}
+.rightwork{background:#ededed;overflow:auto;position:relative;padding:0 0 60px}
+.sheetwrap{height:100%;overflow:auto;background:#fff}
+.sheet{border-collapse:collapse;width:100%;min-width:460px;table-layout:fixed}
+.sheet th,.sheet td{height:22px;border-right:1px solid #ddd;border-bottom:1px solid #dedede;font-size:10.5px;padding:2px 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sheet thead th{height:31px;background:#f1f1f1;position:sticky;top:0;z-index:5;text-align:left;color:#4d4d4d}
+.sheet .rn{width:24px;background:#f0f0f0;color:#666;text-align:right;padding-right:5px;position:sticky;left:0;z-index:4}
+.sheet thead .rn{z-index:7}
+.varicon{font-size:12px;color:#e5a52c;margin-right:3px}.varicon.cont{color:#d99b27}
+.blankhead{width:18%}
+.statusbar{position:absolute;left:0;right:0;bottom:0;height:25px;background:#f1f1f1;border-top:1px solid #d2d2d2;display:flex;align-items:center;gap:15px;padding:0 8px;font-size:9px;color:#707070}
+.statusbar .ready{margin-right:4px}
+.analysispanel{height:100%;background:#e9e9e9;overflow:auto;display:none}
+.analysispanel.open{display:block}
+.ap-head{height:54px;border-bottom:1px solid #c6c6c6;display:flex;align-items:center;padding:0 16px;font-size:17px;color:#444;background:#ededed}
+.ap-head .collapse{margin-left:auto;width:39px;height:39px;border-radius:50%;border:3px solid #555;background:#eee;font-size:26px;color:#555;display:grid;place-items:center;cursor:pointer;line-height:1}
+.ap-body{padding:14px 14px 30px}
+.assignarea{display:grid;grid-template-columns:45% 32px minmax(0,1fr);gap:8px}
+.varlist{height:175px;background:#fff;border:1px solid #c0c0c0;overflow:auto}
+.searchrow{height:28px;border-bottom:1px solid #dedede;display:flex;justify-content:flex-end;align-items:center;padding:0 5px;color:#555;font-size:18px}
+.vrow{height:27px;display:flex;align-items:center;gap:4px;padding:0 6px;font-size:11px;color:#444;cursor:pointer}
+.vrow.selected{background:#b7d1ef}
+.vrow.hidden{display:none}
+.move-col{display:flex;flex-direction:column;gap:87px;padding-top:14px}
+.arrowbtn{height:28px;width:29px;border:1px solid #c4c4c4;background:#f8f8f8;font-size:17px;color:#444;cursor:pointer}
+.arrowbtn:hover{background:#e7e7e7}
+.assignright label{display:block;font-size:10px;color:#444;margin:0 0 4px}
+.drop{height:99px;background:#fff;border:1px solid #bbb;margin-bottom:8px;padding:5px;font-size:10.5px;color:#444}
+.drop.group{height:29px}
+.assignitem{display:flex;align-items:center;gap:4px;padding:3px}
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:11px}
+.optiontitle{font-size:11px;font-weight:700;color:#333;margin-bottom:7px}
+.checkline,.radioline{display:flex;align-items:center;gap:5px;font-size:10.5px;color:#4c4c4c;margin:5px 0}
+.analysispanel input{accent-color:#1685e5;width:16px;height:16px;margin:0}
+.postbar{height:24px;background:#d9d9d9;border:1px solid #c7c7c7;margin-top:14px;display:flex;align-items:center;padding:0 9px;font-size:10.5px;color:#606060;cursor:pointer}
+.chev{font-size:16px;margin-right:6px;transition:.15s}
+.postbar.open .chev{transform:rotate(90deg)}
+.postbody{display:none;grid-template-columns:1fr 1fr;gap:18px;padding:8px 10px 1px}
+.postbody.open{display:grid}
+.resultslabel{font-size:16px;font-weight:700;color:#3b6fa5;padding:16px 20px;background:#ededed}
+.resultcard{width:min(78%,630px);margin:0 0 24px 20px;background:#fff;padding:17px 18px 20px;min-height:150px}
+.resultcard h2{font-size:18px;color:#356ca4;margin:0 0 23px;font-weight:700}
+.rsection{margin:0 0 24px}
+.rtitle{font-size:10.5px;color:#5a5a5a;margin-bottom:4px}
+.jtable{border-collapse:collapse;width:100%;font-size:10px;color:#5a5a5a;border-top:1px solid #707070;border-bottom:2px solid #555}
+.jtable th{font-weight:400;text-align:right;border-bottom:1px solid #888;padding:5px 7px}
+.jtable td{text-align:right;padding:5px 7px}
+.jtable th:first-child,.jtable td:first-child{text-align:left}
+.jtable .indent{padding-left:20px}
+.jtable .sub{color:#666}
+.postheading{font-size:17px;font-weight:700;color:#356ca4;margin:7px 0 18px}
+.refs{width:min(88%,760px);margin:34px 0 0 20px;color:#444;font-size:10px;line-height:1.8}
+.refs h2{color:#356ca4;font-size:17px}
+.logoempty{position:absolute;inset:0;display:grid;place-items:center;background:#fff;color:#aaa}
+.jamlogo{font-size:57px;color:#3373ad;font-weight:900;transform:skew(-13deg)}
+.jamlogo small{font-size:11px;color:#aaa;font-weight:400;transform:none;display:inline-block;margin-left:10px}
+.plotsection{margin:0 0 26px}
+.plottitle{font-size:10.5px;font-weight:700;margin:0 0 12px 20px;color:#444}
+.plotwrap{width:370px;height:300px;margin-left:18px;position:relative}
+.plotwrap svg{width:100%;height:100%;display:block}
+.loader{height:210px;display:grid;place-items:center}
+.spinner{width:38px;height:38px;border:8px solid transparent;border-bottom-color:#3e76ad;border-left-color:#3e76ad;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.shadowshield{display:none;position:absolute;inset:0;z-index:500;background:rgba(255,255,255,.30)}
+.shadowshield.on{display:block}
+.ghost{display:none;position:fixed;z-index:9999;pointer-events:none;transition:left .42s ease,top .42s ease}
+.ghost.show{display:block}
+.gptr{font-size:27px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.25))}
+.glabel{position:absolute;top:22px;left:24px;background:#4e386e;color:#fff;padding:7px 9px;border-radius:6px;font-size:11px;line-height:1.35;width:max-content;max-width:230px;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.gring{display:none;position:fixed;z-index:9998;border:3px solid #8c6bb8;border-radius:5px;pointer-events:none;transition:left .42s ease,top .42s ease,width .42s ease,height .42s ease}
+.gring.show{display:block}
+
+.rmenu{display:none;position:absolute;width:142px;background:#f7f7f7;border:1px solid #c5c5c5;box-shadow:0 4px 10px rgba(0,0,0,.18);z-index:125}
+.rmenu.open{display:block}.rmenuhead{font-size:9px;color:#777;background:#ececec;padding:4px 9px}.rmenurow{padding:8px 13px;font-size:10.5px;color:#4f4f4f;cursor:pointer}.rmenurow:hover,.rmenurow.active{background:#dce7f3}
+.rjpanel{height:100%;background:#ededed;overflow:auto;display:none}.rjpanel.open{display:block}
+.rjhead{height:54px;border-bottom:1px solid #c8c8c8;display:flex;align-items:center;padding:0 16px;font-size:17px;color:#444;background:#ededed}
+.rjclose{margin-left:auto;width:39px;height:39px;border-radius:50%;border:3px solid #555;background:#eee;font-size:25px;color:#555;display:grid;place-items:center;cursor:pointer}
+.rjeditorwrap{margin:14px 14px 0;background:#fff;border:1px solid #c1c1c1;height:245px;position:relative;display:grid;grid-template-columns:39px 1fr}
+.linenos{background:#f3f3f3;border-right:1px solid #e1e1e1;padding-top:8px;color:#6f6f6f;font:11px/22px Consolas,monospace;text-align:right;padding-right:8px;user-select:none}
+.reditor{border:0;outline:0;resize:none;width:100%;height:100%;padding:8px 54px 30px 8px;font:11px/22px Consolas,"Courier New",monospace;color:#333;background:#fff;tab-size:2}
+.rjtools{position:absolute;right:10px;top:7px;display:flex;gap:8px;align-items:center}.rgear{font-size:17px;color:#bcc1c7}.rrun{width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:14px solid #2c9a42;cursor:pointer}.rjhint{position:absolute;right:12px;bottom:5px;color:#666;font-size:10px}
+.r-output-card{width:min(78%,630px);margin:0 0 24px 20px;background:#fff;padding:15px 18px 18px}.r-output-title{font-size:18px;font-weight:700;color:#356ca4;margin-bottom:18px}.r-console{white-space:pre;font:10px/1.55 Consolas,"Courier New",monospace;color:#555;overflow:auto}
+
+@media(max-width:1030px){.casefacts{grid-template-columns:1fr 1fr}.briefgrid{grid-template-columns:1fr}}
+@media(max-width:760px){.tophero h1{font-size:23px}.shell{padding:0 6px}.main{height:730px}.ribbon{overflow-x:auto}.resultcard{width:94%;margin-left:10px}.assignarea{grid-template-columns:1fr}.move-col{flex-direction:row;gap:8px;padding:0}.twocol,.postbody{grid-template-columns:1fr}.casefacts,.summarygrid{grid-template-columns:1fr}}
+
+/* v2: 06_02-style lecture rail plus the existing mission coach */
+.scenario-header{transition:padding .18s ease,box-shadow .18s ease}.scenario-bar{max-width:1760px;margin:0 auto 14px;display:flex;align-items:center;justify-content:space-between;gap:18px}.scenario-bar span{display:block;color:#8de1db;font-size:10px;font-weight:900;letter-spacing:.14em;text-transform:uppercase}.scenario-bar strong{display:block;color:#fff;font-size:20px}.scenario-toggle{border:1px solid #ffffff66;background:#ffffff16;color:#fff;border-radius:10px;padding:8px 12px;font-weight:900;cursor:pointer}.scenario-expanded{max-width:1760px;margin:auto}.scenario-header.collapsed{position:sticky;top:0;z-index:420;padding:9px 18px;box-shadow:0 7px 22px #102b4235}.scenario-header.collapsed .scenario-expanded{display:none}.scenario-header.collapsed .scenario-bar{margin-bottom:0}.scenario-header.collapsed .scenario-bar span{display:none}.scenario-header.collapsed .scenario-bar strong{font-size:16px}.scenario-copy{max-width:1250px;font-size:14px!important;line-height:1.62!important}.scenario-detail{margin-top:12px;padding-top:12px;border-top:1px solid #ffffff2b;color:#eaf3fa;font-size:13px;line-height:1.55}.scenario-detail b{color:#fff}.scenario-facts{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:12px}.scenario-facts div{background:#ffffff12;border:1px solid #ffffff2d;border-radius:9px;padding:8px}.scenario-facts small{display:block;color:#9adfda;font-size:8px;font-weight:900;text-transform:uppercase}.scenario-facts b{display:block;font-size:11px;margin-top:2px}
+.menu-toggle,.nav-scrim,.menu-close{display:none}.lecture-shell{max-width:1780px;margin:12px auto;padding:0 12px 44px;display:grid;grid-template-columns:182px minmax(0,1fr);gap:12px;align-items:start}.lecture-sidebar{position:sticky;top:10px;max-height:calc(100dvh - 20px);overflow-y:auto;background:#ffffffed;border:1px solid var(--line);border-radius:14px;box-shadow:0 6px 20px #17324d10;padding:9px;z-index:310}.stepnav{display:flex;flex-direction:column;gap:4px}.stepbtn{display:block;width:100%;white-space:normal;text-align:left;line-height:1.28;padding:8px 9px;font-size:11.5px;font-weight:850;border:0;border-left:3px solid transparent;background:transparent;border-radius:7px;color:var(--guide);cursor:pointer}.stepbtn:hover:not(:disabled){background:#eaf3f7}.stepbtn.active{border-left-color:#5de1dd;background:#17324d;color:#fff}.stepbtn.completed:not(.active){color:#217756}.stepbtn:disabled{opacity:.45;cursor:not-allowed}.stepbtn.unlocked:not(.active){background:#e8f5f3;color:#116466;border-left-color:#168487}.ready-mark{float:right;color:#168487}.stepbtn:focus-visible,.lensbtn:focus-visible,.method-card:focus-visible,.pattern-controls button:focus-visible{outline:3px solid #e2a11d;outline-offset:2px}.done-mark{float:right}.sidebar-progress{border-top:1px solid var(--line);margin-top:9px;padding:9px 4px 2px;font-size:10.5px;color:var(--muted)}.sidebar-progress p{margin:0 0 4px}.sidebar-progress progress{width:100%;height:5px;accent-color:#168487}.shell{max-width:none;margin:0;padding:0;grid-template-columns:300px minmax(0,1fr)}.coach{padding:12px}.coach h2{font-size:17px;margin:6px 0 4px}.coach p{font-size:11.5px;line-height:1.4}.progress{margin:8px 0}.missionbox{padding:9px}.missionbox h3{font-size:13px}.target{font-size:10.5px;padding:6px 7px}.tip{font-size:10.5px;padding:6px 7px}.answerbox{padding:8px;margin-top:7px}.questiontext{font-size:12.5px}.answerbox label{font-size:10.8px;padding:6px 7px}.feedback{font-size:10.8px;padding:7px 8px;min-height:32px}.actions{margin-top:7px}.btn{padding:7px 9px;font-size:10.8px}.workspace{padding:5px}
+.rj-side-guide{display:none;margin-top:8px;background:#fff;border:1px solid #c8d5df;border-radius:10px;padding:9px}.rj-side-guide.show{display:block}.rj-side-guide .code-guide-head{font-size:10.5px}.rj-side-guide .code-snippet{font-size:9px;max-height:108px;overflow:auto}.rj-side-guide .code-line{font-size:9px}.rj-side-guide .copy-code{font-size:9.5px}.briefbody{padding:14px}.visualcard{padding:13px}.interactive-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}.interactive-title small{color:#5f7686;font-weight:800}.lens-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.lensbtn{border:1px solid #cbdbe5;background:#fff;color:#17324d;border-radius:10px;padding:9px;text-align:left;font-size:11px;font-weight:850;cursor:pointer}.lensbtn.active{background:#17324d;color:#fff;border-color:#17324d}.lensbtn span{display:block;color:#168487;font-size:9px;text-transform:uppercase}.lensbtn.active span{color:#8de1db}.interactive-note{margin-top:9px;border-left:4px solid #168487;background:#eef8f7;border-radius:8px;padding:9px 10px;min-height:52px;font-size:11.5px;line-height:1.45;color:#315b63}.method-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.method-card{border:1px solid #d2e0e7;background:#fff;border-radius:10px;padding:10px;cursor:pointer;text-align:left}.method-card b{display:block;color:#17324d;font-size:12px}.method-card small{color:#607786;font-size:10.5px}.method-card.active{border:2px solid #168487;background:#eef8f7}.error-matrix{display:grid;grid-template-columns:110px 1fr 1fr;gap:6px}.error-matrix>button,.error-matrix>div{border:1px solid #d2dfe7;background:#fff;border-radius:9px;padding:9px;font-size:10.5px;text-align:left}.error-matrix .head{background:#edf4f8;font-weight:900;color:#17324d}.error-matrix button{cursor:pointer}.error-matrix button.active{outline:3px solid #168487;background:#eef8f7}.clean-table{width:100%;border-collapse:collapse;font-size:11px}.clean-table th{background:#edf4f8;text-align:left;padding:7px}.clean-table td{padding:7px;border-top:1px solid #e1e9ee}.clean-table tr{cursor:pointer}.clean-table tr:focus-visible{outline:3px solid #e2a11d;outline-offset:-2px}.clean-table tr.flagged{background:#fff1df;outline:2px solid #e7a849}.boxplot-wrap svg{width:100%;height:auto;display:block}.pattern-controls{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.pattern-controls button{border:1px solid #cbd9e3;background:#fff;color:#17324d;border-radius:999px;padding:6px 9px;font-size:10.5px;font-weight:850}.pattern-controls button.active{background:#168487;color:#fff;border-color:#168487}
+@media(max-width:1200px){.lecture-shell{display:block}.menu-toggle{display:block;position:fixed;top:0;left:0;width:100%;height:46px;text-align:left;padding:0 16px;background:#17324d;color:white;border:0;z-index:510;font-weight:800}.lecture-sidebar{position:fixed;inset:0 auto 0 0;width:min(270px,85vw);max-height:100dvh;border-radius:0;transform:translateX(-100%);z-index:530;padding:14px;transition:transform .18s}.nav-open .lecture-sidebar{transform:translateX(0)}.menu-close{display:block;margin-left:auto;margin-bottom:10px;border:0;background:transparent;color:#17324d;padding:6px 8px}.nav-open .nav-scrim{display:block;position:fixed;inset:0;background:#102b4270;z-index:520}.scenario-header{margin-top:46px}.scenario-header.collapsed{top:46px}.shell{grid-template-columns:290px minmax(0,1fr)}}
+@media(max-width:900px){.shell{grid-template-columns:1fr}.coach{position:static}.scenario-facts,.lens-grid{grid-template-columns:1fr 1fr}.error-matrix{grid-template-columns:82px 1fr 1fr}}
+@media(max-width:620px){.scenario-facts,.lens-grid,.method-cards{grid-template-columns:1fr}.scenario-bar{align-items:flex-start}.scenario-bar strong{font-size:15px}.scenario-toggle{font-size:11px;padding:7px}.error-matrix{grid-template-columns:1fr}.error-matrix .head:first-child{display:none}}
+
+/* v3: readable case-file narrative, not a textbook variable fact strip */
+.scenario-header .scenario-expanded{max-width:1720px}
+.scenario-header .scenario-narrative{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(310px,.86fr);gap:22px;align-items:start;margin-top:10px}
+.scenario-header h1{font-size:clamp(28px,3.1vw,41px);letter-spacing:-.03em;line-height:1.1;margin:7px 0 13px}
+.scenario-story{max-width:850px}
+.scenario-story p{font-size:14.1px;color:#e5f1f8;line-height:1.71;margin:0 0 13px;font-weight:400}
+.scenario-story p:last-child{margin-bottom:0}
+.scenario-story code{background:#ffffff18;color:#e3fffd;padding:1px 4px;border:1px solid #ffffff27;border-radius:4px;font-weight:400;font-size:.93em}
+.scenario-message{border:1px solid #83c7ca55;border-left:4px solid #8de1db;background:#ffffff0c;border-radius:11px;padding:17px 18px 14px;box-shadow:inset 0 1px 0 #ffffff11}
+.scenario-message .message-overline{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#8de1db;font-weight:800;margin-bottom:9px}
+.scenario-message p{font-size:13.4px;line-height:1.66;margin:0 0 12px;color:#e8f3f9;font-weight:400}
+.scenario-message p:last-child{margin:0}
+.scenario-message .message-rule{height:1px;background:#ffffff2c;margin:14px 0}
+.scenario-message .message-footnote{font-size:12.6px;color:#bed4e1;border-top:1px solid #ffffff22;padding-top:11px}
+/* v3: one purposeful assignment card with a clear action and a quiet support cue */
+.coach{--mission-ink:#273650}
+.coach .kicker{color:#72539e;letter-spacing:.11em}
+.coach .progress{height:5px;margin:9px 0 12px;background:#eae7f0}
+.coach .progress>div{background:#8061b0}
+.coach .missionbox{padding:0;border:1px solid #d8c8eb;border-left:4px solid #7356a1;border-radius:13px;background:linear-gradient(154deg,#f6f1fd 0%,#fff 62%);box-shadow:0 6px 17px #47335d0c;overflow:hidden}
+.coach .missiontop{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:12px 13px 0}
+.coach .missionnum{font-size:10px;color:#6d528e;letter-spacing:.04em;font-weight:850;text-transform:uppercase}
+.coach .missionskill{border:1px solid #d7c7e9;border-radius:999px;background:#eee5f8;color:#68518b;font-size:9px;font-weight:850;letter-spacing:.05em;padding:4px 7px}
+.coach .missionbox h2{font-size:18px;line-height:1.2;letter-spacing:-.02em;color:#243852;margin:7px 13px 7px}
+.coach .missioncontext{margin:0 13px 13px;font-size:12.5px;line-height:1.54;color:#44586a}
+.coach .missionassignment{background:#f0e9f8;border-top:1px solid #e4d9ef;border-bottom:1px solid #e4d9ef;padding:11px 13px 12px}
+.coach .missionlabel{display:block;color:#715391;font-size:9px;line-height:1.2;text-transform:uppercase;letter-spacing:.105em;font-weight:850;margin:0 0 5px}
+.coach .target{margin:0;padding:0;background:transparent;color:#2f3650;font-size:12.5px;line-height:1.55;font-weight:650;border:0;border-radius:0}
+.coach .missionevidence{padding:11px 13px 13px;background:#fff}
+.coach .missionevidence .missionlabel{color:#718393}
+.coach .tip{background:transparent;color:#536879;margin:0;border:0;padding:0;font-size:11.8px;line-height:1.5;font-weight:400;border-radius:0}
+.coach .answerbox{padding:10px;background:#fff;border:1px solid #d7e0e8;border-radius:11px;margin-top:9px}
+.coach .questionlabel{color:#7659a4;background:#f0e9f8;border:1px solid #e1d5ef}
+.coach .questiontext{font-size:13px;line-height:1.5;font-weight:750;margin:1px 0 8px}
+.coach .answerbox label{padding:8px;font-size:11.5px;line-height:1.43;margin:6px 0}
+.coach .feedback{font-size:11.5px;line-height:1.5}
+@media(max-width:1040px){.scenario-header .scenario-narrative{grid-template-columns:1fr}.scenario-story{max-width:none}.scenario-message{max-width:none}}
+@media(max-width:620px){.scenario-header .scenario-narrative{gap:10px}.scenario-story p{font-size:13.5px}.scenario-message{padding:12px}.scenario-header h1{font-size:27px}}
+
+/* v5: genuine two-column use of space and compact decision coach */
+.jamovi.audit-active .main{grid-template-columns:minmax(0,1fr)}
+.jamovi.audit-active .rightwork{display:none}
+.jamovi.audit-active .sheetwrap{width:100%;overflow:auto}
+.jamovi.audit-active .audit-guide{padding:17px 22px}
+.jamovi.audit-active .audit-control{padding:15px 22px 18px}
+.jamovi.audit-active .audit-table{font-size:13px}
+.jamovi.audit-active .audit-table th,.jamovi.audit-active .audit-table td{padding:10px 12px}
+.jamovi.audit-active .audit-control .audit-done{margin-top:12px}
+
+@media(min-width:1201px){.lecture-shell{max-width:1880px;grid-template-columns:185px minmax(0,1fr)}.shell{grid-template-columns:minmax(370px,420px) minmax(0,1fr)}.coach{max-height:calc(100dvh - 26px);overflow-y:auto;scrollbar-width:thin}.coach .missioncontext{font-size:12.5px}.coach .answerbox label{font-size:12px;padding:10px}.questiontext{font-size:13.5px}}
+@media(min-width:901px) and (max-width:1200px){.shell{grid-template-columns:380px minmax(0,1fr)}}
+.coach .missionassignment{padding:10px 13px;background:#f4eef9}.coach .missionevidence{padding:9px 13px 11px}.coach .missionbox h2{margin-top:5px}.coach .missioncontext{margin-bottom:9px}.coach .tip{line-height:1.43}
+.case-excerpt{background:#fff;border:1px solid #cbdfe4;border-left:5px solid #169191;border-radius:12px;padding:15px 17px;font-size:14px;line-height:1.75;color:#33485b;margin-bottom:12px}
+.case-excerpt .source-title{font-size:10px;letter-spacing:.11em;text-transform:uppercase;font-weight:900;color:#168487;margin-bottom:7px}
+.case-excerpt mark{background:#fff0ad;color:#22354b;border-radius:3px;padding:1px 3px}
+.method-card small{display:block;font-size:11.5px;line-height:1.55;margin-top:5px}.method-card b{font-size:13px}.method-card{padding:15px}.interactive-note{font-size:12.8px;line-height:1.55}
+.quiz-stage{font-size:11px;color:#72539e;text-transform:uppercase;letter-spacing:.08em;font-weight:900;margin:0 0 7px}.answerbox .follow-up{padding:10px;background:#f8f2fd;border:1px solid #dac7ef;border-radius:9px;margin-bottom:10px;line-height:1.5;font-size:12px}
+.audit-guide{padding:13px 15px;background:#eef7fb;border-bottom:1px solid #b9d2df;color:#25495d;line-height:1.5;font-size:12px}
+.audit-guide h3{margin:0 0 5px;color:#17324d;font-size:16px}.audit-guide p{margin:0 0 7px}
+.audit-table{width:100%;border-collapse:collapse;background:#fff;font-size:11.5px}.audit-table th{padding:8px;text-align:left;background:#e8f0f5;border-bottom:1px solid #c7d7e2}.audit-table td{padding:9px 7px;border-bottom:1px solid #e0e7ec}.audit-table tr.flagged{background:#fff1dc}.audit-table button{border:1px solid #b9cbd8;background:#fff;border-radius:7px;padding:5px 9px;font-weight:750;color:#314e62;cursor:pointer}.audit-table tr.flagged button{background:#f2af4b;border-color:#d68c29;color:#403015}
+.audit-result{border-left:4px solid #d5a03b;padding:10px 12px;background:#fff9eb;color:#695029;font-size:12px;margin-top:10px}
+.audit-control{padding:13px}.audit-control .audit-done{background:#168487;color:#fff;border:0;border-radius:8px;padding:9px 12px;font-weight:850;cursor:pointer}.audit-control .audit-done:disabled{opacity:.45;cursor:not-allowed}
+.decision-note{border:1px solid #c9e0e2;background:#f5fbfb;border-radius:12px;padding:13px 15px;line-height:1.6;margin:12px 0;color:#335464;font-size:13px}
+.post-viz-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:13px}.result-pair{border:1px solid #d4e1e7;padding:12px 14px;border-radius:12px;background:#fff}.result-pair .big{display:block;font-size:24px;font-weight:900;color:#156c76;margin-top:4px}.result-pair small{color:#5d7180}
+@media(max-width:900px){.post-viz-grid{grid-template-columns:1fr}}
+
+
+/* Version 6: active full-sentence case evidence, clinical decision work, and authentic data row actions */
+.jamovi.audit-active .ribbon{display:none}
+.jamovi.audit-active .main{height:790px}
+.case-source{border-radius:3px;transition:background .18s ease,box-shadow .18s ease}.case-source.current-evidence{background:#d0fff141;box-shadow:0 0 0 2px #a8f5df55;color:#fff;padding:2px 1px;border-bottom:2px solid #80ebd5}
+.scenario-message .case-source.current-evidence{background:#f2cf7040;border-color:#ffd492}
+.case-excerpt .source-title{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.source-jump{border:1px solid #badbdd;background:#effbfa;color:#176c6b;border-radius:7px;padding:4px 9px;font-size:10px;font-weight:800;cursor:pointer}
+.error-matrix.rich-error{grid-template-columns:minmax(110px,.55fr) 1fr 1fr;gap:6px}.rich-error>button{padding:13px;min-height:104px;text-align:left;display:flex;flex-direction:column;justify-content:center;gap:6px}.rich-error>button strong{font-size:13px}.rich-error>button small{font-size:11px;line-height:1.5;font-weight:500}
+.error-controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.error-controls>div{background:#f4f8fb;border:1px solid #cbdde5;border-radius:11px;padding:12px}.risk-tag{font-size:11px;color:#254d6e;font-weight:850}.error-controls p,.clinical-note{font-size:12px;line-height:1.55;color:#526877;margin:6px 0 0}
+.audit-data-toolbar{display:flex;align-items:center;gap:10px;padding:8px 10px;background:#f2f2f2;border:1px solid #d4d4d4;margin-bottom:9px;color:#555;font-size:12px}.audit-data-toolbar .audit-tab{color:#fff;background:#3973aa;padding:7px 12px;border-radius:4px}.audit-data-toolbar button{margin-left:auto}.audit-table tbody button[data-audit-index]{border-radius:3px;background:#e9edf0;padding:6px 11px}.audit-table tr.flagged button{background:#ffcb74}
+.f-mechanism{border:1px solid #c9dfe8;background:#f8fbfd;border-radius:13px;padding:14px;margin-top:13px}.f-mechanism>span{font-size:11px;color:#2a677f;text-transform:uppercase;letter-spacing:.06em;font-weight:900}.f-mechanism p{margin:9px 0 0;color:#415b6d;line-height:1.55;font-size:12px}.f-ratio{display:flex;align-items:center;justify-content:space-between;gap:9px;margin-top:12px}.f-ratio>div{flex:1;min-width:0;text-align:center;padding:9px 6px;background:white;border:1px solid #d9e5ed;border-radius:10px}.f-ratio small{display:block;font-size:10px;color:#60798a;line-height:1.3}.f-ratio strong{display:block;font-size:19px;color:#174f69;margin-top:5px}
+.huddle-card{display:grid;gap:9px;margin:13px 0}.huddle-voice{display:flex;gap:10px;align-items:flex-start;border:1px solid #d2e2e7;background:#f8fcfd;padding:12px;border-radius:11px}.huddle-voice .initial{width:33px;height:33px;border-radius:50%;display:grid;place-items:center;background:#166f79;color:white;font-weight:900;flex:0 0 auto}.huddle-voice small{font-weight:800;color:#2c6b79}.huddle-voice p{margin:4px 0 0;line-height:1.45;color:#334e5e;font-size:13px}
+@media(max-width:690px){.error-controls{grid-template-columns:1fr}.error-matrix.rich-error{grid-template-columns:minmax(75px,.45fr) 1fr 1fr}.rich-error>button{padding:7px}.rich-error>button small{font-size:10px}.f-ratio{flex-wrap:wrap}}
+
+/* v7: keep multi-part reasoning visible and source highlights opt-in */
+.reviewed-answer{margin:9px 0 13px;padding:11px;border:1px solid #b7dcd1;border-radius:11px;background:#f5fbf9}
+.reviewed-kicker{color:#226e59;font-weight:900;letter-spacing:.04em;font-size:10.5px;margin-bottom:5px}
+.reviewed-question{color:#29445a;font-size:12px;line-height:1.47;margin-bottom:8px}
+.reviewed-choice{background:#dff4eb;color:#175e48;border:2px solid #75b996;border-radius:8px;padding:10px 11px;font-size:12px;line-height:1.46;font-weight:750}
+.reviewed-why{font-size:11px;color:#3f6354;line-height:1.48;margin-top:7px}
+.answerbox label.verified-selection{background:#e1f7eb!important;border:2px solid #60ac83!important;color:#145838}
+.btn.part-continue{background:#167d70;color:white;border:1px solid #0e685e}
+.btn.part-continue:hover{background:#11675e}
+.error-table-wrap{overflow-x:auto;width:100%;border:1px solid #cedfe6;border-radius:12px;background:white;margin:11px 0}
+.error-table{width:100%;min-width:550px;border-collapse:separate;border-spacing:0;font-size:12px;color:#253e51}
+.error-table th{background:#e8f0f5;color:#28485d!important;padding:12px 11px;border-right:1px solid #cbdbe3;border-bottom:1px solid #cbdbe3;text-align:left;font-size:12px}
+.error-table th small{display:block;font-size:10.5px;font-weight:500;line-height:1.45;margin-top:3px;color:#49677b}
+.error-table td{padding:6px;border-right:1px solid #e0e8ec;border-bottom:1px solid #e0e8ec;vertical-align:stretch}
+.error-table .error-cell{display:flex;flex-direction:column;gap:7px;text-align:left;width:100%;height:100%;min-height:104px;padding:12px;border:2px solid transparent;border-radius:9px;color:#24394a;cursor:pointer}
+.error-cell strong{font-size:12.4px;color:#25394c}.error-cell span{line-height:1.5;font-size:11.5px}
+.error-cell.error-type1{background:#fff1ef;border-color:#e9b2ad}
+.error-cell.error-type2{background:#fff7e9;border-color:#edc98d}
+.error-cell.error-right{background:#ebf7f0;border-color:#b8dec6}
+.error-cell.active{outline:3px solid #2b6f9a;outline-offset:0}
+.contrast-explainer{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:11px}
+.contrast-explainer>div{padding:12px;border:1px solid #c9dce6;border-radius:10px;background:#f7fbfd}
+.contrast-explainer span{font-weight:850;color:#174b6b;font-size:12px}.contrast-explainer p{font-size:12px;margin:6px 0 0;line-height:1.5}
+.audit-filter-demo{border:1px solid #c5d6e1;border-radius:11px;margin-top:14px;padding:12px;background:#f7fafc;color:#314d60;font-size:12px;line-height:1.55}
+.audit-filter-demo summary{cursor:pointer;font-weight:900;color:#245b8a;font-size:13px}
+.filter-edit-head{display:flex;justify-content:space-between;margin-top:11px;border:1px solid #b9cbd7;background:white;padding:9px;font-weight:850}
+.filter-active{color:#267d58}.filter-edit-label{display:block;margin-top:9px;color:#3e6175}
+.audit-filter-demo textarea{display:block;width:100%;border:1px solid #aebfcb;background:white;border-radius:5px;padding:10px;margin-top:6px;font:12px/1.5 Consolas,monospace;color:#253d53}
+.audit-filter-check{border:0;border-radius:8px;padding:8px 11px;background:#356e9d;color:white;margin-top:8px;font-weight:850;cursor:pointer}
+.filter-result{margin-top:8px;padding:10px;background:#eef3f7;border-left:4px solid #97b5c6}.filter-ok{background:#eaf8ed;border-color:#55a17c}.filter-retry{background:#fff6e6;border-color:#d8a644}
+.filter-small{font-size:10.5px;color:#647889}
+@media(max-width:620px){.contrast-explainer{grid-template-columns:1fr}.error-table{min-width:510px}}
+
+/* V8: source-targeted evidence, faithful Jamovi Data view, and results-first interpretation */
+[data-story-key].current-evidence{background:#fff2a1!important;color:#17324d!important;box-shadow:0 0 0 2px #efc860!important;border-radius:3px;padding:1px 2px;border:0!important}
+.excerpt-clue{transition:background .15s}.excerpt-clue.active-clue{background:#fff0a0;border-radius:3px;box-shadow:0 0 0 2px #fff0a0}
+.source-jump[aria-pressed="true"]{background:#167d70;color:#fff;border-color:#167d70}
+.subquestion-nav{display:flex;justify-content:space-between;gap:7px;align-items:center;padding:10px 0;border-bottom:1px solid #d9e5e9;margin:0 0 10px;font-size:11px;color:#567184}
+.subquestion-nav button{border:1px solid #b7d6d7;background:white;color:#155a6a;border-radius:7px;padding:7px 8px;font-size:11px;cursor:pointer}
+.subquestion-nav button:disabled{opacity:.4;cursor:not-allowed}
+.software-sidecar{background:#e3f5ef;border:1px solid #a3d4c4;border-left:5px solid #17877d;border-radius:11px;padding:12px 15px;margin:0 0 10px;color:#275c58;font-size:12.5px;line-height:1.45}
+.software-sidecar .sidecar-title{font-weight:900;font-size:14px;color:#0e5e5b}.software-sidecar p{margin:7px 0}
+.sidecar-code{margin:8px 0;padding:9px 10px;border:1px solid #b6dad3;background:#f7fffc;border-radius:8px;display:grid;gap:7px}
+.sidecar-code span{font-weight:800;color:#2a5c64}.sidecar-code code{font:11px/1.5 Consolas,monospace;color:#1e5368;overflow-wrap:anywhere}
+.sidecar-code button{justify-self:start;border:0;border-radius:7px;background:#236b88;color:white;font-weight:800;padding:7px 9px;cursor:pointer}
+.software-sidecar small{color:#4c7770}.sidecar-footer{font-size:11px;color:#467a75;margin-top:6px}
+.jamovi .data-ribbon{display:flex;flex-wrap:wrap;align-items:center;gap:9px;padding:8px 12px;background:#f5f5f5;border-bottom:1px solid #c8c8c8;color:#646464;min-height:72px}
+.data-ribbon-group{font-size:11px;text-transform:uppercase;border-right:1px solid #ccc;padding-right:13px;color:#6a6a6a}
+.data-ribbon-tool{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:79px;border:0;border-radius:4px;padding:5px 8px;background:transparent;color:#3979aa;font-size:24px;cursor:pointer}
+.data-ribbon-tool:hover{background:#e6e6e6}.data-ribbon-tool small{font-size:10px;color:#555;white-space:nowrap}
+.data-ribbon-tool:disabled{opacity:.38;cursor:not-allowed}.data-ribbon-note{font-size:11px;flex:1;max-width:490px}
+.row-filter-editor{background:#f8f8f8;border-bottom:1px solid #cacaca;padding:13px 8%;min-height:182px}
+.filter-editor-caption{font-size:11px;color:#8a8a8a;display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}.filter-editor-caption button{border:0;background:transparent;font-size:22px;color:#777;cursor:pointer}
+.jam-filter-card{max-width:600px;margin:auto;border:2px solid #7aabd9;background:white;padding:6px}.jam-filter-header{display:flex;justify-content:space-between;color:#567a9b;font-size:12px}.jam-filter-header input{accent-color:#67b88c}
+.jam-filter-expression{display:flex;align-items:flex-start;gap:7px;margin:6px 0}.jam-filter-expression span{background:#f3f5f5;color:#6a6a6a;padding:7px;font-style:italic}.jam-filter-expression textarea{flex:1;min-width:0;resize:vertical;font:12px/1.45 Consolas,monospace;color:#334b60;padding:6px;border:2px solid #e5ad3c;border-radius:3px;background:white}
+.jam-filter-desc{font-size:11px;color:#6d7d86;line-height:1.45}.sheet .rn{cursor:pointer;user-select:none}.sheet tr.row-selected>td,.sheet tr.row-selected>.rn{background:#bfd6ef!important}
+.sheet tr.data-attention:not(.row-selected){background:#fff9eb}.sheet .filterhead{font-size:10px;color:#5c7291}.sheet .filtercheck{text-align:center;color:#48a16a;font-weight:900}
+.f-concept{background:#f7fdfc;border:1px solid #b9d9d4;border-radius:11px;padding:12px;margin:9px 0}.f-equation{display:flex;align-items:center;justify-content:center;gap:11px;font:23px Georgia,serif;color:#1f5570}
+.fraction{display:inline-flex;flex-direction:column;align-items:center;font:14px Segoe UI,Arial,sans-serif;font-weight:800;color:#175e67;line-height:1.5}.fraction span:first-child{border-bottom:2px solid #1c6874;padding:1px 8px}
+.f-concept svg{display:block;width:100%;max-height:156px}.f-legend{font-size:12px;color:#42666a;line-height:1.5;text-align:center}
+@media(max-width:650px){.software-sidecar{padding:9px}.data-ribbon-note{flex-basis:100%}.f-equation{font-size:19px}.fraction{font-size:11px}}
+</style>
+</head>
+<body>
+<header class="tophero scenario-header" id="scenarioHeader">
+  <div class="scenario-bar">
+    <div><span>06_03 • One-way ANOVA walkthrough</span><strong>Lumen Children’s Hospital • MRI preparation pilot</strong></div>
+    <button class="scenario-toggle" id="caseToggle" type="button" aria-expanded="true">Collapse scenario ↑</button>
+  </div>
+  <div class="scenario-expanded" id="scenarioExpanded">
+    <div class="eyebrow">A decision from pediatric imaging</div>
+    <h1>The scanner is ready. The child isn't.</h1>
+    <div class="scenario-narrative">
+      <div class="scenario-story">
+        <p>At 8:35 on a busy Tuesday morning, a seven-year-old at Lumen Children’s Hospital is standing outside the MRI suite, clutching a stuffed fox. Her parents have been told the scan won't hurt, but the noises, the narrow tunnel, and the request to lie perfectly still have made it hard for her to take the next step. A nurse stays with the family and patiently talks through what will happen. In the waiting area, more children and caregivers are arriving for their appointments.</p>
+        <p><span class="case-source" data-case-steps="0 4 18">The imaging team doesn't want to rush frightened children or ask nurses to spend less time reassuring them.</span> Instead, it is exploring whether better preparation could help families feel ready sooner. <span class="case-source" data-case-steps="0 1 2"><span data-story-key="factor">Standard Orientation</span> uses a nurse-led explanation of the scanner and what to expect.</span> <span class="case-source" data-case-steps="0 1 2 17"><span data-story-key="factor">Tablet Story</span> lets the child work through an illustrated, narrated version of the experience.</span> <span class="case-source" data-case-steps="0 1 2 17"><span data-story-key="factor">VR Rehearsal</span> uses a headset to introduce the scanner room and its sounds before the actual visit to the machine.</span> <span class="case-source" data-case-steps="1 2">Each approach makes sense to someone on the team.</span> <span class="case-source" data-case-steps="1 2"><span data-story-key="purpose">The question is whether any of them meaningfully changes how long preparation takes.</span></span></p>
+        <p><span class="case-source" data-case-steps="0 3 5 18">Across the pilot, the team enrolled <span data-story-key="unit">children ages 6–10 arriving for their first outpatient MRI</span> who were eligible for any of the three non-drug preparation approaches.</span> <span class="case-source" data-case-steps="0 3"><span data-story-key="design">Children were randomly assigned to one program, and each child experienced that approach only once.</span></span> <span class="case-source" data-case-steps="0 3 5">The final cleaned analysis contains 150 complete observations—50 children in each group.</span> <span class="case-source" data-case-steps="0 3"><span data-story-key="response">Staff recorded the number of minutes between arrival in the imaging unit and being ready to enter the scanner; the spreadsheet calls this <code>Prep_Time_Min</code>.</span></span> <span class="case-source" data-case-steps="3 13 18">Lower values mean a shorter preparation period, not necessarily a better scan or a happier child.</span> <span class="case-source" data-case-steps="5 6"><span data-story-key="raw">The raw scheduling export is available in the walkthrough, so the data need to be screened before the team trusts its summaries.</span></span></p>
+      </div>
+      <aside class="scenario-message" aria-label="Message from hospital leadership">
+        <div class="message-overline">Message from Dr. Rao · Pediatric Imaging</div>
+        <p><span class="case-source" data-case-steps="1 6 14">“The nurses are hearing that children like the rehearsal. That matters, but it isn't enough for the budget meeting. <span data-story-key="leadership">Tell me whether the programs appear to differ on preparation time, which comparisons actually have evidence behind them, and how sure we can be.</span>”</span></p>
+        <div class="message-rule"></div>
+        <p><span class="case-source" data-case-steps="3 13">In a preliminary quality review, the clinical team reported <span data-story-key="shape">reasonably symmetric preparation times without extreme outliers in each program, although individual preparation times varied considerably.</span></span> <span class="case-source" data-case-steps="4">The analysis will use a significance level of α = .05, but the finance director has a second question:</span> <span class="case-source" data-case-steps="4 17 18">The tablet program uses devices already owned by the unit and only requires a modest content update.</span> <span class="case-source" data-case-steps="4 17 18"><span data-story-key="finance">VR requires new headsets, sanitation supplies, additional staff training, and a careful check of which children tolerate the headset.</span></span> <span class="case-source" data-case-steps="16 17 18">The finance director says any VR purchase would need convincing evidence of at least six minutes of average savings compared with Standard Orientation—and asks whether VR does anything meaningfully better than the simpler tablet program.</span></p>
+        <p class="message-footnote">Your recommendation must distinguish a statistical difference from a large-enough operational benefit. The pilot cannot answer questions about scan quality, sedation, or every child seen by the hospital.</p>
+      </aside>
+    </div>
+  </div>
+</header>
+<button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false">☰ Lesson sections</button><div class="nav-scrim" id="navScrim"></div>
+<main class="lecture-shell"><aside class="lecture-sidebar" id="lectureSidebar"><button class="menu-close" id="menuClose" type="button">Close menu ×</button><nav class="stepnav" id="stepnav" aria-label="Lesson sections"></nav><div class="sidebar-progress"><p id="progressText">0 of 19 complete</p><progress id="lectureProgress" value="0" max="19"></progress></div></aside>
+<div class="shell">
+<aside class="coach">
+    <div class="kicker" id="modeKick">Mission Control</div>
+  <div class="progress" aria-label="Mission progress"><div id="pbar"></div></div>
+  <section class="missionbox" aria-label="Current assignment">
+    <div class="missiontop"><span class="missionnum" id="mNum"></span><span class="missionskill" id="mSkill"></span></div>
+    <h2 id="mTitle"></h2>
+    <p id="mText" class="missioncontext"></p>
+    <div class="missionassignment"><span class="missionlabel" id="assignmentLabel">Your assignment</span><div class="target" id="mTarget"></div></div>
+    <div class="missionevidence"><span class="missionlabel" id="evidenceLabel">Where to look</span><div class="tip" id="mTip"></div></div>
+  </section>
+  <div class="answerbox" id="answerBox"></div>
+    <div class="rj-side-guide" id="rjSideGuide">
+      <div class="code-guide-head">Rj code guide <button class="copy-code" id="copyCode" type="button">Copy to editor</button></div>
+      <div class="code-snippet" id="codeSnippet">head(data)
+anova &lt;- aov(Prep_Time_Min ~ Prep_Program, data = data)
+summary(anova)
+TukeyHSD(anova)</div>
+      <div class="code-lines"><div class="code-line"><b>1</b><span>Preview the imported columns.</span></div><div class="code-line"><b>2</b><span>Fit prep time by the three-level program factor.</span></div><div class="code-line"><b>3</b><span>Print the overall ANOVA F test.</span></div><div class="code-line"><b>4</b><span>Request adjusted pairwise differences and confidence intervals.</span></div></div>
+      <div class="copy-note" id="copyNote"></div>
+    </div>
+    <div class="actions"><button class="btn shadow hidden" id="shadowBtn">👻 Shadow Guide</button><button class="btn primary" id="checkBtn">Check mission</button><button class="btn part-continue hidden" id="partNextBtn" type="button">Continue to next question →</button></div>
+  <div class="actions"><button class="btn soft" id="backBtn">← Back</button><button class="btn soft" id="nextBtn">Next →</button><button class="btn soft" id="resetBtn">Reset</button></div>
+  <div class="feedback" id="feedback">Complete the Jamovi action, then check the mission.</div>
+</aside>
+
+  <section class="workspace"><div class="software-sidecar hidden" id="softwareSidecar"></div><div class="briefing" id="briefing"><div class="briefhead"><small id="briefKick">INVESTIGATION BRIEF</small><h2 id="briefTitle"></h2><p id="briefSub"></p></div><div class="briefbody" id="briefBody"></div></div>
+  <section class="jamovi hidden" id="jamovi">
+  <div class="winbar">
+    <div class="hamb">☰</div>
+    <div class="tabs">
+      <button class="tab">Variables</button><button class="tab" id="dataTab" type="button">Data</button><button class="tab active" id="analysesTab">Analyses</button><button class="tab">Plots</button><button class="tab">Edit</button>
+    </div>
+    <div class="winspace"></div><div class="windowicons">— □ ×</div>
+    <div class="wintitle">jamovi - Lumen_MRI_Prep_Pilot.omv</div>
+  </div>
+
+
+  <div class="ribbon">
+    <button class="ribitem">
+      <div class="ricon">
+<svg viewBox="0 0 60 50" aria-hidden="true">
+  <rect x="8" y="17" width="12" height="27" fill="#f0b13c" stroke="#dfa12c" stroke-width="1.4"/>
+  <rect x="25" y="11" width="12" height="33" fill="#f4bb4f" stroke="#dfa12c" stroke-width="1.4"/>
+  <rect x="42" y="24" width="11" height="20" fill="#efb03e" stroke="#dfa12c" stroke-width="1.4"/>
+</svg></div><span class="riblabel">Exploration</span><span class="ribchev">⌄</span>
+    </button>
+    <button class="ribitem">
+      <div class="ricon">
+<svg viewBox="0 0 60 50" aria-hidden="true">
+  <line x1="3" y1="27" x2="57" y2="27" stroke="#c5d4e3" stroke-dasharray="2.2 2.2"/>
+  <g stroke="#609be0" stroke-width="2.3" fill="#fff">
+    <line x1="21" y1="10" x2="21" y2="43"/><line x1="16" y1="15" x2="26" y2="15"/><line x1="16" y1="38" x2="26" y2="38"/><circle cx="21" cy="27" r="4.2"/>
+  </g>
+  <g stroke="#efa927" stroke-width="2.3" fill="#fff">
+    <line x1="39" y1="7" x2="39" y2="39"/><line x1="34" y1="12" x2="44" y2="12"/><line x1="34" y1="34" x2="44" y2="34"/><circle cx="39" cy="24" r="4.2"/>
+  </g>
+</svg></div><span class="riblabel">T-Tests</span><span class="ribchev">⌄</span>
+    </button>
+    <button class="ribitem" id="anovaBtn">
+      <div class="ricon">
+<svg viewBox="0 0 60 50" aria-hidden="true">
+  <line x1="3" y1="27" x2="57" y2="27" stroke="#c5d4e3" stroke-dasharray="2.2 2.2"/>
+  <g stroke="#609be0" stroke-width="2.2" fill="#fff">
+    <line x1="14" y1="11" x2="14" y2="43"/><line x1="9" y1="16" x2="19" y2="16"/><line x1="9" y1="38" x2="19" y2="38"/><circle cx="14" cy="27" r="4"/>
+  </g>
+  <g stroke="#efa927" stroke-width="2.2" fill="#fff">
+    <line x1="30" y1="6" x2="30" y2="41"/><line x1="25" y1="12" x2="35" y2="12"/><line x1="25" y1="35" x2="35" y2="35"/><circle cx="30" cy="23" r="4"/>
+  </g>
+  <g stroke="#999" stroke-width="2.2" fill="#fff">
+    <line x1="46" y1="14" x2="46" y2="45"/><line x1="41" y1="19" x2="51" y2="19"/><line x1="41" y1="40" x2="51" y2="40"/><circle cx="46" cy="30" r="4"/>
+  </g>
+</svg></div><span class="riblabel">ANOVA</span><span class="ribchev">⌄</span>
+    </button>
+    <button class="ribitem">
+      <div class="ricon">
+<svg viewBox="0 0 60 50" aria-hidden="true">
+  <line x1="6" y1="42" x2="54" y2="12" stroke="#6c9ed8" stroke-width="2.1"/>
+  <g fill="#fff" stroke="#e6a72e" stroke-width="2">
+    <rect x="13" y="32" width="5" height="5"/><rect x="23" y="27" width="5" height="5"/>
+    <rect x="34" y="18" width="5" height="5"/><rect x="44" y="11" width="5" height="5"/>
+  </g>
+  <g stroke="#c9d7e4" stroke-width="1" stroke-dasharray="2 2">
+    <line x1="4" y1="27" x2="56" y2="27"/><line x1="30" y1="5" x2="30" y2="46"/>
+  </g>
+</svg></div><span class="riblabel">Regression</span><span class="ribchev">⌄</span>
+    </button>
+    <button class="ribitem">
+      <div class="ricon">
+<svg viewBox="0 0 60 50" aria-hidden="true">
+  <g fill="none" stroke-width="3">
+    <rect x="15" y="9" width="12" height="11" stroke="#5d99df"/>
+    <rect x="34" y="9" width="12" height="11" stroke="#eeaa2b"/>
+    <rect x="15" y="28" width="12" height="11" stroke="#eeaa2b"/>
+    <rect x="34" y="28" width="12" height="11" stroke="#a6a6a6"/>
+  </g>
+</svg></div><span class="riblabel">Frequencies</span><span class="ribchev">⌄</span>
+    </button>
+    <button class="ribitem">
+      <div class="ricon">
+<svg viewBox="0 0 60 50" aria-hidden="true">
+  <g fill="none" stroke="#669ddd" stroke-width="2.6">
+    <line x1="30" y1="15" x2="30" y2="28"/><line x1="30" y1="28" x2="13" y2="28"/><line x1="30" y1="28" x2="47" y2="28"/>
+    <line x1="13" y1="28" x2="13" y2="35"/><line x1="30" y1="28" x2="30" y2="35"/><line x1="47" y1="28" x2="47" y2="35"/>
+    <rect x="7" y="35" width="12" height="9"/><rect x="24" y="35" width="12" height="9"/><rect x="41" y="35" width="12" height="9"/>
+  </g>
+  <circle cx="30" cy="10" r="6" fill="#fff" stroke="#eca928" stroke-width="2.5"/>
+</svg></div><span class="riblabel">Factor</span><span class="ribchev">⌄</span>
+    </button>
+    <button class="ribitem">
+      <div class="ricon">
+<svg viewBox="0 0 60 50" aria-hidden="true">
+  <rect x="13" y="17" width="18" height="18" fill="#fff" stroke="#649ee0" stroke-width="3"/>
+  <rect x="35" y="9" width="15" height="15" fill="#fff" stroke="#649ee0" stroke-width="3"/>
+</svg></div><span class="riblabel">Chi² Tools</span><span class="ribchev">⌄</span>
+    </button>
+    <button class="ribitem">
+      <div class="ricon">
+<svg viewBox="0 0 60 50" aria-hidden="true">
+  <line x1="6" y1="42" x2="54" y2="42" stroke="#777" stroke-width="1"/>
+  <path d="M8,42 C15,41 17,39 21,32 C25,22 26,10 30,8 C34,10 35,22 39,32 C43,39 45,41 52,42 Z"
+        fill="#80afe7" fill-opacity=".85" stroke="#5c93d3" stroke-width="1.4"/>
+  <line x1="30" y1="8" x2="30" y2="42" stroke="#6f9ed5" stroke-width="1"/>
+</svg></div><span class="riblabel">distrACTION</span><span class="ribchev">⌄</span>
+    </button>
+    <button class="ribitem">
+      <div class="ricon">
+<svg viewBox="0 0 60 50" aria-hidden="true">
+  <rect x="13" y="17" width="18" height="18" fill="#fff" stroke="#649ee0" stroke-width="3"/>
+  <rect x="36" y="9" width="14" height="14" fill="#fff" stroke="#649ee0" stroke-width="3"/>
+</svg></div><span class="riblabel">JJStatsPlot</span><span class="ribchev">⌄</span>
+    </button>
+    <button class="ribitem" id="rBtn">
+      <div class="ricon">
+<svg viewBox="0 0 60 50" aria-hidden="true">
+  <ellipse cx="29" cy="24" rx="22" ry="13" fill="none" stroke="#b0b0b0" stroke-width="5"/>
+  <path d="M23 14 H35 C42 14 45 17 45 22 C45 26 42 29 37 30 L47 41 H37 L29 31 H28 V41 H20 V14 Z
+           M28 20 V26 H34 C36.5 26 38 25 38 23 C38 21 36.5 20 34 20 Z"
+        fill="#4f91d5"/>
+</svg></div><span class="riblabel">R</span><span class="ribchev">⌄</span>
+    </button>
+    <button class="ribitem wide">
+      <div class="ricon">
+<svg viewBox="0 0 60 50" aria-hidden="true">
+  <g fill="none" stroke-width="2.5">
+    <rect x="8" y="8" width="11" height="8" stroke="#5d99df"/><rect x="23" y="8" width="11" height="8" stroke="#5d99df"/><rect x="38" y="8" width="11" height="8" stroke="#5d99df"/>
+    <rect x="8" y="20" width="11" height="8" stroke="#5d99df"/><rect x="23" y="20" width="11" height="8" stroke="#eeaa2b"/><rect x="38" y="20" width="11" height="8" stroke="#eeaa2b"/>
+    <rect x="8" y="32" width="11" height="8" stroke="#5d99df"/><rect x="23" y="32" width="11" height="8" stroke="#5d99df"/><rect x="38" y="32" width="11" height="8" stroke="#5d99df"/>
+  </g>
+</svg></div><span class="riblabel">Summary Tables</span><span class="ribchev">⌄</span>
+    </button>
+    <button class="ribitem">
+      <div class="ricon">
+<svg viewBox="0 0 60 50" aria-hidden="true">
+  <rect x="12" y="18" width="18" height="18" fill="#fff" stroke="#649ee0" stroke-width="3"/>
+  <rect x="36" y="10" width="14" height="14" fill="#fff" stroke="#649ee0" stroke-width="3"/>
+</svg></div><span class="riblabel">Misc</span><span class="ribchev">⌄</span>
+    </button>
+    <button class="ribitem modules">
+      <div class="ricon">
+<svg viewBox="0 0 60 50" aria-hidden="true">
+  <path d="M26 7 H36 V20 H49 V30 H36 V43 H26 V30 H13 V20 H26 Z"
+        fill="#fff" stroke="#5f9ce0" stroke-width="3"/>
+</svg></div><span class="riblabel">Modules</span><span class="ribchev">⌄</span>
+    </button>
+    <div class="rmenu" id="rMenu">
+      <div class="rmenuhead">Rj</div>
+      <div class="rmenurow active" id="rjEditorItem">Rj Editor</div>
+      <div class="rmenurow">Rj Editor +</div>
+    </div>
+    <div class="anovamenu" id="anovaMenu">
+      <div class="menurow highlight" id="oneWayItem">One-Way ANOVA</div>
+      <div class="menurow">ANOVA</div><div class="menurow">Repeated Measures ANOVA</div><div class="menurow">ANCOVA</div><div class="menurow">MANCOVA</div>
+      <div class="menusep">Non-Parametric</div><div class="menurow">One-Way ANOVA<br><span style="padding-left:78px">Kruskal-Wallis</span></div><div class="menurow">Repeated Measures ANOVA<br><span style="padding-left:72px">Friedman</span></div>
+    </div>
+  </div>
+
+  <div class="data-ribbon hidden" id="dataRibbon" aria-label="Jamovi Data ribbon">
+  <span class="data-ribbon-group">Data</span>
+  <button type="button" class="data-ribbon-tool" id="filterMenuBtn" title="Data → Filters">▽<small>Filters</small></button>
+  <button type="button" class="data-ribbon-tool" id="deleteDataRow" title="Data → Rows → Delete selected rows" disabled>▦<small>Rows · Delete ▾</small></button>
+  <span class="data-ribbon-note" id="dataStatus">Select a row number in the data grid. The blank outcome may remain stored.</span>
+</div>
+<div class="row-filter-editor hidden" id="filterEditor" aria-label="Jamovi row filters">
+ <div class="filter-editor-caption">ROW FILTERS <button type="button" id="closeFilterEditor" aria-label="Close row filters">×</button></div>
+ <div class="jam-filter-card"><div class="jam-filter-header">＋ Filter 1 <label><input type="checkbox" id="filterIsActive" checked> active</label></div>
+ <div class="jam-filter-expression"><span>ƒₓ</span><textarea id="programFilter" spellcheck="false" rows="2">Prep_Program == "Standard Orientation" or Prep_Program == "Tablet Story" or Prep_Program == "VR Rehearsal"</textarea></div>
+ <div class="jam-filter-desc" id="programFilterResult">A filter includes matching rows; it does not identify duplicate IDs.</div></div>
+</div>
+<div class="main">
+    <div class="leftwork">
+      <div class="sheetwrap" id="sheetView">
+        <table class="sheet" id="dataSheet"></table><table class="sheet" id="dataSheet"></table>
+        <div class="statusbar"><span class="ready">Ready</span><span>▽</span><span>◉</span><span>Filters 0</span><span style="margin-left:auto" data-row-count>Rows 152 · usable for ANOVA 150</span><span>Filtered 0</span><span>Missing outcomes 1</span></div>
+      </div>
+
+
+      <div class="rjpanel" id="rjPanel">
+        <div class="rjhead">Rj Editor <button class="rjclose" id="rjClose" type="button">→</button></div>
+        <div class="rjeditorwrap">
+          <div class="linenos" id="lineNos">1<br>2<br>3<br>4<br>5<br>6<br>7</div>
+          <textarea class="reditor" id="rEditor" spellcheck="false"># Build the ANOVA and Tukey HSD results here
+</textarea>
+          <div class="rjtools"><span class="rgear">⚙</span><span class="rrun" id="rRun" title="Run"></span></div>
+          <div class="rjhint">Ctrl + Shift + Enter to run</div>
+        </div>
+      </div>
+
+      <div class="analysispanel" id="analysisPanel">
+        <div class="ap-head">One-Way ANOVA <button class="collapse" id="collapseBtn">→</button></div>
+        <div class="ap-body">
+          <div class="assignarea">
+            <div class="varlist" id="varList"><div class="searchrow">⌕</div></div>
+            <div class="move-col"><button class="arrowbtn" id="depArrow">→</button><button class="arrowbtn" id="grpArrow">→</button></div>
+            <div class="assignright">
+              <label>Dependent Variables</label><div class="drop" id="depBox"></div>
+              <label>Grouping Variable</label><div class="drop group" id="grpBox"></div>
+            </div>
+          </div>
+
+          <div class="twocol">
+            <div>
+              <div class="optiontitle">Variances</div>
+              <label class="checkline"><input id="welch" type="checkbox" checked> Don't assume equal (Welch's)</label>
+              <label class="checkline"><input id="fisher" type="checkbox"> Assume equal (Fisher's)</label>
+              <div class="optiontitle" style="margin-top:14px">Missing Values</div>
+              <label class="radioline"><input type="radio" name="missing" checked> Exclude cases analysis by analysis</label>
+              <label class="radioline"><input type="radio" name="missing"> Exclude cases listwise</label>
+            </div>
+            <div>
+              <div class="optiontitle">Additional Statistics</div>
+              <label class="checkline"><input id="descTable" type="checkbox"> Descriptives table</label>
+              <label class="checkline"><input id="descPlots" type="checkbox"> Descriptives plots</label>
+              <div class="optiontitle" style="margin-top:14px">Assumption Checks</div>
+              <label class="checkline"><input id="homo" type="checkbox"> Homogeneity test</label>
+              <label class="checkline"><input id="normal" type="checkbox"> Normality test</label>
+              <label class="checkline"><input id="qq" type="checkbox"> Q-Q Plot</label>
+            </div>
+          </div>
+
+          <div class="postbar" id="postBar"><span class="chev">›</span>Post-Hoc Tests</div>
+          <div class="postbody" id="postBody">
+            <div>
+              <div class="optiontitle">Post-Hoc Test</div>
+              <label class="radioline"><input type="radio" name="post" value="none" checked> None</label>
+              <label class="radioline"><input type="radio" name="post" value="games"> Games-Howell (unequal variances)</label>
+              <label class="radioline"><input type="radio" name="post" value="tukey"> Tukey (equal variances)</label>
+            </div>
+            <div>
+              <div class="optiontitle">Statistics</div>
+              <label class="checkline"><input id="meanDiff" type="checkbox" checked> Mean difference</label>
+              <label class="checkline"><input id="reportSig" type="checkbox" checked> Report significance</label>
+              <label class="checkline"><input id="testResults" type="checkbox"> Test results (t and df)</label>
+              <label class="checkline"><input id="flagSig" type="checkbox"> Flag significant comparisons</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rightwork" id="rightWork">
+      <div class="logoempty" id="emptyState"><div><span class="jamlogo">J</span><small>version 2.8.2</small></div></div>
+      <div id="resultContent" style="display:none"><div class="resultslabel">Results</div><div class="resultcard" id="resultCard"></div><div class="refs" id="refs"></div></div>
+    </div>
+  </div>
+  <div class="shadowshield" id="shield"></div>
+</section>
+</section>
+</div></main>
+<div class="ghost" id="ghost"><div class="gptr">👻</div><div class="glabel" id="glabel"></div></div><div class="gring" id="gring"></div>
+
+<script>
+(function(){
+const rows=[["LH-01","Standard Orientation",29.2],["LH-02","Standard Orientation",24.0],["LH-03","Standard Orientation",34.8],["LH-04","Standard Orientation",41.4],["LH-05","Standard Orientation",48.6],["LH-06","Standard Orientation",38.3],["LH-07","Standard Orientation",31.7],["LH-08","Standard Orientation",29.4],["LH-09","Standard Orientation",44.7],["LH-10","Standard Orientation",53.5],["LH-11","Standard Orientation",40.0],["LH-12","Standard Orientation",24.9],["LH-13","Standard Orientation",27.7],["LH-14","Standard Orientation",53.2],["LH-15","Standard Orientation",39.3],["LH-16","Standard Orientation",20.0],["LH-17","Standard Orientation",36.4],["LH-18","Standard Orientation",25.6],["LH-19","Standard Orientation",31.0],["LH-20","Standard Orientation",32.4],["LH-21","Standard Orientation",30.1],["LH-22","Standard Orientation",42.8],["LH-23","Standard Orientation",36.6],["LH-24","Standard Orientation",31.4],["LH-25","Standard Orientation",41.3],["LH-26","Standard Orientation",45.5],["LH-27","Standard Orientation",20.8],["LH-28","Standard Orientation",34.7],["LH-29","Standard Orientation",27.5],["LH-30","Standard Orientation",35.5],["LH-31","Standard Orientation",24.4],["LH-32","Standard Orientation",37.4],["LH-33","Standard Orientation",36.9],["LH-34","Standard Orientation",34.2],["LH-35","Standard Orientation",26.8],["LH-36","Standard Orientation",33.3],["LH-37","Standard Orientation",26.4],["LH-38","Standard Orientation",23.7],["LH-39","Standard Orientation",39.5],["LH-40","Standard Orientation",26.2],["LH-41","Standard Orientation",48.9],["LH-42","Standard Orientation",44.4],["LH-43","Standard Orientation",17.3],["LH-44","Standard Orientation",40.0],["LH-45","Standard Orientation",26.2],["LH-46","Standard Orientation",37.6],["LH-47","Standard Orientation",37.7],["LH-48","Standard Orientation",17.4],["LH-49","Standard Orientation",34.9],["LH-50","Standard Orientation",34.7],["LH-51","Tablet Story",38.8],["LH-52","Tablet Story",18.5],["LH-53","Tablet Story",36.6],["LH-54","Tablet Story",19.3],["LH-55","Tablet Story",26.5],["LH-56","Tablet Story",21.7],["LH-57","Tablet Story",43.4],["LH-58","Tablet Story",35.0],["LH-59","Tablet Story",52.7],["LH-60","Tablet Story",35.7],["LH-61","Tablet Story",37.7],["LH-62","Tablet Story",37.6],["LH-63","Tablet Story",23.9],["LH-64","Tablet Story",29.0],["LH-65","Tablet Story",42.4],["LH-66","Tablet Story",25.9],["LH-67","Tablet Story",31.5],["LH-68","Tablet Story",29.5],["LH-69","Tablet Story",35.4],["LH-70","Tablet Story",26.2],["LH-71","Tablet Story",28.2],["LH-72","Tablet Story",32.0],["LH-73","Tablet Story",30.6],["LH-74","Tablet Story",21.5],["LH-75","Tablet Story",38.1],["LH-76","Tablet Story",17.4],["LH-77","Tablet Story",18.3],["LH-78","Tablet Story",17.5],["LH-79","Tablet Story",38.8],["LH-80","Tablet Story",26.3],["LH-81","Tablet Story",20.5],["LH-82","Tablet Story",18.9],["LH-83","Tablet Story",33.6],["LH-84","Tablet Story",19.7],["LH-85","Tablet Story",17.6],["LH-86","Tablet Story",35.5],["LH-87","Tablet Story",18.4],["LH-88","Tablet Story",26.6],["LH-89","Tablet Story",29.6],["LH-90","Tablet Story",25.5],["LH-91","Tablet Story",29.2],["LH-92","Tablet Story",42.3],["LH-93","Tablet Story",24.8],["LH-94","Tablet Story",17.8],["LH-95","Tablet Story",12.3],["LH-96","Tablet Story",27.7],["LH-97","Tablet Story",26.3],["LH-98","Tablet Story",32.2],["LH-99","Tablet Story",25.3],["LH-100","Tablet Story",25.1],["LH-101","VR Rehearsal",18.4],["LH-102","VR Rehearsal",20.3],["LH-103","VR Rehearsal",26.9],["LH-104","VR Rehearsal",21.7],["LH-105","VR Rehearsal",26.3],["LH-106","VR Rehearsal",43.6],["LH-107","VR Rehearsal",29.9],["LH-108","VR Rehearsal",10.2],["LH-109","VR Rehearsal",42.0],["LH-110","VR Rehearsal",28.7],["LH-111","VR Rehearsal",16.3],["LH-112","VR Rehearsal",34.0],["LH-113","VR Rehearsal",25.5],["LH-114","VR Rehearsal",19.4],["LH-115","VR Rehearsal",19.3],["LH-116","VR Rehearsal",15.8],["LH-117","VR Rehearsal",25.8],["LH-118","VR Rehearsal",35.6],["LH-119","VR Rehearsal",22.2],["LH-120","VR Rehearsal",29.4],["LH-121","VR Rehearsal",43.3],["LH-122","VR Rehearsal",13.7],["LH-123","VR Rehearsal",27.8],["LH-124","VR Rehearsal",22.4],["LH-125","VR Rehearsal",15.2],["LH-126","VR Rehearsal",15.5],["LH-127","VR Rehearsal",25.2],["LH-128","VR Rehearsal",29.5],["LH-129","VR Rehearsal",20.2],["LH-130","VR Rehearsal",25.9],["LH-131","VR Rehearsal",32.3],["LH-132","VR Rehearsal",28.2],["LH-133","VR Rehearsal",33.7],["LH-134","VR Rehearsal",29.8],["LH-135","VR Rehearsal",30.0],["LH-136","VR Rehearsal",42.9],["LH-137","VR Rehearsal",31.3],["LH-138","VR Rehearsal",26.6],["LH-139","VR Rehearsal",32.1],["LH-140","VR Rehearsal",16.5],["LH-141","VR Rehearsal",22.1],["LH-142","VR Rehearsal",32.9],["LH-143","VR Rehearsal",31.4],["LH-144","VR Rehearsal",40.2],["LH-145","VR Rehearsal",25.4],["LH-146","VR Rehearsal",11.3],["LH-147","VR Rehearsal",44.0],["LH-148","VR Rehearsal",35.8],["LH-149","VR Rehearsal",15.2],["LH-150","VR Rehearsal",38.5]];
+const summary=[["Standard Orientation",50,"34.004","8.702","1.231"],["Tablet Story",50,"28.498","8.503","1.203"],["VR Rehearsal",50,"27.004","8.904","1.259"]];
+const rawPreview=[["LH-05","Standard Orientation","48.6","valid"],["LH-61","Tablet Story","37.7","valid"],["LH-61","Tablet Story","37.7","duplicate"],["LH-151","VR Rehearsal","","missing prep time"],["LH-120","VR Rehearsal","29.4","valid"]];
+let analysisOpen=false,selected=null,dep=null,grp=null,post="none",plotLoading=false,rjOpen=false,rOutput=false;
+let mission=0,finalAnswer="",shadowing=false,passed=new Set();
+
+const missions=[
+ {type:"theory",skill:"DECODE",nav:"Decode the case",title:"1. Decode the case",text:"The imaging director wants the pilot explained in plain language before anyone touches Jamovi.",target:"Identify what counts as one observation, which detail defines the groups, what was measured, and whether the children are paired.",tip:"Reread how the pilot was assigned, then explore the four evidence lenses.",q:"Which map preserves the study exactly as described?",choices:["One child is one observation; Prep_Program is a three-level categorical factor; Prep_Time_Min is quantitative; groups are independent.","One program is one observation; age is the response; groups are paired because all children receive an MRI, so the common experience of scanning creates repeated observations.","One minute is one observation; Prep_Program is quantitative because it has three levels; groups are independent.","One child is one observation; Prep_Time_Min is the factor; the three programs are quantitative outcomes."],feedback:["","The MRI is shared, but the same child is not measured under multiple programs. Pairing requires repeated or matched observations.","Minutes are the measured outcome, not observational units. Three labels create categorical levels, not numerical magnitude.","This reverses the roles: program labels define groups, while minutes are measured within each group."],correct:0,explain:"Exactly. Each child contributes one quantitative prep time under one of three independent program conditions."},
+ {type:"theory",skill:"METHOD",nav:"Choose the method",title:"2. Choose the method",text:"The analytics team is about to present to Dr. Rao. First decide what kind of question the director is asking. Then respond when a coworker offers a shortcut.",target:"Identify the appropriate overall analysis. After that, challenge an unadjusted multiple-testing plan without giving up useful pairwise comparisons.",tip:"The procedure cards define their purpose without telling you which to choose. Match those definitions to the actual pilot.",parts:[{q:"Which analysis is the best FIRST test of whether average preparation time differs among the three independent programs?",choices:["A chi-square test of independence","A paired-samples t test","A one-way ANOVA F test","Three two-sample t tests at α = .05 each"],correct:2,feedback:["Chi-square handles counts across categories; the outcome is measured in minutes.","The pilot has different children per group, not pairs or repeated measures.","","The three tests answer pairwise questions but do not provide a single omnibus test while controlling its Type I error."],explain:"A one-way ANOVA compares all three population means using one omnibus test."},{q:"Your coworker says, ‘No need for ANOVA. I already ran Standard vs Tablet, Standard vs VR, and Tablet vs VR—each at .05.’ What should you say?",choices:["The plan is fine: three tests at 5% still guarantee only 5% risk of any false positive, even when the smallest of those p-values is presented as evidence for purchasing one method.","Hold on: three unadjusted tests can inflate the family-wise false-positive risk. Use one omnibus ANOVA and adjusted comparisons such as Tukey for the pairwise questions.","Stop testing entirely because any repeated comparison violates the independence of patients.","Run a paired t test instead; that automatically fixes the multiple-testing problem."],correct:1,feedback:["Each 5% error rate applies to one test; the chance of at least one false alarm across a family can be larger.","","The children are independent; the concern is multiplicity of tests, not repeated measurement on the same child.","Pairing is determined by design and does not solve unadjusted multiplicity."],explain:"Exactly. Post-hoc comparisons are useful, but their family-wise false-positive risk must be addressed, for example using Tukey-adjusted tests."}]},
+ {type:"theory",skill:"HYPOTHESES",nav:"Build hypotheses",title:"3. Build the hypotheses",text:"Dr. Rao asks what the world would have to look like if the programs truly made no difference on average.",target:"State the population-level null and alternative for the overall comparison—not just the VR-versus-Standard pair.",tip:"Test a few imagined sets of population means in the interactive brief.",q:"Which hypothesis pair matches the omnibus ANOVA?",choices:[`<span class="hypPair"><span>H₀: μ<sub>Standard</sub> = μ<sub>Tablet</sub> = μ<sub>VR</sub></span><span>Hₐ: not all three population means are equal</span></span>`,`<span class="hypPair"><span>H₀: x̄<sub>Standard</sub> = x̄<sub>Tablet</sub> = x̄<sub>VR</sub></span><span>Hₐ: all sample means differ</span></span>`,`<span class="hypPair"><span>H₀: μ<sub>Standard</sub> = μ<sub>VR</sub></span><span>Hₐ: μ<sub>Standard</sub> ≠ μ<sub>VR</sub></span></span>`,`<span class="hypPair"><span>H₀: all population means differ</span><span>Hₐ: at least two means are equal</span></span>`],feedback:["","Hypotheses concern unknown population means, not the sample means already observed. Also, Hₐ does not require every sample or population mean to differ.","That is one pairwise question. The omnibus test begins with all three population means.","This reverses the logic: equality belongs in the null, and the alternative is its complement."],correct:0,explain:"Correct. The omnibus null equates all three population means; any configuration that is not all-equal belongs to Hₐ."},
+ {type:"theory",skill:"CONDITIONS",nav:"Audit conditions",title:"4. Audit the conditions",text:"Before sending any results to the budget committee, audit the design, the within-program observations, and the equal-variance assumption separately.",target:"Make three judgments: independence from assignment, the within-group shape and sample sizes, and what still needs checking in Jamovi.",tip:"Each check answers a different question. Read the enrollment and preliminary-review sentences in the evidence brief.",parts:[{q:"The hospital assigned each child to exactly one of the three programs. Which assumption does this most directly support?",choices:["Equal population variances, because assignment makes every program equally variable.","Independent groups: each child is measured once under one assigned method.","A normal distribution of minutes for every child who could attend the hospital.","A proven six-minute savings benefit for the VR program."],correct:1,feedback:["Random assignment does not ensure identical spreads.","","Assignment cannot guarantee a particular outcome distribution.","The benefit threshold is a decision rule, not a design assumption."],explain:"The design supports independent groups: a child contributes one outcome, not a matched or repeated measurement."},{q:"Each program has 50 complete records, and the preliminary review reports reasonably symmetric times without extreme outliers. What is the best interpretation?",choices:["The large combined N guarantees independence even if the same child had been recorded twice.","Those observations confirm that every possible MRI patient's times follow a perfect normal curve.","There is no reason to inspect outcomes after random assignment, since randomization eliminates outliers.","Reassuring for group-mean inference, but investigate severe departures."],correct:3,feedback:["Independence is about how cases relate, not the total N.","A clinical quality review cannot establish exact normality of a population.","Randomization does not prevent extreme observations or measurement errors.",""],explain:"With 50 observations per program, the mean comparison is reasonably robust to moderate nonnormality, but independence and severe outliers still matter."},{q:"The groups appear reasonable so far, but their population variances are unknown. What should you do next?",choices:["Ask Jamovi for Levene's test and revisit the equal-variance assumption.","Treat the means as identical because the review did not identify any extreme outliers.","Delete every unusually slow child until each group's sample SD is the same.","Replace ANOVA with three unadjusted pairwise tests to avoid checking model assumptions."],correct:0,feedback:["","Absence of obvious outliers does not establish equality of means or variances.","Removing valid observations to force equal spread biases the analysis.","Switching to unadjusted tests does not solve the variance question and adds multiplicity risk."],explain:"Homogeneity concerns variability around each group mean; Jamovi will supply Levene's test before the final model choice."}]},
+ {type:"theory",skill:"ERRORS",nav:"Two decision errors",title:"5. Errors in the MRI decision",text:"The charge nurse is worried about spending scarce funds on an illusion. A second nurse is worried about missing a helpful change. Work through their concerns separately before choosing safeguards.",target:"Diagnose each false decision, select a way to manage its risk, and decide how the costs of the two errors change with the action being considered.",tip:"The error type depends on the truth of the omnibus null and your statistical decision. Costs and consequences depend on the hospital's choice.",parts:[{q:"Scenario A · The true mean preparation times are identical, but the team announces a program difference and orders an expensive VR rollout. What happened, and what protects against it?",choices:["Type II; make α larger so more effects are detected, and presume that finding more significant results automatically makes the equipment decision safer.","Type I; set α beforehand, avoid unadjusted multiple tests, and confirm important claims before purchase.","No error; VR still has the smallest sample mean.","Type II; collect only faster children."],correct:1,feedback:["That strategy addresses missed effects, not false declarations under an all-equal null.","","A lower observed sample mean can arise by chance even when true means match.","Restricting the sample this way creates selection bias rather than protecting inference."],explain:"This is a Type I error: a false declaration under a true all-equal null. Preregistered α, adjusted follow-ups, and replication can help limit false alarms."},{q:"Scenario B · Tablet genuinely reduces the population mean preparation time, but a noisy small study reports no detectable difference. How should the team lower this risk on a new pilot?",choices:["Use more eligible children and consistent time measurements, with sample size planned for a worthwhile effect.","Lower α to .001 without changing the sample.","Run three unadjusted pairwise tests and select the smallest p-value, reasoning that looking across more tests is the most reliable way to rescue a true improvement that the omnibus analysis misses.","Remove all large times to force smaller variation."],correct:0,feedback:["","Reducing α typically makes false negatives more likely when everything else stays the same.","This raises false-positive risk and is not a defensible way to improve power.","Deleting valid outcomes distorts the sample rather than improving study quality."],explain:"This is a Type II error: a real improvement went undetected. Adequate sample size, reliable measures, and power planning help reduce missed effects."},{q:"In today's hospital, which error should the director fear more?",choices:["Type I is always worse: even a small false-positive claim must take priority over the possibility of missing a genuine improvement, regardless of the cost or reversibility of the intervention.","Type II, since any new program must help some child.","Neither matters once the sample reaches 50 per group.","It depends: a costly VR purchase raises the risk of a false positive; delaying a useful tablet program raises the cost of a false negative."],correct:3,feedback:["Cost and reversibility vary by action; there is no universal ranking.","A new program is not guaranteed to help, and missing a real effect is only one possible decision risk.","Fifty per group does not eliminate either kind of error.",""],explain:"Exactly. Keep α and multiplicity disciplined when procurement mistakes are expensive; plan power and better measurement when overlooking a beneficial intervention would matter."}]},
+ {type:"software",skill:"DATA QUALITY",nav:"Clean rows in Jamovi",title:"6. Handle the duplicate and blank time",text:"A duplicate child record is a real data-entry error. A missing prep time is different: Jamovi can omit it from the ANOVA without deleting its row.",target:"In the Jamovi-style Data view, select the duplicated LH-61 entry and use Delete selected row. Leave LH-151's blank response in place; the per-analysis missing-value rule will exclude it automatically.",tip:"Select the row NUMBER for the extra LH-61—not a legitimate repeated time. Click Data → Rows → Delete selected rows. Do not delete the missing-response child merely to make the file look clean.",check:"screen"},
+ {type:"theory",skill:"PLAN",nav:"Plan the clinical report",title:"7. Answer the nurse manager's request",text:"Before opening the results, the nurse manager asks for a one-page briefing. She does not want a wall of p-values or a claim that the fastest observed child represents the typical family.",target:"Translate four real questions from the care team into the Jamovi evidence needed to answer them; do not interpret plots or numbers that have not been generated.",tip:"The next steps will produce this evidence in Jamovi: group descriptives, an overall F test, Tukey-adjusted comparisons, and plots of the group means.",q:"What would give the nurse manager an evidence-based report?",choices:["Pick the lowest recorded time; the quickest child shows which method wins.","Show only the omnibus p-value; every later comparison is redundant.","Show group summaries and plots, ANOVA, adjusted pairwise estimates, and implementation costs.","Rank the three means and skip uncertainty so the nursing meeting stays short. Once the sample means are ordered, their observed ranking can be treated as a sufficient basis for selecting a program."],correct:2,feedback:["A single child's time is not a population-level program comparison.","The F test cannot identify the individual pairwise differences or practical consequences.","","A ranking conceals sampling uncertainty and does not address the real decision."],explain:"Right. Every report ingredient has a different job. You will now generate the actual output and test which inferences it supports."},
+ {type:"software",skill:"OPEN",nav:"Open ANOVA",title:"8. Open ANOVA",text:"You have a defensible statistical question. Now the analysis team needs its first Jamovi result.",target:"Open the procedure that tests all three group means together.",tip:"Start from the Analyses ribbon and locate the one-way procedure in the ANOVA menu.",check:"open"},
+ {type:"software",skill:"VARIABLES",nav:"Assign variables",title:"9. Assign variables",text:"The software needs to know what the staff measured and what separates children into programs.",target:"Place preparation time in the outcome field and the assigned program in the grouping field.",tip:"Look for the Dependent Variables and Grouping Variable boxes.",check:"assign"},
+ {type:"software",skill:"VARIANCE",nav:"Check homogeneity",title:"10. Check homogeneity",text:"The hospital does not want an equal-variance model used just because it is the default.",target:"Request a homogeneity check, then examine the evidence about the three groups’ variability.",tip:"Find the Homogeneity test under Assumption Checks; read Levene’s result.",check:"homo"},
+ {type:"software",skill:"MODEL",nav:"Run Fisher + Tukey",title:"11. Run Fisher + Tukey",text:"The next report must answer both whether any difference exists and, if so, where it appears.",target:"Choose the justified overall test and a follow-up method that adjusts for multiple pairwise comparisons.",tip:"Use the variance evidence to choose between Fisher and Welch; request Tukey comparisons.",check:"method"},
+ {type:"software",skill:"OUTPUT",nav:"Generate plots",title:"12. Generate and inspect plots",text:"The chief nurse pushes back: “Please show us the actual minutes, not just whether a p-value is small.”",target:"Use Jamovi to create the group descriptives table and mean-with-95%-CI plot. Then inspect the results pane before evaluating the pattern.",tip:"Switch on both Descriptives options and inspect the updated results pane.",check:"output"},
+ {type:"software",skill:"Rj",nav:"Run TukeyHSD in Rj",title:"13. Run TukeyHSD in Rj",text:"The finance analyst wants the size and uncertainty of each pairwise difference in one place.",target:"Use Rj to produce an ANOVA cross-check and adjusted Tukey differences, intervals, and p-values.",tip:"Open the Rj Editor, inspect the line-by-line code guide in this panel, then run it.",check:"rj"},
+ {type:"final",skill:"DESCRIPTIVES",nav:"Read the outputs",title:"14. Read Jamovi's descriptive evidence",text:"The chief nurse points to the plot you just created. ‘Does the lowest plotted mean tell us which approach to purchase?’",target:"Read the table and Jamovi mean/95% CI plot in the context of real children, without treating group confidence bars as a Tukey test.",tip:"The Jamovi graph shows means and individual 95% intervals, not a simultaneous Tukey comparison. The post-hoc output answers pairwise inferential questions.",visualKey:"descriptives",q:"What can you responsibly tell the chief nurse from the descriptives and plot alone?",choices:["The plot proves that VR is quicker for every child who might visit Lumen.","Tablet and VR have lower sample means; use Tukey for adjusted pairwise inference.","Because the confidence bars overlap, all three population means must be exactly equal.","Tablet’s smaller mean proves it is clinically safer than Standard."],correct:1,feedback:["Patient outcomes overlap across methods. A lower group mean does not guarantee each child is faster.","","Overlapping individual confidence intervals are not a direct ANOVA or Tukey decision rule.","Minutes ready for MRI do not measure scan safety or satisfaction."],explain:"Correct. Table and plot establish the sample pattern. The adjusted contrasts are needed for pairwise statistical claims."},
+ {type:"final",skill:"F RATIO",nav:"Understand the F ratio",title:"15. Understand what F measures",text:"Dr. Rao wants the intuition behind ANOVA before anyone quotes a p-value. Think about variation between program averages relative to variation among children using the same program.",target:"Predict the F ratio when group means are well separated but times within each program are tightly clustered.",tip:"F = mean square between programs ÷ mean square within programs. A larger relative separation generally gives a larger F.",visualKey:"omnibus",q:"Imagine Standard, Tablet, and VR have very different mean times, but children within each program have similar times. What would ANOVA tend to show?",choices:["A small F because there are three programs.","A large F: group differences stand out against little within-group noise.","F near one regardless of the group means.","No variance at all, so ANOVA can never be used."],correct:1,feedback:["Group count influences degrees of freedom but does not force a small F.","","The relative group separation changes F.","Some within-group variability is assumed in the comparison."],explain:"Exactly. Separated means and tightly grouped observations create a large between/within signal-to-noise ratio."},
+ {type:"final",skill:"POST HOC",nav:"F to Tukey pairs",title:"16. From ANOVA to the pairwise story",text:"The nurses ask how the F test can identify a difference somewhere while leaving the practical choice unresolved. Explain that limitation before reading the three adjusted contrasts.",target:"Distinguish the overall F ratio from pairwise tests, then identify which pairs have adjusted evidence of different population means.",tip:"One large signal-to-noise ratio flags an overall difference. Tukey examines individual differences while accounting for the family of comparisons.",visualKey:"pairs",parts:[{q:"Why can't a significant ANOVA F statistic tell the nurses that VR is definitely better than Tablet?",choices:["F is based only on the sample sizes and cannot respond to differences in averages.","F tests whether the population variances differ; it has no connection to means.","F compares between- to within-program variation, not any single pair.","F automatically proves all possible pairwise mean differences, but the graph may hide them."],correct:2,feedback:["The F numerator depends on differences among group means.","Levene's test addresses homogeneity. ANOVA F addresses mean differences.","","ANOVA significance does not require every pair to differ."],explain:"Exactly. The omnibus F ratio detects an overall departure from equal means, not which specific means are different."},{q:"Which statement best summarizes the Tukey-adjusted results for the three programs?",choices:["All three programs differ because their numerical sample means differ.","Tablet and VR have been proved equivalent because their adjusted p-value is above .05.","Only VR improves on Standard; Tablet has no supported effect.","Both alternatives differ from Standard; VR versus Tablet is not resolved by this study."],correct:3,feedback:["Observed rank order is not enough to establish every population contrast.","Failure to reject a difference is not an equivalence test.","The Tablet–Standard contrast is statistically significant after Tukey adjustment.",""],explain:"Tukey supports both alternatives relative to Standard; the VR–Tablet interval includes zero, so the additional VR advantage remains uncertain."}]},
+ {type:"final",skill:"PRACTICAL",nav:"Test the savings rule",title:"17. Test the six-minute hurdle",text:"The finance director has not changed the purchasing requirement: VR must convincingly save at least six minutes relative to Standard to justify the premium rollout.",target:"Keep the 7-minute point estimate, the uncertainty interval, and the six-minute requirement separate.",tip:"Use the family-wise adjusted Standard−VR confidence interval, approximately [2.88, 11.12] minutes.",visualKey:"threshold",q:"Has VR cleared finance's six-minute evidence threshold?",choices:["Yes, because the observed 7-minute sample mean reduction exceeds the policy cutoff; uncertainty intervals need not be considered once this threshold is crossed.","No, because a nonsignificant Tablet–VR comparison proves VR has no effect.","Yes, because the omnibus ANOVA p-value is under .001.","No. The adjusted interval allows savings below six minutes."],correct:3,feedback:["The point estimate alone is not enough to support a minimum savings claim with high confidence.","VR has a statistically supported difference relative to Standard; the Tablet–VR comparison is a separate question.","The omnibus test says nothing about whether the Standard−VR improvement clears six minutes.",""],explain:"Exactly. VR’s observed savings are 7 minutes, but the Tukey interval starts at about 2.88—below the rollout requirement."},
+ {type:"final",skill:"TRADEOFF",nav:"Choose a pilot policy",title:"18. Recommend an operating policy",text:"Operations already owns the tablets. VR would require expensive headsets, sanitation and training. Both methods outperform Standard on average, but VR is not demonstrably better than Tablet or convincingly past the six-minute procurement requirement.",target:"Choose a defensible near-term rollout recommendation that balances evidence, equipment costs, and the limits of inference.",tip:"The absence of a significant Tablet–VR difference is not proof of equal benefits. Cost and readiness matter alongside statistical evidence.",visualKey:"decision",q:"What is the strongest recommendation with today's evidence?",choices:["Buy VR headsets for all sites because the lowest observed mean is automatically worth the premium.","Use existing tablets first; defer purchasing VR until its added value is established.","Keep Standard everywhere because ANOVA cannot prove that VR and Tablet differ.","State that Tablet is clinically equivalent to VR and will remain so for all children."],correct:1,feedback:["VR has not cleared the six-minute minimum-benefit claim and faces extra costs.","","The data support both alternatives versus Standard, so a no-change default ignores useful evidence.","Non-significance is not an equivalence finding, especially without a prespecified equivalence margin."],explain:"The defensible choice is to implement a measured tablet-first program using existing equipment. VR has a statistically supported improvement versus Standard, but its adjusted interval includes savings below six minutes, and an additional benefit over Tablet has not been established."},
+ {type:"final",skill:"CARE HUDDLE",nav:"Clinical handoff",title:"19. Brief the clinical team",text:"During the afternoon clinical handoff, the charge nurse asks for an evidence-based plan that the team can implement without compromising individual patient needs.",target:"Explain the average-time findings accurately, identify the evidence gaps, and recommend a measured implementation that preserves individualized care.",tip:"Keep the population comparison distinct from each child's needs. A significant mean difference does not establish patient comfort, scan quality, or VR's cost-effectiveness.",visualKey:"huddle",parts:[{q:"Maya, MRI nurse: 'What can I accurately tell colleagues about the two alternative programs?'",choices:["Both differ from Standard; the VR–Tablet comparison remains unresolved.","VR shortens preparation for every child and should become mandatory.","The methods have identical mean times because there is no significant VR–Tablet contrast.","ANOVA can assess the average preparation time of one program, but it cannot compare programs."],correct:0,feedback:["","Group mean effects do not guarantee individual benefits.","Non-significance is not proof of equal means.","One-way ANOVA is designed to compare means across groups."],explain:"This communicates the supported group-level improvements without claiming VR superiority or uniform benefit for every patient."},{q:"Luis, pediatric nurse: 'How should we implement a change when some children are uncomfortable with headsets?'",choices:["Require VR for all patients; lower average time always takes priority over tolerability.","Discontinue Standard immediately and exclude anxious children from future follow-up analyses.","Try tablet-first, keep nurse-directed options, and study VR separately.","Delay all improvements until the hospital can guarantee identical responses from every child."],correct:2,feedback:["Individual comfort and clinical judgment remain important.","Excluding vulnerable children would impair equity and the relevance of later evidence.","","A reasonable, reversible pilot does not require certainty for every child."],explain:"Start with the lower-cost option supported by current evidence, while preserving clinical choice and studying who benefits from VR."},{q:"Priya, charge nurse: 'What belongs in the report to clinical leadership next month?'",choices:["A guarantee that the tablet program reduces anxiety and the need for sedation.","Time saved, comfort and distress, scan completion, staff workload, device costs, and a prespecified threshold for VR's extra value.","Only the overall F p-value; operational measures are outside the scope of the decision.","A recommendation based solely on whichever program has the lowest observed mean."],correct:1,feedback:["Anxiety and sedation were not outcome variables in this pilot.","","One p-value cannot resolve implementation or patient-experience concerns.","Point estimates without uncertainty or implementation costs are insufficient."],explain:"A concise clinical report should summarize validated mean-time results, limitations, costs, patient experience, and a predefined follow-up decision."}]},
+
+];
+
+// Place correct choices in varied positions while keeping feedback attached to each alternative.
+const desiredAnswerPositions={0:2,2:3,3:1,6:1,13:3,14:1,15:2,16:1,17:3};
+for(const [key,desired] of Object.entries(desiredAnswerPositions)){
+ const item=missions[+key];if(!item?.choices)continue;
+ const original=item.correct;if(original===desired)continue;
+ const choice=item.choices.splice(original,1)[0],note=item.feedback.splice(original,1)[0];
+ item.choices.splice(desired,0,choice);item.feedback.splice(desired,0,note);item.correct=desired;
+}
+
+const boxStats=[[190,17.3,26.975,34.7,39.45,53.5,"Standard Orientation","#6b8fb3"],[430,12.3,21.55,27.15,35.3,52.7,"Tablet Story","#d5963b"],[670,10.2,20.225,26.75,32.25,44.0,"VR Rehearsal","#27958c"]];
+const caseExcerpt=(lead,fragment,key=({ 'Dr. Rao’s briefing':'leadership','Clinical question':'purpose','Funding concern':'finance','The actual request':'leadership','Source data':'raw','Dr. Rao':'leadership' }[lead]||'leadership'))=>`<div class="case-excerpt"><div class="source-title">${lead} · from the hospital case <button class="source-jump" type="button" aria-pressed="false" data-jump-source="true" data-story-target="${key}">View in story ↗</button></div>${fragment}</div>`;
+const briefingContent=[
+ ()=>`<div class="visualcard"><h3>Find the study inside the story</h3>${caseExcerpt('Study design','Across the pilot, the team enrolled <span class="excerpt-clue" data-clue="unit">children ages 6–10 arriving for their first outpatient MRI</span> who were eligible for any of the three non-drug preparation approaches. Children were <span class="excerpt-clue" data-clue="design">randomly assigned to one program, and each child experienced that approach only once</span>. The final cleaned analysis contains 150 complete observations—50 children in each group. <span class="excerpt-clue" data-clue="response">Staff recorded the number of minutes between arrival in the imaging unit and being ready to enter the scanner</span>; the spreadsheet calls this Prep_Time_Min.','unit')}<div class="factor-excerpt hidden" data-factor-excerpt="true"><span class="excerpt-clue" data-clue="factor">Standard Orientation</span> uses a nurse-led explanation of the scanner and what to expect. <span class="excerpt-clue" data-clue="factor">Tablet Story</span> lets the child work through an illustrated, narrated version of the experience. <span class="excerpt-clue" data-clue="factor">VR Rehearsal</span> uses a headset to introduce the scanner room and its sounds before the actual visit to the machine.</div><p>Select a lens. Only the phrase relevant to that concept will highlight; then find the same clue in the original hospital story.</p><div class="lens-grid"><button class="lensbtn" data-brief-action="decode" data-key="unit"><span>Who?</span>Observational unit</button><button class="lensbtn" data-brief-action="decode" data-key="factor"><span>What varies?</span>Grouping factor</button><button class="lensbtn" data-brief-action="decode" data-key="response"><span>What is measured?</span>Response</button><button class="lensbtn" data-brief-action="decode" data-key="design"><span>How connected?</span>Study design</button></div><div class="interactive-note" id="decodeNote">Choose a concept. Nothing is highlighted in the original case until you select “View in story.”</div></div>`,
+ ()=>`<div class="visualcard"><h3>Choose a method before the tests begin</h3>${caseExcerpt('Dr. Rao’s briefing','“The nurses are hearing that children like the rehearsal. That matters, but it isn’t enough for the budget meeting. <mark>Tell me whether the programs appear to differ on preparation time</mark>, which comparisons actually have evidence behind them, and how sure we can be.”')}<p>Four methods, four different kinds of questions. Check their definitions, then take on the coworker’s three unadjusted t tests in question two.</p><div class="method-cards"><button class="method-card" data-brief-action="method" data-key="anova"><b>One-way ANOVA</b><small>Tests one all-means-equal null for a quantitative response across independent groups defined by one factor.</small></button><button class="method-card" data-brief-action="method" data-key="ttests"><b>Two-sample t test</b><small>Evaluates one difference between two independent population means.</small></button><button class="method-card" data-brief-action="method" data-key="paired"><b>Paired t test</b><small>Compares within-person or matched-pair differences.</small></button><button class="method-card" data-brief-action="method" data-key="chisq"><b>Chi-square</b><small>Tests associations among counts in categorical groups.</small></button></div><div class="interactive-note" id="methodNote">Select a definition and match it to the question in Dr. Rao’s own words.</div><div class="decision-note">Your coworker reports three individual 5% tests. A family of tests can have a higher chance of at least one false alarm; shared observations across those contrasts mean the simple independence formula is not exact.</div></div>`,
+ ()=>`<div class="visualcard"><h3>Translate the clinical question into population hypotheses</h3>${caseExcerpt('Clinical question','VR Rehearsal uses a headset to introduce the scanner room and its sounds before the actual visit to the machine. Each approach makes sense to someone on the team. <mark>The question is whether any of them meaningfully changes how long preparation takes.</mark> Across the pilot, the team enrolled children ages 6–10 arriving for their first outpatient MRI who were eligible for any of the three non-drug preparation approaches.')}<p>Each set is an imagined population, not a result from the pilot. Which worlds violate the all-means-equal null?</p><div class="lens-grid"><button class="lensbtn" data-brief-action="hyp" data-key="equal"><span>World A</span>34, 34, 34</button><button class="lensbtn" data-brief-action="hyp" data-key="one"><span>World B</span>34, 34, 27</button><button class="lensbtn" data-brief-action="hyp" data-key="two"><span>World C</span>34, 30, 30</button><button class="lensbtn" data-brief-action="hyp" data-key="all"><span>World D</span>34, 30, 27</button></div><div class="interactive-note" id="hypNote">Try several worlds before committing to a null and alternative.</div></div>`,
+ ()=>{const part=partProgress.get(3)||0;const blocks=[
+ `<h3>Question 1 · Are the groups independent?</h3>${caseExcerpt('Assignment','Across the pilot, the team enrolled eligible first-MRI outpatients. <span class="excerpt-clue active-clue">Children were randomly assigned to one program, and each child experienced that approach only once.</span> The pilot includes 50 children per program.','design')}<div class="interactive-note">Look for whether the same child was measured twice or participated in more than one group.</div>`,
+ `<h3>Question 2 · Is the within-group pattern plausible?</h3>${caseExcerpt('Quality review','The clinical team reported <span class="excerpt-clue active-clue">reasonably symmetric preparation times without extreme outliers in each program</span>, although individual preparation times varied. Each program has 50 complete records.','shape')}<div class="interactive-note">Evaluate the outcome distribution within each program, not just the combined 150 children.</div>`,
+ `<h3>Question 3 · What needs software evidence?</h3>${caseExcerpt('Quality review','In a preliminary quality review, the clinical team reported reasonably symmetric preparation times without extreme outliers in each program, <span class="excerpt-clue active-clue">although individual preparation times varied considerably.</span>','shape')}<div class="interactive-note">A judgment about equal population variances needs evidence. You will request Levene’s check in Jamovi.</div>`];return `<div class="visualcard">${blocks[part]}</div>`},
+ ()=>`<div class="visualcard"><h3>A truth-by-decision grid the team can actually use</h3>${caseExcerpt('Funding concern','The tablet program uses devices already owned by the unit and only requires a modest content update. <mark>VR requires new headsets, sanitation supplies, additional staff training, and a careful check of which children tolerate the headset.</mark> The finance director says any VR purchase would need convincing evidence of at least six minutes of average savings compared with Standard Orientation—and asks whether VR does anything meaningfully better than the simpler tablet program.')}<p>Keep the omnibus hypothesis fixed: all three population mean times equal (H₀) versus some real difference. A decision can be right or wrong depending on the truth.</p><div class="error-table-wrap"><table class="error-table" aria-label="Statistical truth and decision matrix"><thead><tr><th scope="col">Statistical decision</th><th scope="col">Reality: H₀ true<br><small>All population means equal</small></th><th scope="col">Reality: H₀ false<br><small>Some population means differ</small></th></tr></thead><tbody><tr><th scope="row">Reject H₀<br><small>Claim a difference</small></th><td><button class="error-cell error-type1" data-brief-action="error" data-key="type1"><strong>Type I error · False positive</strong><span>Claim a difference that does not exist.</span></button></td><td><button class="error-cell error-right" data-brief-action="error" data-key="power"><strong>Correct decision · Detection</strong><span>Identify evidence of a real difference.</span></button></td></tr><tr><th scope="row">Fail to reject H₀<br><small>No difference established</small></th><td><button class="error-cell error-right" data-brief-action="error" data-key="correct"><strong>Correct decision · Restraint</strong><span>Do not declare an unsupported difference.</span></button></td><td><button class="error-cell error-type2" data-brief-action="error" data-key="type2"><strong>Type II error · False negative</strong><span>Miss a real difference that matters.</span></button></td></tr></tbody></table></div><div class="interactive-note" id="errorNote">Select a cell to identify its formal name. Then separately answer the false-alarm and missed-improvement cases in the coach.</div><div class="error-controls"><div><span class="risk-tag">Limiting false alarms</span><p>Specify α in advance, protect pairwise comparisons with Tukey adjustments, and seek confirmation before a large purchase.</p></div><div><span class="risk-tag">Reducing missed effects</span><p>Plan sample size for a clinically meaningful difference, use consistent measurements, and reduce avoidable noise.</p></div></div><p class="clinical-note">A 6-minute procurement hurdle is a separate practical criterion; it is not the omnibus null hypothesis.</p></div>`,
+ ()=>`<div class="visualcard"><h3>One incorrect row; one legitimately missing value</h3>${caseExcerpt('Source data','The final cleaned analysis contains 150 complete observations—50 children in each group. Staff recorded the number of minutes between arrival in the imaging unit and being ready to enter the scanner; the spreadsheet calls this Prep_Time_Min. The <mark>raw scheduling export is available in the walkthrough, so the data need to be screened before the team trusts its summaries</mark>.')}<p>In Jamovi, select the second occurrence of child LH-61 and use Data → Rows → Delete selected rows. Leave the missing time untouched; its outcome is omitted automatically from this analysis (Exclude cases analysis by analysis).</p></div>`,
+ ()=>`<div class="visualcard"><h3>The nurse manager wants answers, not a list of statistics</h3>${caseExcerpt('The actual request','“The nurses are hearing that children like the rehearsal. That matters, but it isn’t enough for the budget meeting. <mark>Tell me whether the programs appear to differ on preparation time, which comparisons actually have evidence behind them, and how sure we can be.</mark>”')}<p>Decide which Jamovi result you would use for each question. These are descriptions of outputs to request, not previews of the results.</p><div class="method-cards"><button class="method-card" data-brief-action="package" data-key="describe"><b>How long on average?</b><small>Request N, mean, and SD for every program.</small></button><button class="method-card" data-brief-action="package" data-key="plot"><b>How consistent?</b><small>Request plots to inspect sample variation and uncertainty.</small></button><button class="method-card" data-brief-action="package" data-key="anova"><b>Any mean difference?</b><small>Use one omnibus F test for the three group means.</small></button><button class="method-card" data-brief-action="package" data-key="pairs"><b>Which specific programs?</b><small>Request Tukey-adjusted pairwise estimates and evidence.</small></button></div><div class="interactive-note" id="packageNote">Click each clinical question to see the role—and limit—of the statistical output. Then build this report yourself in Jamovi.</div></div>`
+];
+
+function fConceptCard(){return `<div class="f-concept"><div class="f-equation"><i>F</i> = <span class="fraction"><span>Between-program variation</span><span>Within-program variation</span></span></div><svg viewBox="0 0 600 174" role="img" aria-label="Three separated clusters of patient preparation times, with relatively low variability within each program"><g stroke="#dae7ee" stroke-width="1">${[40,65,90,115,140].map(y=>`<line x1="48" y1="${y}" x2="555" y2="${y}"/>`).join('')}</g>${[[140,74,"#3474ae","Standard"],[300,104,"#bd8739","Tablet"],[460,128,"#188b83","VR"]].map(([x,y,c,label],idx)=>`<g><line x1="${x-42}" x2="${x+42}" y1="${y}" y2="${y}" stroke="${c}" stroke-width="4"/><text x="${x}" y="160" text-anchor="middle" fill="#365267" font-size="13">${label}</text>${[-24,-15,-7,4,12,24].map((dx,k)=>`<circle cx="${x+dx}" cy="${y+[-7,2,-3,5,1,-2][k]}" r="4.6" fill="${c}" opacity=".84"/>`).join('')}</g>`).join('')}</svg><div class="f-legend">Far-apart group centers + tight clusters → larger F. If the clusters become much wider, the same mean difference becomes harder to distinguish.</div></div>`;}
+function finalVisual(which){
+ const key=missions[which].visualKey;
+ const lead=caseExcerpt('Dr. Rao','“Tell me whether the programs appear to differ on preparation time, which comparisons actually have evidence behind them, and how sure we can be.”');
+ const table=`<table class="mini-table"><thead><tr><th>Group</th><th>N</th><th>Mean (minutes)</th><th>SD</th></tr></thead><tbody>${summary.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join('')}</tbody></table>`;
+ const pairs=`<table class="mini-table"><thead><tr><th>Tukey contrast</th><th>Mean diff.</th><th>95% family-wise CI</th><th>Adj. p</th></tr></thead><tbody><tr><td>Tablet − Standard</td><td>−5.506</td><td>[−9.628, −1.384]</td><td>0.0054</td></tr><tr><td>VR − Standard</td><td>−7.000</td><td>[−11.122, −2.878]</td><td>0.00027</td></tr><tr><td>VR − Tablet</td><td>−1.494</td><td>[−5.616, 2.628]</td><td>0.6675</td></tr></tbody></table>`;
+ if(key==="descriptives")return `<div class="visualcard"><h3>Descriptives generated in Jamovi</h3><div class="post-viz-grid"><div>${table}<div class="decision-note">These are means for 50 children in each group, not the individual child experience. Compare centers and variability without inferring significance from descriptive values alone.</div></div><div class="result-pair"><small>Jamovi descriptives plot · generated in Mission 12</small>${plotHTML(true)}<p style="font-size:11.5px;color:#607686">The error bars are separate 95% confidence intervals for group means, not Tukey-adjusted pairwise intervals.</p></div></div></div>`;
+ if(key==="omnibus"&&(partProgress.get(which)||0)===0)return `<div class="visualcard"><h3>What is F actually comparing?</h3><div class="f-mechanism"><span>ANOVA's two sources of variation</span><div class="f-ratio"><div><small>Between groups</small><strong>Group means separating</strong></div><b>÷</b><div><small>Within groups</small><strong>Individual variability</strong></div><b>=</b><div><small>F ratio</small><strong>Signal relative to noise</strong></div></div><p>Imagine the same three programs under two conditions. If typical times diverge while children within each program are relatively consistent, the F ratio rises. If children within each program vary widely, a similar separation of averages is weaker evidence.</p></div><div class="contrast-explainer"><div><span>Same within-group noise · larger mean separation</span><p>Between-group mean square increases, so F tends to increase.</p></div><div><span>Same mean separation · larger within-group noise</span><p>The denominator increases, so F tends to decrease.</p></div></div><div class="decision-note">First explain the logic of the ratio. Then inspect Jamovi's observed F and its p-value.</div></div>`;
+ if(key==="omnibus")return `<div class="visualcard"><h3>Overall test result</h3><div class="result-pair"><small>Fisher one-way ANOVA · 3 groups</small><span class="big">F(2,147) = 8.969</span><small>p = 0.00021 · α = .05</small></div><div class="f-mechanism"><span>How the F statistic works · interpretation guide, not a Jamovi control</span><div class="f-ratio"><div><small>Between-group mean square</small><strong>≈ 679.6</strong></div><b>÷</b><div><small>Within-group error mean square</small><strong>≈ 75.8</strong></div><b>=</b><div><small>F ratio</small><strong>≈ 8.97</strong></div></div><p>ANOVA compares the variation among program means with the leftover variation among children receiving the same program. A large between/within ratio gives evidence against the all-equal null. It does not identify every differing pair.</p></div><div class="decision-note">Which null does this F test evaluate? What does a large between-to-within ratio suggest, and what still requires Tukey comparisons?</div></div>`;
+ if(key==="pairs"){
+  if((partProgress.get(which)||0)===0)return `<div class="visualcard"><h3>The omnibus F is a signal-to-noise comparison</h3><div class="f-mechanism"><span>The same three means can generate different F statistics</span><div class="f-ratio"><div><small>Between-program variation</small><strong>How far apart are the means?</strong></div><b>÷</b><div><small>Within-program variation</small><strong>How different are children in a single group?</strong></div></div><p>When group means are far apart compared with the scatter of individual children inside each program, F tends to be larger. If both between and within variation grow together, the ratio need not grow. The test evaluates the overall all-means-equal null, not any particular pair.</p></div><div class="contrast-explainer"><div><span>Large between / small within</span><p>A relatively clear group-level signal → larger F</p></div><div><span>Small between / large within</span><p>Group means hard to distinguish from noise → smaller F</p></div></div><div class="decision-note">Before seeing the pairwise table, explain why an omnibus result can indicate that some mean differs without identifying the winning program.</div></div>`;
+  return `<div class="visualcard"><h3>Now ask which specific pairs differ</h3>${pairs}<div class="decision-note">The omnibus F result motivated a closer look. Tukey-adjusted contrasts answer the specific pairwise questions. An interval including zero is inconclusive, not proof of equivalence.</div></div>`;
+ }
+ if(key==="threshold")return `<div class="visualcard"><h3>Finance's claim versus the estimate</h3><div class="post-viz-grid"><div class="result-pair"><small>Observed Standard − VR savings</small><span class="big">7.000 min</span><small>Sample mean contrast</small></div><div class="result-pair"><small>95% Tukey family-wise CI</small><span class="big">[2.878, 11.122]</span><small>Minutes saved relative to Standard</small></div></div><div class="decision-note">Funding rule: demonstrate at least six minutes of savings. Ask whether the uncertainty interval stays entirely on the required side of six.</div></div>`;
+ if(key==="huddle")return `<div class="visualcard"><h3>Pediatric imaging · afternoon clinical handoff</h3><p>The charge nurse has asked the analyst for a concise update before the revised preparation protocol is discussed with the wider team.</p><div class="huddle-card"><div class="huddle-voice"><span class="initial">M</span><div><small>Maya · MRI nurse</small><p>“Which differences in average preparation time are supported, and what should we avoid promising families?”</p></div></div><div class="huddle-voice"><span class="initial">L</span><div><small>Luis · pediatric nurse</small><p>“Several patients have difficulty tolerating a headset. Could a tablet-first approach be offered without ruling out VR for suitable patients?”</p></div></div><div class="huddle-voice"><span class="initial">P</span><div><small>Priya · charge nurse</small><p>“What outcomes should we monitor before expanding the protocol across the department?”</p></div></div></div><div class="post-viz-grid"><div class="result-pair"><small>Supported by the pilot</small><p>Tablet and VR each show lower mean preparation time than Standard. The study does not establish that VR outperforms Tablet.</p></div><div class="result-pair"><small>Not yet measured</small><p>Patient distress, scan completion, sedation need, staff time and workload, headset tolerance, and total cost of care.</p></div></div><div class="decision-note">Give each colleague an actionable, appropriately qualified answer. Preserve individualized preparation and nurse judgment as implementation proceeds.</div></div>`;
+ if(key==="decision")return `<div class="visualcard"><h3>Operations choices</h3>${table}<div class="post-viz-grid" style="margin-top:12px"><div class="result-pair"><small>Tablet program</small><b>Already-owned devices</b><p>Content update and modest staff orientation. Easier to scale across sites.</p></div><div class="result-pair"><small>VR program</small><b>New procurement</b><p>Headsets, sanitation, fit/tolerance checks, and additional coaching time.</p></div></div><div class="decision-note">What operational value would VR need to demonstrate beyond a lower point estimate in order to justify its additional cost?</div></div>`;
+ return `<div class="visualcard"><h3>What the pilot still cannot tell us</h3>${lead}<div class="post-viz-grid"><div class="result-pair"><small>We have measured</small><p>Preparation time in eligible first-MRI outpatients, 50 per group, under randomized assignments.</p></div><div class="result-pair"><small>We have not established</small><p>VR’s value relative to Tablet, scan quality, patient distress, sedation need, or cost per useful minute saved.</p></div></div><div class="decision-note">Would a future comparison be more useful with a prespecified meaningful difference, larger sample size, and cost/clinical outcomes?</div></div>`;
+}
+
+function renderBrief(){
+ const m=missions[mission],briefing=document.getElementById("briefing"),jamovi=document.getElementById("jamovi"),kick=document.getElementById("briefKick"),title=document.getElementById("briefTitle"),sub=document.getElementById("briefSub"),body=document.getElementById("briefBody");
+ jamovi.classList.toggle('audit-active',mission===5);
+ const sidecar=document.getElementById('softwareSidecar');
+ sidecar.classList.toggle('hidden',![5,13,14,15,16,17].includes(mission));
+ const reading=mission>=13&&mission<=17;
+ if(mission===5)sidecar.innerHTML=`<div class="sidecar-title">Data-quality check · work inside Jamovi</div><p>Inspect the raw file in the Data tab. Select the <em>second</em> LH-61 row number and choose Rows → Delete. Keep LH-151: its missing preparation time is excluded from the ANOVA without deleting the child.</p><div class="sidecar-code"><span>Optional filter example · Data → Filters</span><code id="filterCodeSnippet">Prep_Program == "Standard Orientation" or Prep_Program == "Tablet Story" or Prep_Program == "VR Rehearsal"</code><button id="copyFilterSnippet" type="button">Copy filter expression</button></div><small>Filtering can include categories; it cannot resolve duplicate IDs. Use Shadow Guide for the authentic click sequence.</small>`;
+ if(reading){
+   const help=[
+    ['14 · Read the output you generated','Find Group Descriptives and the descriptive plot in Jamovi. The plot shows separate intervals for group means; it is not the Tukey pairwise test.'],
+    ['15 · What does F compare?',''],
+    ['16 · Which pairs differ?','Use the Tukey Post-Hoc Comparisons table in the results pane. Compare its adjusted p-values; F alone does not identify a specific pair.'],
+    ['17 · Does VR meet the purchase rule?','Scroll to the Rj TukeyHSD output and examine the lower and upper interval limits for VR minus Standard. Compare the savings interval with the six-minute requirement.'],
+    ['18 · What should the hospital adopt?','Use the adjusted pairwise comparison and the decision context. Tablet uses equipment already available; VR needs purchase and has not demonstrated the required minimum savings.']
+   ][mission-13];
+   sidecar.innerHTML=`<div class="sidecar-title">${help[0]}</div>${mission===14?fConceptCard():`<p>${help[1]}</p>`}<div class="sidecar-footer">Your evidence is in the Jamovi results pane below. Use 👻 Shadow Guide to locate the relevant output.</div>`;
+ }
+ document.querySelectorAll('.jamovi .tabs .tab').forEach(tab=>tab.classList.toggle('active',tab.textContent.trim()===(mission===5?'Data':'Analyses')));
+ document.getElementById('dataRibbon').classList.toggle('hidden',mission!==5);
+ document.getElementById('filterEditor').classList.toggle('hidden',mission!==5||!filterEditorOpen);
+ if(mission===5){analysisOpen=false;rjOpen=false;document.getElementById('sheetView').style.display='block';document.getElementById('analysisPanel').classList.remove('open');document.getElementById('rjPanel').classList.remove('open');makeSheet();}
+ else if(reading){analysisOpen=true;rjOpen=false;document.getElementById('sheetView').style.display='none';document.getElementById('analysisPanel').classList.add('open');document.getElementById('rjPanel').classList.remove('open');renderResults();}
+ if(m.type==="software"||reading){briefing.classList.add("hidden");jamovi.classList.remove("hidden");return;}
+ briefing.classList.remove("hidden");jamovi.classList.add("hidden");
+ if(m.type==="final"){kick.textContent="AFTER THE JAMOVI ANALYSIS";title.textContent=m.title.replace(/^\d+\.\s*/,"");sub.textContent="Read the relevant evidence and make the next decision for the imaging department.";body.innerHTML=finalVisual(mission);return}
+ const headings=[["Decode the director's story","Find the design embedded in the case—not a prefabricated variable list."],["A method decision and a coworker's shortcut","Understand each tool, then evaluate family-wise false-positive risk."],["Build the three-group hypothesis","Explore hypothetical population worlds."],["What makes the model credible?","Connect each assumption to actual evidence from the case."],["Two clinical mistakes, different controls","Study false alarm and missed-benefit cases separately. Decide which risk is costlier."],[],["Translate the nurse manager’s questions","Plan the outputs the team will actually need. You will generate them next."]];
+ const h=headings[mission]||headings[6];kick.textContent="INTERACTIVE CASE FILE";title.textContent=h[0];sub.textContent=h[1];body.innerHTML=briefingContent[mission]();
+}
+
+function makeSheet(){
+ const visibleRows=[...rows,...(!auditApplied?[["LH-61","Tablet Story",37.7]]:[]),["LH-151","VR Rehearsal",""]];
+ let h='<thead><tr><th class="rn">#</th>'+ (filterEnabled?'<th class="filterhead">Filter 1</th>':'')+'<th style="width:21%"><span class="varicon">●a</span>Child_ID</th><th style="width:38%"><span class="varicon">●a</span>Prep_Program</th><th style="width:24%"><span class="varicon cont">◆</span>Prep_Time_Min</th></tr></thead><tbody>';
+ for(let i=0;i<visibleRows.length;i++){
+  const r=visibleRows[i];h+=`<tr data-row-idx="${i}" class="${auditSelected===i?'row-selected':''} ${i>=150?'data-attention':''}"><th class="rn" title="Select entire row">${i+1}</th>${filterEnabled?'<td class="filtercheck">✓</td>':''}<td>${r[0]}</td><td>${r[1]}</td><td style="text-align:right">${r[2]}</td></tr>`;
+ }
+ h+='</tbody>';
+ document.getElementById('dataSheet').innerHTML=h;
+ document.querySelectorAll('.statusbar').forEach(el=>{const count=el.querySelector('[data-row-count]');if(count)count.textContent=`Rows ${visibleRows.length} · usable for ANOVA 150`;});
+ if(document.getElementById('deleteDataRow'))renderAudit();
+}
+function renderVars(){
+ let names=["Child_ID","Prep_Program","Prep_Time_Min"];
+ const used=new Set([dep,grp].filter(Boolean));
+ document.getElementById("varList").innerHTML='<div class="searchrow">⌕</div>'+names.filter(x=>!used.has(x)).map(x=>`<div class="vrow ${selected===x?"selected":""}" data-v="${x}"><span class="varicon ${x==="Prep_Time_Min"?"cont":""}">${x==="Prep_Time_Min"?"◆":"●a"}</span>${x}</div>`).join("");
+ document.querySelectorAll(".vrow").forEach(x=>x.onclick=()=>{selected=x.dataset.v;renderVars()});
+ document.getElementById("depBox").innerHTML=dep?`<div class="assignitem"><span class="varicon cont">◆</span>${dep}</div>`:"";
+ document.getElementById("grpBox").innerHTML=grp?`<div class="assignitem"><span class="varicon">●a</span>${grp}<span style="margin-left:auto;color:#76a7dd">▥</span></div>`:"";
+}
+function showAnalysis(){
+ rjOpen=false;document.getElementById("rjPanel").classList.remove("open");analysisOpen=true;
+ document.getElementById("sheetView").style.display="none";document.getElementById("analysisPanel").classList.add("open");closeMenu();closeRMenu();renderVars();renderResults();
+}
+function hideAnalysis(){analysisOpen=false;document.getElementById("sheetView").style.display="block";document.getElementById("analysisPanel").classList.remove("open");renderResults()}
+document.getElementById("collapseBtn").onclick=hideAnalysis;
+function openRMenu(){
+ const menu=document.getElementById("rMenu"),btn=document.getElementById("rBtn");
+ closeMenu();menu.style.left=btn.offsetLeft+"px";menu.style.top=(btn.offsetTop+btn.offsetHeight-1)+"px";
+ menu.classList.add("open");btn.classList.add("on");
+}
+function closeRMenu(){document.getElementById("rMenu").classList.remove("open");document.getElementById("rBtn").classList.remove("on")}
+function openRj(){
+ rjOpen=true;document.getElementById("sheetView").style.display="none";document.getElementById("analysisPanel").classList.remove("open");document.getElementById("rjPanel").classList.add("open");closeRMenu();closeMenu();renderResults();
+}
+function closeRj(){
+ rjOpen=false;document.getElementById("rjPanel").classList.remove("open");
+ if(analysisOpen){document.getElementById("analysisPanel").classList.add("open");document.getElementById("sheetView").style.display="none"}else{document.getElementById("sheetView").style.display="block"}
+}
+document.getElementById("rBtn").onclick=e=>{e.stopPropagation();document.getElementById("rMenu").classList.contains("open")?closeRMenu():openRMenu()};
+document.getElementById("rjEditorItem").onclick=openRj;
+document.getElementById("rjClose").onclick=closeRj;
+function updateLineNos(){const n=document.getElementById("rEditor").value.split("\n").length;document.getElementById("lineNos").innerHTML=Array.from({length:Math.max(7,n)},(_,i)=>i+1).join("<br>")}
+document.getElementById("rEditor").addEventListener("input",updateLineNos);
+const courseCode="head(data)\nanova <- aov(Prep_Time_Min ~ Prep_Program, data = data)\nsummary(anova)\nTukeyHSD(anova)";
+document.getElementById("copyCode").onclick=async()=>{
+ const editor=document.getElementById("rEditor"),note=document.getElementById("copyNote");editor.value=courseCode;updateLineNos();editor.focus();editor.select();
+ try{if(navigator.clipboard&&window.isSecureContext)await navigator.clipboard.writeText(courseCode);else document.execCommand("copy");note.textContent="Copied and placed in the Rj editor."}
+ catch(e){note.textContent="Code placed in the editor. Press Ctrl+C to copy it."}
+};
+function runR(){
+ const code=document.getElementById("rEditor").value;
+ const compact=code.toLowerCase().replace(/\s+/g,"");
+ const ok=compact.includes("head(data)")&&compact.includes("aov(")&&compact.includes("summary(anova)")&&compact.includes("tukeyhsd(anova)");
+ if(!ok){const f=document.getElementById("feedback");f.className="feedback bad";f.innerHTML="Use the same four-part workflow from the video: <b>head(data)</b>, <b>aov(...)</b>, <b>summary(anova)</b>, and <b>TukeyHSD(anova)</b>. The copy-ready guide can fill the editor for you.";return}
+ rOutput=true;renderResults();const el=document.getElementById("rOutputCard");if(el)el.scrollIntoView({behavior:"smooth",block:"center"});
+}
+document.getElementById("rRun").onclick=runR;
+document.getElementById("rEditor").addEventListener("keydown",e=>{if(e.ctrlKey&&e.shiftKey&&e.key==="Enter"){e.preventDefault();runR()}});
+function openMenu(){
+ const menu=document.getElementById("anovaMenu"),btn=document.getElementById("anovaBtn");
+ menu.style.left=btn.offsetLeft+"px";
+ menu.style.top=(btn.offsetTop+btn.offsetHeight-1)+"px";
+ menu.classList.add("open");btn.classList.add("on")
+}
+function closeMenu(){document.getElementById("anovaMenu").classList.remove("open");document.getElementById("anovaBtn").classList.remove("on")}
+document.getElementById("anovaBtn").onclick=e=>{e.stopPropagation();document.getElementById("anovaMenu").classList.contains("open")?closeMenu():openMenu()};
+document.getElementById("oneWayItem").onclick=showAnalysis;
+document.addEventListener("click",e=>{if(!e.target.closest("#anovaBtn")&&!e.target.closest("#anovaMenu"))closeMenu();if(!e.target.closest("#rBtn")&&!e.target.closest("#rMenu"))closeRMenu()});
+
+function assign(slot){
+ if(!selected)return;
+ if(slot==="dep"){
+   if(selected!=="Prep_Time_Min")return;
+   dep=selected;
+ }else{
+   if(selected!=="Prep_Program")return;
+   grp=selected;
+ }
+ selected=null;renderVars();renderResults();
+}
+document.getElementById("depArrow").onclick=()=>assign("dep");
+document.getElementById("grpArrow").onclick=()=>assign("grp");
+["welch","fisher","descTable","descPlots","homo","normal","qq","meanDiff","reportSig","testResults","flagSig"].forEach(id=>{
+ document.getElementById(id).onchange=()=>{
+   if(id==="descPlots"&&document.getElementById(id).checked){plotLoading=true;renderResults();setTimeout(()=>{plotLoading=false;renderResults()},800)}
+   else renderResults();
+ };
+});
+document.getElementById("postBar").onclick=()=>{
+ document.getElementById("postBar").classList.toggle("open");document.getElementById("postBody").classList.toggle("open");
+};
+document.querySelectorAll('input[name="post"]').forEach(r=>r.onchange=e=>{post=e.target.value;renderResults()});
+
+function anovaTable(){
+ if(!dep||!grp)return `<div class="rsection"><div class="rtitle">One-Way ANOVA (Welch's)</div><table class="jtable"><thead><tr><th></th><th>F</th><th>df1</th><th>df2</th><th>p</th></tr></thead><tbody></tbody></table></div>`;
+ let fisher=document.getElementById("fisher").checked,welch=document.getElementById("welch").checked;
+ if(fisher)return `<div class="rsection"><div class="rtitle">One-Way ANOVA (Fisher's)</div><table class="jtable"><thead><tr><th></th><th>F</th><th>df1</th><th>df2</th><th>p</th></tr></thead><tbody><tr><td>Prep_Time_Min</td><td>8.969</td><td>2</td><td>147</td><td>0.00021</td></tr></tbody></table></div>`;
+ if(welch)return `<div class="rsection"><div class="rtitle">One-Way ANOVA (Welch's)</div><table class="jtable"><thead><tr><th></th><th>F</th><th>df1</th><th>df2</th><th>p</th></tr></thead><tbody><tr><td>Prep_Time_Min</td><td>8.823</td><td>2</td><td>97.965</td><td>0.00030</td></tr></tbody></table></div>`;
+ return "";
+}
+function descTableHTML(){
+ return `<div class="rsection"><div class="rtitle">Group Descriptives</div><table class="jtable"><thead><tr><th></th><th>Prep_Program</th><th>N</th><th>Mean</th><th>SD</th><th>SE</th></tr></thead><tbody>${summary.map((r,i)=>`<tr><td>${i===0?"Prep_Time_Min":""}</td><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td></tr>`).join("")}</tbody></table></div>`;
+}
+function postHTML(){
+ if(post!=="tukey") return "";
+ return `<div class="postheading">Post Hoc Tests</div><div class="rsection"><div class="rtitle">Tukey Post-Hoc Test – Prep_Time_Min</div>
+ <table class="jtable"><thead><tr><th></th><th></th><th>Standard Orientation</th><th>Tablet Story</th><th>VR Rehearsal</th></tr></thead><tbody>
+ <tr><td>Standard Orientation</td><td>Mean difference</td><td>—</td><td>5.506</td><td>7.000</td></tr>
+ <tr><td></td><td class="sub">p-value</td><td>—</td><td>0.00537</td><td>0.00027</td></tr>
+ <tr><td>Tablet Story</td><td>Mean difference</td><td></td><td>—</td><td>1.494</td></tr>
+ <tr><td></td><td class="sub">p-value</td><td></td><td>—</td><td>0.66746</td></tr>
+ <tr><td>VR Rehearsal</td><td>Mean difference</td><td></td><td></td><td>—</td></tr>
+ <tr><td></td><td class="sub">p-value</td><td></td><td></td><td>—</td></tr>
+ </tbody></table></div>`;
+}
+function homoHTML(){
+ if(!document.getElementById("homo").checked)return "";
+ return `<div class="rsection assumptionResult"><div class="rtitle">Homogeneity of Variances Test (Levene's)</div><table class="jtable"><thead><tr><th></th><th>F</th><th>df1</th><th>df2</th><th>p</th></tr></thead><tbody><tr><td>Prep_Time_Min</td><td>0.039</td><td>2</td><td>147</td><td>0.962</td></tr></tbody></table></div>`;
+}
+function plotHTML(forceReady=false){
+ if(!document.getElementById("descPlots").checked)return "";
+ if(plotLoading&&!forceReady)return `<div class="postheading">Plots</div><div class="plottitle">Prep_Time_Min</div><div class="loader"><div class="spinner"></div></div>`;
+ const x=[125,210,295],mean=[34.004, 28.498, 27.004],lo=[31.531, 26.081, 24.473],hi=[36.477, 30.915, 29.535],y=v=>244-(v-10)*4.65;
+ let svg=`<svg viewBox="0 0 390 300"><text x="192" y="26" font-size="12" fill="#555">○  Mean (95% CI)</text><line x1="72" y1="58" x2="72" y2="244" stroke="#444"/><line x1="72" y1="244" x2="340" y2="244" stroke="#444"/>`;
+ [10,20,30,40,50].forEach(v=>svg+=`<line x1="67" x2="72" y1="${y(v)}" y2="${y(v)}" stroke="#444"/><text x="61" y="${y(v)+4}" text-anchor="end" font-size="10" fill="#555">${v}</text>`);
+ mean.forEach((m,i)=>{svg+=`<line x1="${x[i]}" x2="${x[i]}" y1="${y(hi[i])}" y2="${y(lo[i])}" stroke="#7aa8dd" stroke-width="1.7"/><line x1="${x[i]-5}" x2="${x[i]+5}" y1="${y(hi[i])}" y2="${y(hi[i])}" stroke="#7aa8dd"/><line x1="${x[i]-5}" x2="${x[i]+5}" y1="${y(lo[i])}" y2="${y(lo[i])}" stroke="#7aa8dd"/><circle cx="${x[i]}" cy="${y(m)}" r="3.7" fill="white" stroke="#7aa8dd" stroke-width="1.6"/>`});
+ svg+=`<text x="125" y="261" text-anchor="middle" font-size="10" fill="#555">Standard</text><text x="210" y="261" text-anchor="middle" font-size="10" fill="#555">Tablet</text><text x="295" y="261" text-anchor="middle" font-size="10" fill="#555">VR</text><text x="210" y="282" text-anchor="middle" font-size="11" fill="#444">Prep_Program</text><text x="20" y="155" transform="rotate(-90 20 155)" text-anchor="middle" font-size="11" fill="#444">Prep_Time_Min</text></svg>`;
+ return `<div class="postheading">Plots</div><div class="plottitle">Prep_Time_Min</div><div class="plotwrap">${svg}</div>`;
+}
+
+function rOutputHTML(){
+ if(!rOutput)return "";
+ return `<div class="r-output-card" id="rOutputCard"><div class="r-output-title">R</div><div class="r-console">  Child_ID Prep_Program          Prep_Time_Min
+1  LH-01   Standard Orientation    29.2
+2  LH-02   Standard Orientation    24.0
+3  LH-03   Standard Orientation    34.8
+4  LH-04   Standard Orientation    41.4
+5  LH-05   Standard Orientation    48.6
+6  LH-06   Standard Orientation    38.3
+
+             Df Sum Sq Mean Sq F value Pr(&gt;F)
+Prep_Program  2  1359.1   679.6   8.969 0.00021 ***
+Residuals   147 11138.2    75.77
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Tukey multiple comparisons of means
+  95% family-wise confidence level
+
+Fit: aov(formula = Prep_Time_Min ~ Prep_Program, data = data)
+
+$Prep_Program
+                                          diff     lwr     upr  p adj
+Tablet Story-Standard Orientation          -5.506   -9.628   -1.384 0.0054
+VR Rehearsal-Standard Orientation           -7.000  -11.122  -2.878 0.0003
+VR Rehearsal-Tablet Story                   -1.494   -5.616   2.628 0.6675</div></div>`;
+}
+
+function renderResults(){
+ const empty=document.getElementById("emptyState"),content=document.getElementById("resultContent"),card=document.getElementById("resultCard");
+ if(!analysisOpen){empty.style.display="grid";content.style.display="none";return}
+ empty.style.display="none";content.style.display="block";
+ let body='<h2>One-Way ANOVA</h2>'+anovaTable();
+ if(dep&&grp&&document.getElementById("descTable").checked)body+=descTableHTML();
+ if(dep&&grp&&document.getElementById("descPlots").checked)body+=plotHTML();
+ if(dep&&grp)body+=homoHTML()+postHTML();
+ card.innerHTML=body;
+ const existing=document.getElementById("rOutputCard");if(existing)existing.remove();
+ if(rOutput)document.getElementById("refs").insertAdjacentHTML("beforebegin",rOutputHTML());
+ document.getElementById("refs").innerHTML=`<h2>References</h2><p>[1] The jamovi project. <i>jamovi</i> (Version 2.8.2) [Computer Software]. <u>https://www.jamovi.org</u>.</p><p>[2] R Core Team. <i>R: A language and environment for statistical computing</i> [Computer software].</p>`;
+}
+
+function activateOne(button){button.parentElement.querySelectorAll("button").forEach(b=>b.classList.remove("active"));button.classList.add("active")}
+function decodeLens(key,button){activateOne(button);const notes={unit:"An observational unit is the entity contributing one row of data. Ask: does a row represent a child, a program, or a minute?",factor:"A factor is the categorical variable that defines comparison groups. Which labels were assigned before minutes were recorded?",response:"A response is what staff measured for each unit. What quantity can be meaningfully averaged in this case?",design:"Paired observations come from the same child twice or a matched partner; independent groups do not. Did any child receive two programs?"};document.getElementById("decodeNote").textContent=notes[key];
+ document.querySelectorAll('#briefBody .excerpt-clue').forEach(el=>el.classList.toggle('active-clue',el.dataset.clue===key));
+ const factorExcerpt=document.querySelector('#briefBody [data-factor-excerpt]');if(factorExcerpt){factorExcerpt.classList.toggle('hidden',key!=='factor');}
+ storyFocusStep=null;storyFocusKey=null;const btn=document.querySelector('#briefBody [data-jump-source]');if(btn){btn.dataset.storyTarget=key;highlightCaseSource();}
+}
+function methodLens(key,button){activateOne(button);const notes={anova:"An omnibus F test asks if all means are equal across groups. It does not, by itself, say which pairs differ.",ttests:"A two-sample t test addresses one pair at a time. Three such tests are a family of three comparisons; think about the overall false-alarm risk.",paired:"A paired t test requires a child measured twice or an explicit match, with differences computed within pairs.",chisq:"Chi-square tests associations between categorical counts. It is not a test of the mean of a measured time variable."};document.getElementById("methodNote").textContent=notes[key]}
+function packageLens(key,button){activateOne(button);const notes={describe:"Descriptives summarize these 150 children. They do not test whether the population mean differences are statistically supported.",plot:"A plot helps compare centers, spreads, and uncertainty visually. Generate one in the Jamovi workflow before interpreting it.",anova:"One omnibus test controls the type I error for the all-equal null, but it does not directly tell you which groups differ.",pairs:"Tukey-adjusted pairwise comparisons help identify supported contrasts while accounting for multiple tests; differences still need operational interpretation."};document.getElementById("packageNote").textContent=notes[key]}
+
+function hypLens(key,button){activateOne(button);const notes={equal:"If three numbers match, does this satisfy the exact equality in H₀?",one:"Two match; the third differs. Would you still call all three population means equal?",two:"Here one is higher and two match. Does the alternative require every pair to differ?",all:"Every mean differs. Would this be the only pattern allowed under Hₐ?"};document.getElementById("hypNote").innerHTML=notes[key]}
+function conditionLens(key,button){activateOne(button);const notes={ind:"Independence asks whether one observation changes what another contributes. Look for one child appearing under more than one program, or an explicit matched design.",shape:"ANOVA inference cares about within-group errors, especially severe skew or outliers. Which note did the clinical team make in its preliminary review?",spread:"Equal variance means similar population variability around each group mean. You will obtain Levene’s evidence later from Jamovi, rather than assume equality.",scope:"The sampled eligibility rules limit who the hospital can generalize to. Which children were included, and which outcomes were NOT measured?"};document.getElementById("conditionNote").innerHTML=notes[key]}
+function errorLens(key,button){document.querySelectorAll(".error-table .error-cell").forEach(b=>b.classList.remove("active"));button.classList.add("active");const notes={type1:"<b>Type I error.</b> The hospital claims at least one population mean differs even though all three are equal.",type2:"<b>Type II error.</b> A real population mean difference exists, but the pilot fails to detect it.",correct:"<b>Correct non-rejection.</b> When H₀ is true, avoiding a difference claim is the right decision.",power:"<b>Correct detection.</b> When H₀ is false, rejecting it is statistical power—not an error."};document.getElementById("errorNote").innerHTML=notes[key]}
+function patternLens(key,button){activateOne(button);const notes={center:"<b>Centers:</b> Standard is highest, Tablet is in the middle, and VR is lowest. Lower prep time is favorable.",spread:"<b>Spreads:</b> box heights and whisker lengths are broadly comparable, supporting—but not proving—equal variance.",overlap:"<b>Overlap:</b> individual prep times overlap across programs. Overlap can coexist with a population mean difference.",limits:"<b>Limit:</b> the plot describes these 150 children. It cannot by itself establish population differences or the 6-minute funding hurdle."};document.getElementById("patternNote").innerHTML=notes[key]}
+
+// The interactive briefing is re-rendered between missions: delegate all interactions
+// from its stable container, rather than relying on unavailable inline globals.
+document.getElementById("briefBody").addEventListener("keydown",event=>{if((event.key==="Enter"||event.key===" ")&&event.target.matches(".clean-table tr[data-brief-action]")){event.preventDefault();event.target.click()}});
+document.getElementById("briefBody").addEventListener("click",event=>{
+ const storyButton=event.target.closest('[data-jump-source]');
+ if(storyButton){
+  const key=storyButton.dataset.storyTarget||'leadership';
+  if(storyFocusStep===mission&&storyFocusKey===key){storyFocusKey=null;storyFocusStep=null;highlightCaseSource();return;}
+  storyFocusStep=mission;storyFocusKey=key;highlightCaseSource();
+  const header=document.getElementById('scenarioHeader'),toggle=document.getElementById('caseToggle');
+  header.classList.remove('collapsed');document.body.classList.remove('scenario-collapsed');toggle.setAttribute('aria-expanded','true');toggle.textContent='Collapse scenario ↑';
+  const first=header.querySelector('[data-story-key].current-evidence');if(first)first.scrollIntoView({behavior:'smooth',block:'center'});else header.scrollIntoView({behavior:'smooth'});
+  return;
+ }
+ const target=event.target.closest("[data-brief-action]");
+ if(!target||!event.currentTarget.contains(target))return;
+ const key=target.dataset.key;
+ const actions={decode:decodeLens,method:methodLens,hyp:hypLens,condition:conditionLens,error:errorLens,pattern:patternLens,package:packageLens};
+ if(actions[target.dataset.briefAction])actions[target.dataset.briefAction](key,target);
+});
+// Data-tab interactions are rendered inside the spreadsheet, not inside an invented analysis panel.
+let auditSelected=-1,auditApplied=false,filterEditorOpen=false,filterEnabled=false;
+function renderAudit(){
+ document.querySelectorAll('#dataSheet tr[data-row-idx]').forEach(row=>row.classList.toggle('row-selected',+row.dataset.rowIdx===auditSelected));
+ document.getElementById('deleteDataRow').disabled=auditApplied||auditSelected<0;
+ document.getElementById('dataStatus').textContent=auditApplied?'Extra LH-61 removed. LH-151 remains with a blank outcome and will be excluded from this ANOVA.':auditSelected===150?'Duplicate LH-61 selected. Use Rows · Delete.':'Select the second LH-61 by row number; do not delete LH-151.';
+}
+document.getElementById('dataSheet').addEventListener('click',e=>{const cell=e.target.closest('[data-row-idx]');if(!cell)return;auditSelected=+cell.dataset.rowIdx;renderAudit();});
+document.getElementById('deleteDataRow').onclick=()=>{
+ if(auditSelected!==150){document.getElementById('dataStatus').textContent='That is not the extra copy. Find the second occurrence of LH-61 at row 151.';return;}
+ auditApplied=true;auditSelected=-1;makeSheet();renderAudit();
+ document.getElementById('feedback').textContent='Jamovi has removed the duplicate. The missing-value row remains in the file. Check mission when ready.';
+};
+document.getElementById('dataTab').onclick=()=>{if(mission!==5)return;document.getElementById('sheetView').style.display='block';};
+document.getElementById('filterMenuBtn').onclick=()=>{filterEditorOpen=!filterEditorOpen;document.getElementById('filterEditor').classList.toggle('hidden',!filterEditorOpen);};
+document.getElementById('closeFilterEditor').onclick=()=>{filterEditorOpen=false;document.getElementById('filterEditor').classList.add('hidden');};
+function updateFilter(){
+ const expr=document.getElementById('programFilter').value;
+ const labels=['Standard Orientation','Tablet Story','VR Rehearsal'];
+ const valid=labels.every(x=>expr.includes(`Prep_Program == "${x}"`))&&expr.toLowerCase().includes(' or ');
+ filterEnabled=document.getElementById('filterIsActive').checked&&valid;
+ document.getElementById('programFilterResult').textContent=valid?'Expression recognized. All three pilot methods are included. ✓ A filter does not deduplicate LH-61.':'Edit the expression to refer to Prep_Program and the three named values, joined with or.';
+ makeSheet();
+}
+document.getElementById('programFilter').addEventListener('input',updateFilter);
+document.getElementById('filterIsActive').addEventListener('change',updateFilter);
+document.getElementById('softwareSidecar').addEventListener('click',e=>{
+ if(!e.target.closest('#copyFilterSnippet'))return;
+ const expr='Prep_Program == "Standard Orientation" or Prep_Program == "Tablet Story" or Prep_Program == "VR Rehearsal"';
+ document.getElementById('programFilter').value=expr;
+ const editor=document.getElementById('programFilter');editor.focus();editor.select();
+ try{if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(expr).then(()=>{e.target.textContent='Copied · entered in Jamovi';}).catch(()=>{e.target.textContent='Entered · press Ctrl+C to copy';});}else{const ok=document.execCommand('copy');e.target.textContent=ok?'Copied · entered in Jamovi':'Entered · press Ctrl+C to copy';}}catch(error){e.target.textContent='Entered · press Ctrl+C to copy';}
+ updateFilter();
+});
+const stepnav=document.getElementById("stepnav");
+const answers=new Map(),partProgress=new Map(),verifiedParts=new Set();
+function availableStep(index){
+ if(index===0||passed.has(index))return true;
+ // Every completed mission unlocks its immediate successor.
+ return passed.has(index-1);
+}
+function jumpToStep(index){
+ if(!availableStep(index))return;
+ saveAnswer();mission=index;storyFocusStep=null;storyFocusKey=null;renderMission();closeNav();
+}
+missions.forEach((m,i)=>{
+ const b=document.createElement("button");b.className="stepbtn";b.type="button";
+ b.addEventListener("click",()=>jumpToStep(i));stepnav.appendChild(b);
+});
+function renderNavigation(){
+ stepnav.querySelectorAll(".stepbtn").forEach((b,i)=>{
+  const done=passed.has(i),unlocked=availableStep(i);
+  b.classList.toggle("active",i===mission);b.classList.toggle("completed",done);
+  b.classList.toggle("unlocked",unlocked&&!done&&i!==mission);
+  b.disabled=!unlocked;b.setAttribute("aria-current",i===mission?"step":"false");
+  b.title=done?"Completed — revisit anytime":unlocked?"Open this mission":"Complete the previous mission to unlock";
+  b.innerHTML=`${i+1}. ${missions[i].nav||missions[i].skill}${done?'<span class="done-mark">✓</span>':unlocked&&i!==mission?'<span class="ready-mark">→</span>':''}`;
+ });
+ document.getElementById("lectureProgress").value=passed.size;
+ document.getElementById("progressText").textContent=`${passed.size} of ${missions.length} complete · Revisit checked sections anytime`;
+}
+function answerKey(){return missions[mission].parts?`${mission}.${partProgress.get(mission)||0}`:mission}
+function saveAnswer(){const indices=[...document.querySelectorAll('#answerBox input[name="ans"]:checked')].map(x=>+x.value);if(indices.length)answers.set(answerKey(),indices)}
+let storyFocusStep=null,storyFocusKey=null,selectedEvidenceLens=null;
+function highlightCaseSource(){
+ document.querySelectorAll('[data-story-key]').forEach(el=>el.classList.toggle('current-evidence',storyFocusStep===mission&&el.dataset.storyKey===storyFocusKey));
+ document.querySelectorAll('[data-jump-source]').forEach(btn=>{const on=storyFocusStep===mission&&btn.dataset.storyTarget===storyFocusKey;btn.textContent=on?'Hide in story ↑':'View in story ↗';btn.setAttribute('aria-pressed',String(on));});
+}
+function renderAnswer(){
+ const m=missions[mission],ab=document.getElementById('answerBox');ab.innerHTML='';ab.classList.toggle('show',['theory','final'].includes(m.type));
+ if(!['theory','final'].includes(m.type))return;
+ const part=m.parts?(partProgress.get(mission)||0):0;
+ const question=m.parts?m.parts[part]:m;
+ let history='';
+ if(m.parts){
+  for(let k=0;k<part;k++){
+   const prev=m.parts[k],picked=answers.get(`${mission}.${k}`)?.[0];
+   history+=`<section class="reviewed-answer"><div class="reviewed-kicker">✓ Question ${k+1} complete · your answer saved</div><div class="reviewed-question">${prev.q}</div><div class="reviewed-choice">${picked===undefined?'Answer not recorded':prev.choices[picked]}</div><div class="reviewed-why">${prev.explain}</div></section>`;
+  }
+ }
+ const intro=m.parts?`<div class="quiz-stage">Question ${part+1} of ${m.parts.length}</div>${mission===1&&part===1?'<div class="follow-up">Your coworker sent three pairwise t tests, each at 5%. Decide whether the family of claims remains protected.</div>':mission===4?'<div class="follow-up">Consider the statistical truth, the team’s decision, and the practical consequence separately.</div>':mission===18?'<div class="follow-up">Continue the operational handoff by answering the next staff question.</div>':''}`:'';
+ const checked=answers.get(answerKey())?.[0];
+ ab.innerHTML=history+(m.parts?`<div class="subquestion-nav"><button type="button" data-part-back="true" ${part===0?'disabled':''}>← Prior question</button><span>Question ${part+1} / ${m.parts.length}</span><button type="button" data-part-forward="true" ${part>=m.parts.length-1||!verifiedParts.has(`${mission}.${part}`)?'disabled':''}>Next question →</button></div>`:'')+intro+`<div class="questionwrap"><div class="questionlabel">Your decision</div><div class="questiontext">${question.q}</div></div>`+question.choices.map((c,i)=>`<label class="choice ${checked===i&&verifiedParts.has(answerKey())?'verified-selection':''}"><input type="radio" name="ans" value="${i}" ${checked===i?'checked':''} ${verifiedParts.has(answerKey())?'disabled':''}><span>${c}</span></label>`).join('');
+}
+
+function renderMission(){
+ const m=missions[mission];
+ document.getElementById("mTitle").textContent=m.title.replace(/^\d+\.\s*/,"");document.getElementById("mText").innerHTML=m.text;document.getElementById("mNum").textContent=`Mission ${mission+1} of ${missions.length}`;
+ document.getElementById("mSkill").textContent=m.skill;document.getElementById("assignmentLabel").textContent=m.type==="software"?"In Jamovi":m.type==="final"?"Decision to make":"Your assignment";document.getElementById("evidenceLabel").textContent=m.type==="software"?"On-screen cue":"Where to investigate";document.getElementById("mTarget").innerHTML=m.target;document.getElementById("mTip").innerHTML=m.tip;document.getElementById("pbar").style.width=`${passed.size/missions.length*100}%`;
+ document.getElementById("modeKick").textContent=m.type==="software"?"Jamovi Coach":"Concept Coach";document.getElementById("shadowBtn").classList.toggle("hidden",!(m.type==="software"||(mission>=13&&mission<=17)));document.getElementById("rjSideGuide").classList.toggle("show",mission===12);
+ document.getElementById("backBtn").disabled=mission===0;document.getElementById("nextBtn").disabled=!passed.has(mission)||mission===missions.length-1;
+ const fb=document.getElementById("feedback");fb.className="feedback";
+ const part=m.parts?(partProgress.get(mission)||0):0,partKey=`${mission}.${part}`;
+ fb.textContent=passed.has(mission)?"Mission complete. Your saved answers remain visible above; you can revisit unlocked sections.":verifiedParts.has(partKey)?"Answer saved and checked. Review it above, then continue when ready.":m.type==="software"?"Carry out the action in the Jamovi window, then check your work.":"Answer the mission, then check your work.";
+ document.getElementById('partNextBtn').classList.toggle('hidden',!m.parts||!verifiedParts.has(partKey)||part>=m.parts.length-1);
+ document.getElementById('checkBtn').disabled=Boolean(m.parts&&verifiedParts.has(partKey)&&part<m.parts.length-1);
+ renderAnswer();renderBrief();renderNavigation();highlightCaseSource();
+}
+function checkMission(){
+ const m=missions[mission];let ok=false,msg="",picked=-1;
+ if(m.type==="theory"||m.type==="final"){
+  const x=document.querySelector('input[name="ans"]:checked');picked=x?+x.value:-1;const part=m.parts?(partProgress.get(mission)||0):0,question=m.parts?m.parts[part]:m;ok=picked===question.correct;saveAnswer();
+   if(ok&&m.parts&&part<m.parts.length-1){
+    verifiedParts.add(answerKey());renderAnswer();
+    document.getElementById('partNextBtn').classList.remove('hidden');document.getElementById('checkBtn').disabled=true;
+    const fb=document.getElementById('feedback');fb.className='feedback good';fb.textContent=question.explain+' Your selection is saved above. Continue when ready.';return;
+   }
+
+ }else if(m.check==="screen")ok=auditApplied;
+ else if(m.check==="open")ok=analysisOpen;
+ else if(m.check==="assign")ok=dep==="Prep_Time_Min"&&grp==="Prep_Program";
+ else if(m.check==="homo")ok=dep==="Prep_Time_Min"&&grp==="Prep_Program"&&document.getElementById("homo").checked;
+ else if(m.check==="method")ok=document.getElementById("homo").checked&&!document.getElementById("welch").checked&&document.getElementById("fisher").checked&&post==="tukey";
+ else if(m.check==="output")ok=document.getElementById("descTable").checked&&document.getElementById("descPlots").checked;
+ else if(m.check==="rj")ok=rjOpen&&rOutput;
+ if(ok){
+  if(m.parts){verifiedParts.add(answerKey());renderAnswer();}
+  passed.add(mission);msg=m.parts?m.parts[m.parts.length-1].explain:m.explain||({screen:"Correct. You deleted only the duplicate in the Data view. The blank outcome remains stored but Jamovi omits it automatically, leaving 150 usable cases.",open:"Correct. You opened the omnibus one-way ANOVA workspace.",assign:"Correct. Prep_Time_Min is the quantitative outcome; Prep_Program supplies the three groups.",homo:"Correct. Levene’s p = 0.962 gives no evidence against equal population variances, so the Fisher route is reasonable.",method:"Correct. Fisher answers the overall mean question; Tukey controls family-wise error across the three pairs.",output:"Correct. The table gives exact summaries; the plot makes center and uncertainty easier to compare.",rj:"Correct. The R output adds simultaneous Tukey confidence limits to the pairwise decisions."})[m.check];
+  document.getElementById("nextBtn").disabled=mission===missions.length-1;document.getElementById("pbar").style.width=`${passed.size/missions.length*100}%`;renderNavigation();
+ }else if(m.type==="software"){
+  msg=({screen:"Select the second LH-61 row, then use Data → Rows → Delete selected rows. Keep the blank-time child; Jamovi excludes it from the analysis automatically.",open:"Use the ANOVA icon, then choose One-Way ANOVA. The question compares three means.",assign:"Move Prep_Time_Min to Dependent Variables and Prep_Program to Grouping Variable. Match roles, not column position.",homo:"Assign both variables first, then request Homogeneity test under Assumption Checks.",method:"Levene’s p = 0.962 supports the equal-variance route: Welch off, Fisher on, Tukey selected.",output:"Turn on both Descriptives table and Descriptives plots; each adds different evidence.",rj:"Open R → Rj Editor, use the code guide now shown in this mission panel, then run the code."})[m.check];
+ }else {const part=m.parts?(partProgress.get(mission)||0):0,question=m.parts?m.parts[part]:m;msg=picked<0?"Choose one answer first.":`${question.feedback[picked]} <b>Try again:</b> ${m.tip}`;}
+ const fb=document.getElementById("feedback");fb.className="feedback "+(ok?"good":"bad");fb.innerHTML=msg;
+}
+document.getElementById("checkBtn").onclick=checkMission;
+document.getElementById('answerBox').addEventListener('click',e=>{
+ if(e.target.closest('[data-part-back]')){const part=partProgress.get(mission)||0;if(part>0){saveAnswer();partProgress.set(mission,part-1);storyFocusStep=null;storyFocusKey=null;renderMission();}}
+ if(e.target.closest('[data-part-forward]')){const part=partProgress.get(mission)||0;if(verifiedParts.has(`${mission}.${part}`)&&part<missions[mission].parts.length-1){partProgress.set(mission,part+1);storyFocusStep=null;storyFocusKey=null;renderMission();}}
+});
+document.getElementById('partNextBtn').onclick=()=>{
+ const m=missions[mission],part=partProgress.get(mission)||0;
+ if(!m.parts||!verifiedParts.has(`${mission}.${part}`)||part>=m.parts.length-1)return;
+ partProgress.set(mission,part+1);storyFocusStep=null;storyFocusKey=null;renderMission();
+ document.getElementById('answerBox').scrollIntoView({behavior:'smooth',block:'nearest'});
+};
+document.getElementById("backBtn").onclick=()=>{if(mission)jumpToStep(mission-1)};
+document.getElementById("nextBtn").onclick=()=>{if(passed.has(mission)&&mission<missions.length-1)jumpToStep(mission+1)};
+
+function reset(){
+ passed.clear();answers.clear();partProgress.clear();verifiedParts.clear();storyFocusStep=null;storyFocusKey=null;auditSelected=-1;auditApplied=false;filterEditorOpen=false;filterEnabled=false;document.getElementById("filterEditor").classList.add("hidden");makeSheet();analysisOpen=false;selected=null;dep=null;grp=null;post="none";mission=0;finalAnswer="";plotLoading=false;rjOpen=false;rOutput=false;
+ ["fisher","descTable","descPlots","homo","normal","qq","testResults","flagSig"].forEach(id=>document.getElementById(id).checked=false);
+ ["welch","meanDiff","reportSig"].forEach(id=>document.getElementById(id).checked=true);
+ document.querySelector('input[name="post"][value="none"]').checked=true;document.getElementById("postBar").classList.remove("open");document.getElementById("postBody").classList.remove("open");
+ hideAnalysis();closeMenu();closeRMenu();document.getElementById("rjPanel").classList.remove("open");document.getElementById("rEditor").value="# Build the ANOVA and Tukey HSD results here\n";document.getElementById("copyNote").textContent="";updateLineNos();renderVars();renderResults();renderMission();
+}
+document.getElementById("resetBtn").onclick=reset;
+document.getElementById("caseToggle").onclick=function(){const h=document.getElementById("scenarioHeader"),closed=h.classList.toggle("collapsed");document.body.classList.toggle("scenario-collapsed",closed);this.setAttribute("aria-expanded",String(!closed));this.textContent=closed?"Expand scenario ↓":"Collapse scenario ↑"};
+const openNav=()=>{document.body.classList.add("nav-open");document.getElementById("menuToggle").setAttribute("aria-expanded","true")},closeNav=()=>{document.body.classList.remove("nav-open");document.getElementById("menuToggle").setAttribute("aria-expanded","false")};document.getElementById("menuToggle").onclick=openNav;document.getElementById("menuClose").onclick=closeNav;document.getElementById("navScrim").onclick=closeNav;
+
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const ghost=document.getElementById("ghost"),glabel=document.getElementById("glabel"),ring=document.getElementById("gring"),shield=document.getElementById("shield");
+function snap(){return {auditApplied,auditSelected,filterEditorOpen,filterEnabled,analysisOpen,rjOpen,rOutput,rCode:document.getElementById("rEditor").value,selected,dep,grp,post,mission,postOpen:document.getElementById("postBody").classList.contains("open"),checks:["welch","fisher","descTable","descPlots","homo","normal","qq"].reduce((a,id)=>(a[id]=document.getElementById(id).checked,a),{})}}
+function restore(s){
+ auditApplied=s.auditApplied;auditSelected=s.auditSelected;filterEditorOpen=s.filterEditorOpen;filterEnabled=s.filterEnabled;makeSheet();analysisOpen=s.analysisOpen;rjOpen=s.rjOpen;rOutput=s.rOutput;document.getElementById("rEditor").value=s.rCode;updateLineNos();selected=s.selected;dep=s.dep;grp=s.grp;post=s.post;mission=s.mission;
+ Object.entries(s.checks).forEach(([id,v])=>document.getElementById(id).checked=v);document.querySelector(`input[name="post"][value="${post}"]`).checked=true;
+ document.getElementById("postBar").classList.toggle("open",s.postOpen);document.getElementById("postBody").classList.toggle("open",s.postOpen);document.getElementById("rjPanel").classList.toggle("open",rjOpen);
+ if(rjOpen){document.getElementById("sheetView").style.display="none";document.getElementById("analysisPanel").classList.remove("open")}else if(analysisOpen){document.getElementById("sheetView").style.display="none";document.getElementById("analysisPanel").classList.add("open")}else{document.getElementById("sheetView").style.display="block";document.getElementById("analysisPanel").classList.remove("open")}
+ closeMenu();closeRMenu();renderVars();renderResults();renderMission();
+}
+async function point(el,label,wait=700){if(!el)return;el.scrollIntoView({behavior:"auto",block:"center",inline:"nearest"});await sleep(80);const r=el.getBoundingClientRect();ghost.classList.add("show");ring.classList.add("show");ghost.style.left=(r.left+r.width*.3)+"px";ghost.style.top=(r.top+r.height*.3)+"px";ring.style.left=(r.left-4)+"px";ring.style.top=(r.top-4)+"px";ring.style.width=(r.width+8)+"px";ring.style.height=(r.height+8)+"px";glabel.innerHTML=label;await sleep(wait)}
+async function clickG(el,label,fn){await point(el,label,480);if(fn)fn();await sleep(620)}
+async function shadow(){
+ if(shadowing)return;shadowing=true;const s=snap();shield.classList.add("on");
+ try{
+  if(mission===5){
+    const row=document.querySelector('#dataSheet tr[data-row-idx="150"]');
+    await point(row,'In Jamovi Data view, locate the second LH-61 using its Child_ID and select row 151.');
+    await clickG(row,'Click the row number to select this whole record.',()=>{auditSelected=150;renderAudit()});
+    await clickG(document.getElementById('deleteDataRow'),'Data → Rows → Delete selected rows',()=>{auditApplied=true;makeSheet();renderAudit()});
+    await point(document.getElementById('filterMenuBtn'),'Optional: Data → Filters opens the real row-filter editor.');
+  }
+  else if(mission>=13&&mission<=17){
+    if(!analysisOpen)showAnalysis();renderResults();
+    const tukeyHeading=[...document.querySelectorAll('.postheading')].find(x=>x.textContent.trim()==='Post Hoc Tests');
+    const anovaTable=document.querySelector('.rsection .jtable');
+    const el=({13:document.querySelector('.plottitle'),14:anovaTable,15:tukeyHeading,16:document.getElementById('rOutputCard'),17:tukeyHeading})[mission]||document.getElementById('resultCard');
+    const texts={13:'Find Descriptives and the mean-with-95%-CI plot in the Jamovi results.',14:'Find the overall Fisher ANOVA F statistic and p-value. The green diagram explains the ratio.',15:'Find the Tukey adjusted comparisons; the omnibus F does not identify pairs.',16:'Find TukeyHSD in the Rj results, including lwr and upr confidence limits.',17:'Compare the Tukey contrasts and combine them with the equipment costs.'};
+    if(el)el.scrollIntoView({block:'center',behavior:'auto'});
+    await point(el,texts[mission],1800);
+  }
+  else if(mission===7){await clickG(document.getElementById("anovaBtn"),"Click <b>ANOVA</b> on the Analyses ribbon",openMenu);await clickG(document.getElementById("oneWayItem"),"Choose <b>One-Way ANOVA</b>",showAnalysis)}
+  else if(mission===8){if(!analysisOpen)showAnalysis();let v=[...document.querySelectorAll(".vrow")].find(x=>x.dataset.v==="Prep_Time_Min");await clickG(v,"Select <b>Prep_Time_Min</b>",()=>{selected="Prep_Time_Min";renderVars()});await clickG(document.getElementById("depArrow"),"Move it into <b>Dependent Variables</b>",()=>assign("dep"));v=[...document.querySelectorAll(".vrow")].find(x=>x.dataset.v==="Prep_Program");await clickG(v,"Select <b>Prep_Program</b>",()=>{selected="Prep_Program";renderVars()});await clickG(document.getElementById("grpArrow"),"Move it into <b>Grouping Variable</b>",()=>assign("grp"));await point(document.getElementById("resultCard"),"Jamovi calculates as soon as both roles are assigned")}
+  else if(mission===9){if(!analysisOpen)showAnalysis();dep="Prep_Time_Min";grp="Prep_Program";renderVars();renderResults();await clickG(document.getElementById("homo"),"Turn on <b>Homogeneity test</b>",()=>{document.getElementById("homo").checked=true;renderResults()});await point(document.querySelector(".assumptionResult"),"Levene's p = 0.962 supports the equal-variance route")}
+  else if(mission===10){if(!analysisOpen)showAnalysis();dep="Prep_Time_Min";grp="Prep_Program";document.getElementById("homo").checked=true;renderVars();renderResults();await clickG(document.getElementById("welch"),"Turn off <b>Welch's</b>",()=>{document.getElementById("welch").checked=false;renderResults()});await clickG(document.getElementById("fisher"),"Turn on <b>Fisher's</b>",()=>{document.getElementById("fisher").checked=true;renderResults()});await clickG(document.getElementById("postBar"),"Expand <b>Post-Hoc Tests</b>",()=>{document.getElementById("postBar").classList.add("open");document.getElementById("postBody").classList.add("open")});const t=document.querySelector('input[name="post"][value="tukey"]');await clickG(t,"Choose <b>Tukey</b>",()=>{t.checked=true;post="tukey";renderResults()})}
+  else if(mission===11){if(!analysisOpen)showAnalysis();dep="Prep_Time_Min";grp="Prep_Program";renderVars();renderResults();await clickG(document.getElementById("descTable"),"Check <b>Descriptives table</b>",()=>{document.getElementById("descTable").checked=true;renderResults()});await clickG(document.getElementById("descPlots"),"Check <b>Descriptives plots</b>",()=>{document.getElementById("descPlots").checked=true;plotLoading=false;renderResults()});await point(document.querySelector(".plotwrap"),"Compare the three means and 95% confidence intervals")}
+  else if(mission===12){await clickG(document.getElementById("rBtn"),"Click the <b>R</b> module",openRMenu);await clickG(document.getElementById("rjEditorItem"),"Choose <b>Rj Editor</b>",openRj);await point(document.getElementById("rjSideGuide"),"The copy-ready code and explanations stay in the mission panel");await clickG(document.getElementById("copyCode"),"Copy the ready-to-run code",()=>{document.getElementById("rEditor").value=courseCode;updateLineNos()});await clickG(document.getElementById("rRun"),"Run the code with the green arrow",()=>{rOutput=true;renderResults()});await point(document.getElementById("rOutputCard"),"Read <b>diff, lwr, upr, p adj</b>")}
+ }finally{ghost.classList.remove("show");ring.classList.remove("show");shield.classList.remove("on");restore(s);shadowing=false;const f=document.getElementById("feedback");f.className="feedback good";f.innerHTML="👻 Demonstration rewound. <b>Your turn.</b>"}
+}
+document.getElementById("shadowBtn").onclick=shadow;
+
+makeSheet();updateLineNos();renderVars();renderResults();renderMission();
+})();
+</script>
+</body>
+</html>

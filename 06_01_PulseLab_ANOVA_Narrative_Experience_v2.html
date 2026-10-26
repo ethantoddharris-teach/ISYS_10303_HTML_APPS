@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PulseLab — The $2M Decision</title>
+<style>
+:root{
+  --bg:#070a11;--panel:#101827;--panel2:#162238;--line:#2b3a56;--text:#f7fbff;--muted:#a8b6ca;
+  --cyan:#3de4ff;--blue:#428dff;--pink:#ff4fa3;--purple:#ad7dff;--lime:#72f3a2;--gold:#ffd15d;
+  --orange:#ff9148;--red:#ff5b67;--neon:#35c9ff;--wild:#68efaa;--story:#ca96ff;
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif;line-height:1.5;background:radial-gradient(circle at 8% 0%,#143862 0,transparent 29%),radial-gradient(circle at 92% 7%,#4b1747 0,transparent 27%),linear-gradient(180deg,#070a11,#0a101a 46%,#070a11)}
+button,input{font:inherit}.hidden{display:none!important}
+.topbar{position:sticky;top:0;z-index:60;background:#080c14ea;backdrop-filter:blur(13px);border-bottom:1px solid #25334c}
+.topinner{max-width:1240px;margin:auto;padding:9px 18px;display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.logo{font-weight:1000;letter-spacing:.75px;background:linear-gradient(90deg,var(--cyan),#fff,var(--pink));-webkit-background-clip:text;color:transparent}
+.hud{margin-left:auto;display:flex;gap:7px;flex-wrap:wrap}.chip{border:1px solid #30425f;background:#111a2a;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:900;color:#dce9f8}.chip b{color:#fff}.progress{width:145px;height:7px;background:#202c41;border-radius:99px;overflow:hidden}.progress>div{height:100%;width:25%;background:linear-gradient(90deg,var(--cyan),var(--pink));transition:.3s}
+.wrap{max-width:1240px;margin:auto;padding:18px 18px 80px}
+.hero{position:relative;overflow:hidden;border:1px solid #344769;border-radius:27px;padding:30px;background:linear-gradient(135deg,#101b35 0%,#1a2d60 48%,#421a4d 100%);box-shadow:0 25px 75px #0007}
+.hero:before{content:"";position:absolute;width:480px;height:480px;left:-190px;top:-250px;border-radius:50%;background:radial-gradient(circle,#3de4ff2b,transparent 66%)}
+.hero:after{content:"";position:absolute;width:270px;height:270px;right:-80px;top:-110px;border-radius:50%;border:1px solid #ff4fa32f;box-shadow:0 0 90px #ff4fa31e}
+.eyebrow,.kicker{position:relative;font-size:10px;font-weight:1000;letter-spacing:1px;text-transform:uppercase;color:#83ecff}.hero h1{position:relative;margin:5px 0 8px;font-size:clamp(31px,5vw,53px);line-height:1.03;max-width:930px}.hero p{position:relative;margin:0;max-width:900px;color:#d8e6f6;font-size:17px}.goldtext{color:var(--gold)}
+.chapter{display:none}.chapter.active{display:block;animation:chapter .25s ease-out}@keyframes chapter{from{opacity:.15;transform:translateY(8px)}to{opacity:1;transform:none}}
+.panel{background:linear-gradient(180deg,#111a2a,#0e1624);border:1px solid #2a3a55;border-radius:20px;padding:18px;margin-top:15px;box-shadow:0 12px 32px #0004}.panel h2{margin:0 0 6px;font-size:25px}.panel h3{margin:0 0 5px}.muted{color:var(--muted)}
+.mission{display:grid;grid-template-columns:1.25fr 1fr;gap:12px;border:1px solid #36506d;background:linear-gradient(135deg,#10233a,#111b2b);border-radius:17px;padding:14px;margin-top:14px}.mission h3{font-size:18px}.mission .steps{display:grid;gap:6px}.missionstep{display:flex;gap:8px;align-items:flex-start;color:#dbe7f5;font-size:12px}.stepnum{width:21px;height:21px;border-radius:50%;display:grid;place-items:center;background:#233953;color:#8cecff;font-weight:1000;flex:0 0 auto}.mission .known{border-left:1px solid #31425d;padding-left:12px}.mission .known div{font-size:12px;margin:4px 0}.mission .known b{color:#fff}
+.nextmove{border:1px solid #3d5b78;border-left:5px solid var(--cyan);background:#10243a;border-radius:12px;padding:11px 13px;margin-top:12px;color:#dff8ff}.nextmove b{color:#fff}
+.timeline{margin-top:14px;display:grid;grid-template-columns:118px 1fr;gap:12px;align-items:start}.time{text-align:right;color:#7f92aa;font-weight:1000;font-size:12px;padding-top:5px}.message{position:relative;border:1px solid #2e405e;border-radius:16px;background:#111a2a;padding:13px 14px}.message:before{content:"";position:absolute;left:-7px;top:18px;width:12px;height:12px;background:#111a2a;border-left:1px solid #2e405e;border-bottom:1px solid #2e405e;transform:rotate(45deg)}
+.person{display:flex;align-items:center;gap:9px;margin-bottom:5px}.avatar{width:35px;height:35px;border-radius:50%;display:grid;place-items:center;font-weight:1000;color:#071018}.person b{display:block}.person small{display:block;color:#91a3bb}.ceo{background:linear-gradient(135deg,#ffd15d,#ff9148)}.cfo{background:linear-gradient(135deg,#3de4ff,#428dff)}.ops{background:linear-gradient(135deg,#72f3a2,#34cb83)}.analyst{background:linear-gradient(135deg,#ca96ff,#ff4fa3)}
+.board{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}.metric{background:#101a2a;border:1px solid #30415d;border-radius:13px;padding:10px;text-align:center}.metric small{display:block;color:#8ea2bc;font-size:9px;text-transform:uppercase;font-weight:1000;letter-spacing:.45px}.metric b{display:block;font-size:20px;margin-top:2px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.concept{position:relative;overflow:hidden;border:2px solid #30415e;border-radius:18px;padding:15px;background:linear-gradient(180deg,#152039,#101827);cursor:pointer;transition:.15s}.concept:hover{transform:translateY(-2px);box-shadow:0 12px 28px #0006}.concept.selected{border-color:#fff;box-shadow:0 0 0 3px #ffffff1c,0 0 34px #34d7ff20}.concept .badge{display:inline-block;border-radius:999px;padding:5px 8px;font-size:10px;font-weight:1000;color:#071017}.concept h3{font-size:20px;margin:9px 0 3px}.concept .desc{font-size:12px;color:#a8b7cb}.mean{font-size:31px;font-weight:1000;margin-top:10px}.minor{font-size:11px;color:#8fa0b8;display:flex;justify-content:space-between;gap:8px;margin-top:7px}.costline{margin-top:10px;padding-top:9px;border-top:1px solid #2b3c57;display:grid;grid-template-columns:1fr 1fr;gap:5px;font-size:11px;color:#a8b6c9}.costline b{display:block;color:#fff;font-size:13px}.raw{display:none;gap:3px;align-items:center;margin-top:8px;height:35px;overflow:hidden}.raw.show{display:flex}.raw i{width:7px;height:7px;border-radius:50%;flex:0 0 auto}
+button{border:1px solid #39506f;background:#172238;color:#f1f7ff;border-radius:11px;padding:10px 13px;font-weight:900;cursor:pointer;transition:.15s}button:hover{background:#20304d;transform:translateY(-1px)}button.primary{border:0;color:#041019;background:linear-gradient(90deg,var(--cyan),#7deaff)}button.hot{border:0;color:#fff;background:linear-gradient(90deg,#ff5b67,var(--pink))}button.gold{border:0;color:#211500;background:linear-gradient(90deg,#ffb83f,var(--gold))}button.green{border:0;color:#051b10;background:linear-gradient(90deg,#55e48e,var(--lime))}button:disabled{opacity:.4;cursor:not-allowed;transform:none}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.notice{border-left:5px solid var(--gold);background:#34290f;border-radius:12px;padding:12px 14px;margin:12px 0;color:#ffe7a0}.feedback{margin-top:11px;padding:12px 13px;border-radius:12px;background:#111f32;border:1px solid #29415f;min-height:48px;color:#dce9f7}.feedback.good{background:#0d2c22;border-color:#26734f;color:#bff4d1}.feedback.bad{background:#35171c;border-color:#80303c;color:#ffd0d4}.feedback.goldish{background:#352a11;border-color:#80661f;color:#ffe49a}
+.ledger{border:1px solid #364b68;border-radius:17px;background:#0d1624;padding:13px;margin-top:12px}.ledgerhead{display:flex;justify-content:space-between;gap:8px;align-items:center}.ledgerhead h3{margin:0}.ledgerrows{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:10px}.ledgeritem{background:#131f31;border:1px solid #2c405c;border-radius:11px;padding:9px;text-align:center}.ledgeritem small{display:block;color:#8fa2bb;font-size:9px;text-transform:uppercase;font-weight:1000}.ledgeritem b{display:block;font-size:17px;margin-top:2px}
+.reveal{border:1px solid #744058;border-radius:20px;padding:18px;margin-top:14px;background:radial-gradient(circle at 80% 0%,#ff4fa335,transparent 35%),linear-gradient(135deg,#2e1526,#121421)}.reveal .huge{font-size:clamp(29px,5vw,47px);font-weight:1000;line-height:1.03}.red{color:#ff8590}.resultgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.result{border:1px solid #324660;border-radius:14px;padding:12px;background:#111a28}.result small{display:block;color:#8fa1b9;font-size:9px;text-transform:uppercase;font-weight:1000}.result b{display:block;font-size:24px;margin-top:3px}
+.validation{display:grid;grid-template-columns:1fr 1.2fr;gap:14px}.validation table{width:100%;border-collapse:collapse}.validation th,.validation td{padding:8px 9px;border-bottom:1px solid #2b3c55;text-align:right}.validation th:first-child,.validation td:first-child{text-align:left}.validation th{font-size:9px;text-transform:uppercase;color:#8fa2ba}.flatbadge{display:inline-block;border:1px solid #5c4d25;background:#312910;color:#ffe49c;border-radius:999px;padding:5px 8px;font-size:10px;font-weight:1000}
+.lab{display:grid;grid-template-columns:335px 1fr;gap:14px;align-items:start}.controls{border:1px solid #30415e;border-radius:16px;padding:14px;background:#101927}.control{margin:12px 0}.control label{display:flex;justify-content:space-between;font-weight:900}.control input{width:100%;accent-color:var(--cyan);margin-top:7px}.meter{height:12px;background:#202c41;border-radius:99px;overflow:hidden;margin:8px 0}.meter>div{height:100%;width:50%;background:linear-gradient(90deg,var(--red),var(--gold),var(--lime));transition:.2s}.missionchecks{display:grid;gap:7px;margin:10px 0}.missioncheck{display:flex;gap:8px;align-items:center;border:1px solid #2d405b;border-radius:10px;padding:8px;background:#111b2b;color:#c7d4e5;font-size:11px}.missioncheck .check{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:#25354d;color:#8fa4bc;font-weight:1000}.missioncheck.done{border-color:#2f7252;background:#0f2a20;color:#bff4d1}.missioncheck.done .check{background:#2b8156;color:white}.stability{border:1px solid #334963;border-radius:14px;padding:12px;background:#0f1928;text-align:center}.stability strong{font-size:32px}.dots{display:flex;gap:3px;flex-wrap:wrap;max-height:82px;overflow:hidden;margin-top:8px}.dots i{width:8px;height:8px;border-radius:50%}
+svg{display:block;width:100%;height:auto}.gridline{stroke:#26344a}.tick{fill:#8194ad;font-size:10px}.glabel{fill:#f2f6ff;font-size:12px;font-weight:1000}.meanline{stroke-width:4;stroke-linecap:round}.point{stroke:#0b0f17;stroke-width:1.4}.resid{stroke-width:1.1;opacity:.78}
+.pair{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;border:1px solid #30415c;border-radius:13px;padding:11px 12px;margin:8px 0;background:#101a2b}.pval{display:inline-block;border-radius:999px;padding:5px 8px;font-size:11px;font-weight:1000;border:1px solid #415574;background:#18253b}.pval.sig{background:#123123;border-color:#2d8158;color:#9ff0bf}.counter{font-size:48px;font-weight:1000}.bar{height:18px;background:#222c3f;border-radius:99px;overflow:hidden}.bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--orange),var(--pink));transition:.3s}
+.unlock{text-align:center;border:1px solid #39516d;border-radius:20px;padding:20px;margin-top:14px;background:radial-gradient(circle at 50% -40%,#34d7ff30,transparent 50%),linear-gradient(180deg,#111c31,#0c1422)}.unlock h2{font-size:35px;margin:4px 0}.formula{margin:16px auto;padding:17px;border-radius:15px;background:#090e19;border:1px solid #38506b;max-width:650px;font:italic 28px Georgia,serif}.formula span{display:inline-grid;grid-template-rows:auto auto;font:normal 15px Georgia,serif;vertical-align:middle;margin-left:6px}.formula i{font-style:normal;border-bottom:1px solid #fff;padding:0 5px 3px}.formula em{font-style:normal;padding:3px 5px 0}.hindsight{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:13px}.hindsight .result b{font-size:20px}
+.particles{position:fixed;inset:0;pointer-events:none;z-index:100}.particle{position:absolute;width:8px;height:14px;animation:fall 1.3s linear forwards}@keyframes fall{from{transform:translateY(-30px) rotate(0)}to{transform:translateY(110vh) rotate(720deg)}}
+@media(max-width:920px){.grid3,.grid2,.board,.lab,.resultgrid,.validation,.mission,.hindsight{grid-template-columns:1fr}.ledgerrows{grid-template-columns:1fr 1fr}.timeline{grid-template-columns:1fr}.time{text-align:left}.message:before{display:none}.hud{width:100%;margin-left:0}.progress{width:100%}.mission .known{border-left:0;border-top:1px solid #31425d;padding-left:0;padding-top:10px}}
+@media(max-width:560px){.wrap{padding:10px 8px 55px}.hero{padding:21px}.topinner{padding:8px 9px}.ledgerrows{grid-template-columns:1fr}.hero p{font-size:15px}}
+</style>
+</head>
+<body>
+<div class="particles" id="particles"></div>
+<div class="topbar"><div class="topinner">
+  <div class="logo">PULSELAB // CAPITAL DECISION ROOM</div>
+  <div class="hud">
+    <div class="chip">TIME <b id="timeHud">3:12 PM</b></div>
+    <div class="chip">RESEARCH <b id="budgetHud">$100K</b></div>
+    <div class="chip">CAPITAL COMMITTED <b id="capitalHud">$0</b></div>
+  </div>
+  <div class="progress"><div id="progressBar"></div></div>
+</div></div>
+
+<div class="wrap">
+<section class="hero">
+  <div class="eyebrow">You are acting Director of Analytics · Friday afternoon</div>
+  <h1>The board meets in <span class="goldtext">48 minutes.</span> Your recommendation determines where PulseLab puts its first $2 million.</h1>
+  <p>Three concepts are competing for one flagship launch. Their pilot means are different. Their real population means are unknown. The expensive mistake is treating those two facts as the same thing.</p>
+</section>
+
+<!-- CHAPTER 1 -->
+<section class="chapter active" id="c1">
+  <div class="mission">
+    <div>
+      <div class="kicker">Your mission · before 4:00 PM</div>
+      <h3>Recommend one concept for the flagship launch.</h3>
+      <div class="steps">
+        <div class="missionstep"><span class="stepnum">1</span><span>Read the pilot evidence and the investment costs.</span></div>
+        <div class="missionstep"><span class="stepnum">2</span><span>Decide whether to spend research money on more guests.</span></div>
+        <div class="missionstep"><span class="stepnum">3</span><span>Select one concept and defend the launch recommendation.</span></div>
+      </div>
+    </div>
+    <div class="known">
+      <div><b>You know:</b> sample means, sample SDs, project costs.</div>
+      <div><b>You do not know:</b> the true population means.</div>
+      <div><b>Stakes:</b> $100K research budget + one flagship investment.</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="kicker">Chapter 1 · The Friday decision</div>
+    <div class="timeline">
+      <div class="time">3:12 PM</div>
+      <div class="message"><div class="person"><div class="avatar ceo">M</div><div><b>Maya Chen</b><small>CEO</small></div></div><div>Board wants one flagship concept by 4. Guest spend is the revenue metric they care about most. I need a recommendation, not three possibilities.</div></div>
+      <div class="time">3:14 PM</div>
+      <div class="message"><div class="person"><div class="avatar ops">J</div><div><b>Jordan Reyes</b><small>VP Operations</small></div></div><div>We only have 8 pilot guests per concept. I can rush another 8 per concept for $50K. You can do that twice if you want, but then the research budget is gone.</div></div>
+      <div class="time">3:15 PM</div>
+      <div class="message"><div class="person"><div class="avatar cfo">A</div><div><b>Aaron Patel</b><small>CFO</small></div></div><div>One more thing: the concepts do not cost the same to build or operate. If you pay a premium, I want evidence that the revenue premium is real.</div></div>
+    </div>
+
+    <div class="board">
+      <div class="metric"><small>Research left</small><b id="budgetCard">$100K</b></div>
+      <div class="metric"><small>Guests / concept</small><b id="nCard">8</b></div>
+      <div class="metric"><small>Current sample leader</small><b id="leaderCard">—</b></div>
+      <div class="metric"><small>Decision deadline</small><b>4:00 PM</b></div>
+    </div>
+
+    <div class="grid3" id="conceptGrid"></div>
+    <div class="actions">
+      <button id="showGuests">👁 Inspect individual guests</button>
+      <button id="buyData" class="gold">Buy another pilot · $50K</button>
+      <button id="launch" class="hot" disabled>Commit the flagship investment</button>
+    </div>
+    <div class="feedback" id="decisionFeedback">Start by choosing a concept or inspecting what sits underneath the averages.</div>
+    <div class="nextmove"><b>Next move:</b> once you are willing to defend one concept, select it and commit the flagship investment.</div>
+  </div>
+
+  <div class="panel hidden" id="boardroom">
+    <div class="kicker">3:58 PM · Boardroom</div>
+    <div class="timeline">
+      <div class="time">3:58 PM</div>
+      <div class="message"><div class="person"><div class="avatar cfo">A</div><div><b>Aaron Patel</b><small>CFO</small></div></div><div id="cfoQuestion">You are asking me to sign a capital check. What exactly are you claiming the pilot proves?</div></div>
+    </div>
+    <div class="actions">
+      <button id="defendMean">The highest sample mean is enough evidence.</button>
+      <button id="defendCaution">The sample suggests a leader, but I cannot treat the mean as population truth.</button>
+    </div>
+    <div class="feedback hidden" id="boardFeedback"></div>
+  </div>
+
+  <div class="reveal hidden" id="validationReveal">
+    <div class="kicker">Six weeks later · validation report</div>
+    <div class="huge" id="validationHeadline">The revenue advantage <span class="red">did not survive validation.</span></div>
+    <p>While buildout was underway, PulseLab completed a much larger validation wave. The three concepts converged on essentially the same mean guest spend.</p>
+
+    <div class="validation">
+      <div>
+        <span class="flatbadge">Large validation sample · n = 1,500 / concept</span>
+        <table>
+          <thead><tr><th>Concept</th><th>Validation mean</th><th>Build</th><th>Annual ops</th></tr></thead>
+          <tbody id="validationTable"></tbody>
+        </table>
+      </div>
+      <div class="resultgrid">
+        <div class="result"><small>Your selected concept</small><b id="selectedResult">—</b></div>
+        <div class="result"><small>Estimated true mean spend</small><b id="trueSpendResult">—</b></div>
+        <div class="result"><small>Avoidable year-one cost</small><b id="avoidableCost">—</b></div>
+        <div class="result"><small>Research spent before launch</small><b id="researchSpent">—</b></div>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="time">9:06 AM</div>
+      <div class="message"><div class="person"><div class="avatar ceo">M</div><div><b>Maya Chen</b><small>CEO</small></div></div><div id="mayaAfter">The pilot looked like one concept was winning. The validation says the revenue means are basically the same. Before we put more capital behind this program, I need to understand what made the first decision so unstable.</div></div>
+    </div>
+
+    <div class="ledger">
+      <div class="ledgerhead"><h3>Decision ledger</h3><span class="muted">This follows you into the postmortem.</span></div>
+      <div class="ledgerrows">
+        <div class="ledgeritem"><small>Concept chosen</small><b id="ledgerChoice">—</b></div>
+        <div class="ledgeritem"><small>Research bought</small><b id="ledgerResearch">—</b></div>
+        <div class="ledgeritem"><small>Capital committed</small><b id="ledgerCapital">—</b></div>
+        <div class="ledgeritem"><small>Validation finding</small><b>Means ≈ equal</b></div>
+      </div>
+    </div>
+
+    <div class="nextmove"><b>Next move:</b> Maya is not asking for a new test yet. First explain <em>why</em> a sample winner can be unstable.</div>
+    <div class="actions"><button id="openPostmortem" class="primary">Open the investment postmortem →</button></div>
+  </div>
+</section>
+
+<!-- CHAPTER 2 -->
+<section class="chapter" id="c2">
+  <div class="mission">
+    <div>
+      <div class="kicker">Your mission · explain the instability</div>
+      <h3>Show Maya what makes a sample winner trustworthy—or dangerous.</h3>
+      <div class="steps">
+        <div class="missionstep"><span class="stepnum">1</span><span>Create a world where pilot winners flip constantly.</span></div>
+        <div class="missionstep"><span class="stepnum">2</span><span>Create a world where the true winner survives sampling variation.</span></div>
+        <div class="missionstep"><span class="stepnum">3</span><span>Use the same visual evidence to explain the difference.</span></div>
+      </div>
+    </div>
+    <div class="known">
+      <div><b>Carry-forward:</b> your flagship choice and spending remain on the ledger.</div>
+      <div><b>Question:</b> why can sample means point to a winner that is not real?</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="kicker">Chapter 2 · Investment postmortem</div>
+    <div class="timeline">
+      <div class="time">9:12 AM</div>
+      <div class="message"><div class="person"><div class="avatar analyst">Y</div><div><b>You</b><small>Director of Analytics</small></div></div><div>I think the issue is not just how far apart the sample means are. We have to compare that separation with how much guests vary inside each concept.</div></div>
+      <div class="time">9:13 AM</div>
+      <div class="message"><div class="person"><div class="avatar cfo">A</div><div><b>Aaron Patel</b><small>CFO</small></div></div><div>Show me. I want to see a case where “highest average wins” is dangerous and a case where the winner is actually stable.</div></div>
+    </div>
+
+    <div class="lab">
+      <div class="controls">
+        <div class="control"><label>True mean separation <span id="sepOut">$6</span></label><input id="sep" type="range" min="0" max="20" step="1" value="6"></div>
+        <div class="control"><label>Guest-to-guest noise <span id="noiseOut">$13</span></label><input id="noise" type="range" min="3" max="20" step="1" value="13"></div>
+        <div><small class="muted">Separation relative to noise</small><div class="meter"><div id="signalMeter"></div></div></div>
+        <div class="actions"><button id="newPilot">New pilot</button><button id="stress" class="primary">Stress-test 200 pilots</button></div>
+        <div class="missionchecks">
+          <div class="missioncheck" id="unstableCheck"><span class="check">1</span><span>Create an unstable world: true winner appears in fewer than 55% of pilots.</span></div>
+          <div class="missioncheck" id="stableCheck"><span class="check">2</span><span>Create a stable world: true winner appears in at least 85% of pilots.</span></div>
+        </div>
+        <div class="stability"><small class="muted">How often the true best concept wins the pilot</small><strong id="stablePct">—</strong><div class="dots" id="stressDots"></div></div>
+        <div class="feedback" id="labFeedback">Move the controls, generate a pilot, then stress-test the same population setup 200 times.</div>
+        <div class="actions"><button id="labDone" class="green" disabled>Explain it to the board →</button></div>
+      </div>
+      <div class="panel" style="margin-top:0;padding:12px"><svg id="labPlot" viewBox="0 0 760 430"></svg></div>
+    </div>
+  </div>
+
+  <div class="panel hidden" id="boardBridge">
+    <div class="timeline">
+      <div class="time">9:28 AM</div>
+      <div class="message"><div class="person"><div class="avatar cfo">A</div><div><b>Aaron Patel</b><small>CFO</small></div></div><div>Okay. A mean difference is only impressive if it is large compared with the variability inside the groups. But before Phase 2, I still need a formal answer: <b>do these concepts differ in mean spend at all?</b></div></div>
+      <div class="time">9:29 AM</div>
+      <div class="message"><div class="person"><div class="avatar ceo">M</div><div><b>Maya Chen</b><small>CEO</small></div></div><div>Use the tools you already know. Just do not give me a winner until you can defend that there is a real difference to chase.</div></div>
+    </div>
+    <div class="nextmove"><b>Next move:</b> you know how to compare two independent means. Try to answer Maya's three-group question with that familiar tool.</div>
+    <div class="actions"><button id="goEvidence" class="primary">Open the Phase 2 evidence review →</button></div>
+  </div>
+</section>
+
+<!-- CHAPTER 3 -->
+<section class="chapter" id="c3">
+  <div class="mission">
+    <div>
+      <div class="kicker">Your mission · protect Phase 2 capital</div>
+      <h3>Decide whether the three concepts really differ before another expansion check is signed.</h3>
+      <div class="steps">
+        <div class="missionstep"><span class="stepnum">1</span><span>Use the two-sample test you already know.</span></div>
+        <div class="missionstep"><span class="stepnum">2</span><span>Run enough comparisons to decide whether a difference exists.</span></div>
+        <div class="missionstep"><span class="stepnum">3</span><span>Send the recommendation when you think the evidence is convincing.</span></div>
+      </div>
+    </div>
+    <div class="known">
+      <div><b>Investment context:</b> Phase 1 taught the board not to trust raw means alone.</div>
+      <div><b>Your existing tool:</b> Welch two-sample t test.</div>
+      <div><b>Risk:</b> you now have three possible pairs to test.</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="kicker">Chapter 3 · Phase 2 evidence review</div>
+    <div class="timeline">
+      <div class="time">9:34 AM</div>
+      <div class="message"><div class="person"><div class="avatar analyst">Y</div><div><b>You</b><small>Director of Analytics</small></div></div><div>I can compare NEON vs WILD, NEON vs STORY, and WILD vs STORY. If one pair is significant, that would show the concepts do not all behave the same.</div></div>
+    </div>
+    <div id="pairRows"></div>
+    <div class="feedback" id="pairFeedback">Start with any pair. The simulator will show the p-value from the Welch two-sample test.</div>
+    <div class="nextmove"><b>Next move:</b> once you find evidence you think is enough to tell Maya “the concepts differ,” send the recommendation.</div>
+    <div class="actions"><button id="sendRecommendation" class="hot" disabled>Send Maya: “The concepts differ”</button></div>
+  </div>
+
+  <div class="reveal hidden" id="auditReveal">
+    <div class="kicker">Internal audit · hidden population truth</div>
+    <div class="huge red">All three population means were exactly $52.</div>
+    <p>This particular review sample was deliberately chosen by the simulator to demonstrate the trap: at least one pair looked significant even though the global equal-means story was true.</p>
+
+    <div class="timeline">
+      <div class="time">9:52 AM</div>
+      <div class="message"><div class="person"><div class="avatar cfo">A</div><div><b>Aaron Patel</b><small>CFO</small></div></div><div>So we gave random noise three chances to impress us. I do not want a cherry-picked horror story, though. How often does this happen in ordinary repeated studies?</div></div>
+    </div>
+    <div class="actions"><button id="simulate500" class="gold">Simulate 500 ordinary equal-mean studies</button></div>
+
+    <div class="panel hidden" id="falseBox" style="background:#151322">
+      <div class="grid2">
+        <div><div class="counter" id="falsePct">—</div><div class="muted">studies with at least one false-positive pair</div><div class="bar"><div id="falseBar"></div></div></div>
+        <div class="feedback" id="falseText">—</div>
+      </div>
+      <div class="nextmove"><b>What you need now:</b> one global question about all three means before hunting pair by pair.</div>
+      <div class="actions"><button id="askForTool" class="primary">I need one global test →</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 4 -->
+<section class="chapter" id="c4">
+  <div class="unlock">
+    <div class="kicker">Chapter 4 · The tool the investment problem demanded</div>
+    <h2>ONE-WAY ANOVA</h2>
+    <p>You did not begin with an ANOVA formula. You began with capital at risk, unstable sample winners, and a two-group tool that became dangerous when you repeated it.</p>
+    <div class="formula">F = <span><i>between-group variation</i><em>within-group variation</em></span></div>
+
+    <div class="grid2">
+      <div class="panel" style="margin-top:0;text-align:left"><h3>The global null</h3><p><b>H₀:</b> μ<sub>NEON</sub> = μ<sub>WILD</sub> = μ<sub>STORY</sub></p><p class="muted">One statement about all three population means.</p></div>
+      <div class="panel" style="margin-top:0;text-align:left"><h3>The alternative</h3><p><b>Hₐ:</b> at least one population mean differs.</p><p class="muted">It does not claim every pair differs, and it does not automatically identify the winner.</p></div>
+    </div>
+
+    <div class="hindsight">
+      <div class="result"><small>Your original 8-person pilot · global ANOVA</small><b id="initialAnova">—</b></div>
+      <div class="result"><small>Your data at the moment you launched · global ANOVA</small><b id="launchAnova">—</b></div>
+    </div>
+    <div class="feedback goldish" id="hindsightText" style="text-align:left"></div>
+
+    <div class="timeline">
+      <div class="time">10:06 AM</div>
+      <div class="message"><div class="person"><div class="avatar ceo">M</div><div><b>Maya Chen</b><small>CEO</small></div></div><div>That's the question I wanted from the beginning: before we spend money deciding <em>which</em> concept wins, do we have convincing evidence that the population means differ at all?</div></div>
+    </div>
+
+    <div class="ledger">
+      <div class="ledgerhead"><h3>What the story taught you before the lecture</h3></div>
+      <div class="ledgerrows">
+        <div class="ledgeritem"><small>Mean-only decisions</small><b>Can mislead</b></div>
+        <div class="ledgeritem"><small>Evidence</small><b>Signal ÷ noise</b></div>
+        <div class="ledgeritem"><small>Repeated pair tests</small><b>Inflate false alarms</b></div>
+        <div class="ledgeritem"><small>First question</small><b>Global difference?</b></div>
+      </div>
+    </div>
+    <div class="actions" style="justify-content:center"><button id="finishBrief" class="green">Finish the board briefing</button></div>
+    <div class="feedback hidden" id="finalRecap" style="text-align:left"></div>
+  </div>
+</section>
+</div>
+
+<script>
+(() => {
+  const names=['NEON','WILD','STORY'];
+  const full=['Neon Arcade','Wild Challenge','Immersive Story'];
+  const desc=['competitive social gaming','physical adventure course','narrative immersive experience'];
+  const colors=['#35c9ff','#68efaa','#ca96ff'];
+  const build=[1350000,1650000,1950000];
+  const ops=[350000,550000,800000];
+  const trueMeans=[52,52,52];
+  const trueSD=13;
+
+  let chapter=1,budget=100000,spent=0,selected=null,showRaw=false;
+  let data=[[],[],[]],initialPilot=null,launchData=null,validationData=null;
+  let labData=null,stressRuns=0,sawStable=false,sawUnstable=false;
+  let trapData=null,trapResults=null,foundSig=false;
+
+  const $=id=>document.getElementById(id);
+  const money=(x,d=0)=>'$'+x.toLocaleString(undefined,{minimumFractionDigits:d,maximumFractionDigits:d});
+  const mean=a=>a.reduce((s,x)=>s+x,0)/a.length;
+  const variance=a=>{const m=mean(a);return a.reduce((s,x)=>s+(x-m)**2,0)/(a.length-1)};
+  const sd=a=>Math.sqrt(variance(a));
+  function randn(){let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
+  const sample=(mu,s,n)=>Array.from({length:n},()=>mu+s*randn());
+  function winner(d){const ms=d.map(mean);let k=0;for(let i=1;i<ms.length;i++)if(ms[i]>ms[k])k=i;return k}
+
+  function logGamma(z){const c=[676.5203681218851,-1259.1392167224028,771.32342877765313,-176.61502916214059,12.507343278686905,-.13857109526572012,9.984369578019571e-6,1.5056327351493116e-7];if(z<.5)return Math.log(Math.PI)-Math.log(Math.sin(Math.PI*z))-logGamma(1-z);z-=1;let x=.9999999999998099;for(let i=0;i<c.length;i++)x+=c[i]/(z+i+1);const t=z+c.length-.5;return .5*Math.log(2*Math.PI)+(z+.5)*Math.log(t)-t+Math.log(x)}
+  function betacf(a,b,x){const M=180,E=3e-12,F=1e-300;let qab=a+b,qap=a+1,qam=a-1,c=1,d=1-qab*x/qap;if(Math.abs(d)<F)d=F;d=1/d;let h=d;for(let m=1;m<=M;m++){let m2=2*m,aa=m*(b-m)*x/((qam+m2)*(a+m2));d=1+aa*d;if(Math.abs(d)<F)d=F;c=1+aa/c;if(Math.abs(c)<F)c=F;d=1/d;h*=d*c;aa=-(a+m)*(qab+m)*x/((a+m2)*(qap+m2));d=1+aa*d;if(Math.abs(d)<F)d=F;c=1+aa/c;if(Math.abs(c)<F)c=F;d=1/d;const del=d*c;h*=del;if(Math.abs(del-1)<E)break}return h}
+  function ibeta(x,a,b){if(x<=0)return 0;if(x>=1)return 1;const bt=Math.exp(logGamma(a+b)-logGamma(a)-logGamma(b)+a*Math.log(x)+b*Math.log(1-x));return x<(a+1)/(a+b+2)?bt*betacf(a,b,x)/a:1-bt*betacf(b,a,1-x)/b}
+  function welch(a,b){const m1=mean(a),m2=mean(b),v1=variance(a),v2=variance(b),n1=a.length,n2=b.length,se=Math.sqrt(v1/n1+v2/n2),t=(m1-m2)/se,df=(v1/n1+v2/n2)**2/((v1/n1)**2/(n1-1)+(v2/n2)**2/(n2-1)),x=df/(df+t*t);return {t,df,p:ibeta(x,df/2,.5)}}
+  function anova(d){const k=d.length,all=d.flat(),gm=mean(all),ms=d.map(mean);let ssb=0,ssw=0;d.forEach((g,i)=>{ssb+=g.length*(ms[i]-gm)**2;g.forEach(v=>ssw+=(v-ms[i])**2)});const df1=k-1,df2=all.length-k,msb=ssb/df1,msw=ssw/df2,F=msb/msw,x=df1*F/(df1*F+df2),p=1-ibeta(x,df1/2,df2/2);return {F,p,df1,df2}}
+
+  function setChapter(c,time){chapter=c;document.querySelectorAll('.chapter').forEach((el,i)=>el.classList.toggle('active',i===c-1));$('progressBar').style.width=(c/4*100)+'%';if(time)$('timeHud').textContent=time;window.scrollTo({top:0,behavior:'smooth'})}
+  function confetti(){const h=$('particles'),cs=['#3de4ff','#ff4fa3','#72f3a2','#ffd15d','#ad7dff','#fff'];h.innerHTML='';for(let i=0;i<80;i++){const p=document.createElement('i');p.className='particle';p.style.left=Math.random()*100+'vw';p.style.top=(-20-Math.random()*120)+'px';p.style.background=cs[Math.floor(Math.random()*cs.length)];p.style.animationDelay=Math.random()*.2+'s';h.appendChild(p)}setTimeout(()=>h.innerHTML='',1600)}
+  function updateHud(){ $('budgetHud').textContent=money(budget/1000)+'K';$('budgetCard').textContent=money(budget/1000)+'K';$('nCard').textContent=data[0].length;$('leaderCard').textContent=names[winner(data)] }
+
+  function initPilot(){let tries=0;do{data=trueMeans.map(m=>sample(m,trueSD,8));tries++}while((winner(data)===0||Math.max(...data.map(mean))-Math.min(...data.map(mean))<4||anova(data).p<.08)&&tries<12000);initialPilot=data.map(g=>g.slice());renderConcepts();updateHud()}
+  function renderConcepts(){const h=$('conceptGrid');h.innerHTML='';data.forEach((g,i)=>{const c=document.createElement('div');c.className='concept'+(selected===i?' selected':'');c.innerHTML=`<span class="badge" style="background:${colors[i]}">${names[i]}</span><h3>${full[i]}</h3><div class="desc">${desc[i]}</div><div class="mean">${money(mean(g),2)}</div><div class="minor"><span>sample mean spend</span><span>n=${g.length} · SD ${money(sd(g),1)}</span></div><div class="costline"><span>Build<b>${money(build[i]/1e6,2)}M</b></span><span>Annual ops<b>${money(ops[i]/1e6,2)}M</b></span></div><div class="raw ${showRaw?'show':''}">${g.slice(0,30).map(v=>`<i style="background:${colors[i]};opacity:${.45+Math.min(1,Math.max(0,(v-25)/45))*.5}"></i>`).join('')}</div>`;c.addEventListener('click',()=>{selected=i;renderConcepts();$('launch').disabled=false;$('decisionFeedback').className='feedback';$('decisionFeedback').innerHTML=`Selected <b style="color:${colors[i]}">${names[i]}</b>. You are proposing ${money(build[i])} of build capital plus ${money(ops[i])} in annual fixed operating cost.`});h.appendChild(c)})}
+  $('showGuests').addEventListener('click',()=>{showRaw=!showRaw;$('showGuests').textContent=showRaw?'Hide individual guests':'👁 Inspect individual guests';renderConcepts()});
+  $('buyData').addEventListener('click',()=>{if(budget<50000)return;budget-=50000;spent+=50000;trueMeans.forEach((m,i)=>data[i].push(...sample(m,trueSD,8)));$('timeHud').textContent=budget===50000?'3:31 PM':'3:47 PM';renderConcepts();updateHud();$('decisionFeedback').className='feedback goldish';$('decisionFeedback').innerHTML=`You spent $50K for another 8 guests per concept. The means moved. The current leader is now <b>${names[winner(data)]}</b>.`;if(budget<50000)$('buyData').disabled=true});
+  $('launch').addEventListener('click',()=>{if(selected===null)return;launchData=data.map(g=>g.slice());$('capitalHud').textContent=money(build[selected]/1e6,2)+'M';$('boardroom').classList.remove('hidden');$('launch').disabled=true;$('buyData').disabled=true;$('showGuests').disabled=true;$('cfoQuestion').innerHTML=`You selected <b>${names[selected]}</b>. Its sample mean is ${money(mean(data[selected]),2)} and the build costs ${money(build[selected])}. Are you claiming the sample mean is enough to justify that capital premium?`;$('boardroom').scrollIntoView({behavior:'smooth',block:'center'})});
+
+  function resolveBoard(cautious){$('boardFeedback').classList.remove('hidden');$('boardFeedback').className='feedback '+(cautious?'goldish':'bad');$('boardFeedback').innerHTML=cautious?'You documented the uncertainty. The board still proceeds with the selected flagship, but your recommendation is recorded as provisional pending validation.':'You treated the current sample ranking as sufficient evidence of a population revenue advantage. The board records that rationale and proceeds.';$('defendMean').disabled=true;$('defendCaution').disabled=true;setTimeout(showValidation,700)}
+  $('defendMean').addEventListener('click',()=>resolveBoard(false));$('defendCaution').addEventListener('click',()=>resolveBoard(true));
+
+  function showValidation(){validationData=trueMeans.map(m=>sample(m,trueSD,1500));$('validationReveal').classList.remove('hidden');const tbody=$('validationTable');tbody.innerHTML='';validationData.forEach((g,i)=>tbody.insertAdjacentHTML('beforeend',`<tr><td style="color:${colors[i]};font-weight:900">${names[i]}</td><td>${money(mean(g),2)}</td><td>${money(build[i]/1e6,2)}M</td><td>${money(ops[i]/1e6,2)}M</td></tr>`));const cheapest=0,avoidable=(build[selected]+ops[selected])-(build[cheapest]+ops[cheapest]);$('selectedResult').textContent=names[selected];$('trueSpendResult').textContent='≈ '+money(52,2);$('avoidableCost').textContent=money(Math.max(0,avoidable));$('researchSpent').textContent=money(spent);$('ledgerChoice').textContent=names[selected];$('ledgerResearch').textContent=money(spent);$('ledgerCapital').textContent=money(build[selected]/1e6,2)+'M';if(selected===0){$('validationHeadline').innerHTML='You chose the cheapest concept — <span class="goldtext">but not because the pilot proved it was better.</span>';$('mayaAfter').textContent='We landed on the capital-efficient choice, but the pilot did not establish a spend advantage. I do not want us to confuse a lucky choice with a good analytical process.'}else{$('validationHeadline').innerHTML=`We paid <span class="red">${money(avoidable)}</span> more in year-one fixed cost for no sustained mean-spend advantage.`;$('mayaAfter').textContent='We paid a premium because the pilot made one concept look like a revenue winner. The larger validation says the means are essentially the same. Explain how that happened before Phase 2.'}$('validationReveal').scrollIntoView({behavior:'smooth',block:'center'})}
+  $('openPostmortem').addEventListener('click',()=>{setChapter(2,'9:12 AM');labData=freshLab();renderLab()});
+
+  function labTruth(){const sep=+$('sep').value,noise=+$('noise').value;return {mus:[52-sep/2,52,52+sep/2],noise,sep}}
+  function freshLab(){const t=labTruth();return t.mus.map(m=>sample(m,t.noise,10))}
+  function renderLab(){const t=labTruth();$('sepOut').textContent=money(t.sep);$('noiseOut').textContent=money(t.noise);$('signalMeter').style.width=Math.max(3,Math.min(100,(t.sep/t.noise)/2*100))+'%';if(!labData)labData=freshLab();drawPlot($('labPlot'),labData)}
+  function drawPlot(svg,d){const all=d.flat(),lo=Math.min(...all)-5,hi=Math.max(...all)+5,W=760,H=430,left=58,right=22,top=24,bottom=82,centers=[190,380,570],NS='http://www.w3.org/2000/svg',y=v=>H-bottom-(v-lo)/(hi-lo)*(H-top-bottom);svg.innerHTML='';for(let t=0;t<=4;t++){const val=lo+(hi-lo)*t/4,yy=y(val),l=document.createElementNS(NS,'line');l.setAttribute('x1',left);l.setAttribute('x2',W-right);l.setAttribute('y1',yy);l.setAttribute('y2',yy);l.setAttribute('class','gridline');svg.appendChild(l);const tx=document.createElementNS(NS,'text');tx.setAttribute('x',left-8);tx.setAttribute('y',yy+4);tx.setAttribute('text-anchor','end');tx.setAttribute('class','tick');tx.textContent=money(val);svg.appendChild(tx)}d.forEach((g,gi)=>{const m=mean(g),s=sd(g),cx=centers[gi],my=y(m),ml=document.createElementNS(NS,'line');ml.setAttribute('x1',cx-44);ml.setAttribute('x2',cx+44);ml.setAttribute('y1',my);ml.setAttribute('y2',my);ml.setAttribute('stroke',colors[gi]);ml.setAttribute('class','meanline');svg.appendChild(ml);g.forEach(v=>{const z=s?((v-m)/s):0,px=cx+Math.sign(z||1)*(8+Math.min(1.8,Math.abs(z))*23),r=document.createElementNS(NS,'line');r.setAttribute('x1',px);r.setAttribute('x2',px);r.setAttribute('y1',y(v));r.setAttribute('y2',my);r.setAttribute('stroke',colors[gi]);r.setAttribute('class','resid');svg.appendChild(r);const c=document.createElementNS(NS,'circle');c.setAttribute('cx',px);c.setAttribute('cy',y(v));c.setAttribute('r',7);c.setAttribute('fill',colors[gi]);c.setAttribute('class','point');svg.appendChild(c)});const tx=document.createElementNS(NS,'text');tx.setAttribute('x',cx);tx.setAttribute('y',H-bottom+35);tx.setAttribute('text-anchor','middle');tx.setAttribute('class','glabel');tx.textContent=names[gi];svg.appendChild(tx);const mt=document.createElementNS(NS,'text');mt.setAttribute('x',cx);mt.setAttribute('y',H-bottom+53);mt.setAttribute('text-anchor','middle');mt.setAttribute('fill',colors[gi]);mt.setAttribute('class','glabel');mt.textContent='mean '+money(m,1);svg.appendChild(mt)})}
+  ['sep','noise'].forEach(id=>$(id).addEventListener('input',()=>{labData=freshLab();renderLab()}));$('newPilot').addEventListener('click',()=>{labData=freshLab();renderLab()});
+  $('stress').addEventListener('click',()=>{const t=labTruth(),R=200;let wins=0,dots=[];for(let i=0;i<R;i++){const d=t.mus.map(m=>sample(m,t.noise,10)),w=winner(d);if(t.sep>0&&w===2)wins++;dots.push(`<i style="background:${t.sep===0?'#ffd15d':w===2?'#72f3a2':'#ff5b67'}"></i>`)}const pct=t.sep===0?33.3:100*wins/R;$('stablePct').textContent=t.sep===0?'No true winner':pct.toFixed(0)+'%';$('stressDots').innerHTML=dots.join('');if(t.sep===0||pct<55){sawUnstable=true;$('unstableCheck').classList.add('done');$('unstableCheck').querySelector('.check').textContent='✓'}if(t.sep>0&&pct>=85){sawStable=true;$('stableCheck').classList.add('done');$('stableCheck').querySelector('.check').textContent='✓'}if(t.sep===0){$('labFeedback').className='feedback goldish';$('labFeedback').innerHTML='<b>No true winner exists.</b> Every apparent sample winner comes entirely from sampling variation.'}else if(pct>=85){$('labFeedback').className='feedback good';$('labFeedback').innerHTML='<b>Stable.</b> The true mean separation is large relative to within-group noise, so the true winner usually survives the sampling process.'}else if(pct<55){$('labFeedback').className='feedback bad';$('labFeedback').innerHTML='<b>Unstable.</b> The sample winner flips constantly because noise is large relative to the true separation.'}else{$('labFeedback').className='feedback goldish';$('labFeedback').innerHTML='<b>Mixed.</b> There is a real difference, but the sample winner is still not very dependable.'}stressRuns++;if(sawStable&&sawUnstable)$('labDone').disabled=false});
+  $('labDone').addEventListener('click',()=>{$('boardBridge').classList.remove('hidden');$('boardBridge').scrollIntoView({behavior:'smooth',block:'center'})});$('goEvidence').addEventListener('click',()=>{prepareTrap();setChapter(3,'9:34 AM')});
+
+  function prepareTrap(){let tries=0;do{trapData=[sample(52,10,18),sample(52,10,18),sample(52,10,18)];trapResults=[[0,1],[0,2],[1,2]].map(([a,b])=>welch(trapData[a],trapData[b]));tries++}while(!trapResults.some(r=>r.p<.05)&&tries<20000);foundSig=false;$('pairRows').innerHTML='';$('sendRecommendation').disabled=true;$('auditReveal').classList.add('hidden');[[0,1],[0,2],[1,2]].forEach(([a,b],idx)=>{const row=document.createElement('div');row.className='pair';row.innerHTML=`<div><b>${names[a]} vs ${names[b]}</b><div class="muted">Welch two-sample t test</div></div><button>Run test</button>`;const btn=row.querySelector('button');btn.addEventListener('click',()=>{btn.disabled=true;const r=trapResults[idx],p=document.createElement('span');p.className='pval '+(r.p<.05?'sig':'');p.textContent='p = '+(r.p<.001?'< .001':r.p.toFixed(3));row.appendChild(p);if(r.p<.05){foundSig=true;$('pairFeedback').className='feedback good';$('pairFeedback').innerHTML=`You found a significant pair: <b>${names[a]} vs ${names[b]}</b>, p = ${r.p.toFixed(3)}. If you were hunting for any difference, this looks like the evidence you wanted.`;$('sendRecommendation').disabled=false}else{$('pairFeedback').className='feedback';$('pairFeedback').innerHTML='That pair was not significant. You still have other pairs available.'}});$('pairRows').appendChild(row)})}
+  $('sendRecommendation').addEventListener('click',()=>{$('auditReveal').classList.remove('hidden');$('auditReveal').scrollIntoView({behavior:'smooth',block:'center'})});
+  $('simulate500').addEventListener('click',()=>{let bad=0,R=500;for(let r=0;r<R;r++){const d=[sample(52,10,18),sample(52,10,18),sample(52,10,18)],ps=[welch(d[0],d[1]).p,welch(d[0],d[2]).p,welch(d[1],d[2]).p];if(ps.some(x=>x<.05))bad++}const pct=100*bad/R;$('falseBox').classList.remove('hidden');$('falsePct').textContent=pct.toFixed(1)+'%';$('falseBar').style.width=Math.min(100,pct*4)+'%';$('falseText').innerHTML=`Every simulated world had equal population means. Yet <b>${bad} of ${R}</b> studies produced at least one pairwise p &lt; .05. The exact percentage moves from run to run, but the pattern does not: repeated testing gives noise more chances to look meaningful.`});
+  $('askForTool').addEventListener('click',()=>{showHindsight();setChapter(4,'10:06 AM');confetti()});
+
+  function fmtP(p){return p<.001?'p < .001':'p = '+p.toFixed(3)}
+  function showHindsight(){const a1=anova(initialPilot),a2=anova(launchData);$('initialAnova').textContent=`F(${a1.df1}, ${a1.df2}) = ${a1.F.toFixed(2)} · ${fmtP(a1.p)}`;$('launchAnova').textContent=`F(${a2.df1}, ${a2.df2}) = ${a2.F.toFixed(2)} · ${fmtP(a2.p)}`;$('hindsightText').innerHTML=`<b>Hindsight:</b> the global question asks whether the observed separation among all three sample means is large relative to the variation inside the groups. That is the question your original investment process skipped when it jumped directly from “which mean is largest?” to “which concept should receive capital?”`}
+  $('finishBrief').addEventListener('click',()=>{$('finalRecap').classList.remove('hidden');$('finalRecap').innerHTML='<b>The narrative is now one continuous investment problem:</b><br><br>① You used small-sample means to allocate real simulated capital.<br>② A larger validation wave showed that the apparent revenue leader was not a population advantage.<br>③ The postmortem showed why separation must be judged relative to within-group noise.<br>④ Repeating familiar two-sample tests created a false-positive trap.<br>⑤ That failure created the need for one global test before pairwise winner hunting.<br><br><b>That global test is one-way ANOVA.</b>';confetti()});
+
+  initPilot();
+})();
+</script>
+</body>
+</html>
